@@ -18,7 +18,7 @@ return [
     |--------------------------------------------------------------------------
     |
     | Nếu để true, Flasher sẽ tự inject /vendor/flasher/flasher.min.js (gây lỗi 404).
-    | Đặt false để tự quản lý bằng CDN.
+    | Đặt false để tự quản lý bằng local assets.
     |
     */
     'auto_render' => false,
