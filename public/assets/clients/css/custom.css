@@ -1,0 +1,12 @@
+.profile-pic-container{
+    position: relative;
+    display: inline-block;
+}
+.profile-pic{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    cursor: pointer;
+}
