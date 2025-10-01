@@ -20,8 +20,8 @@
     <!-- Responsive css -->
     <link rel="stylesheet" href="{{ asset ('assets/clients/css/responsive.css')}}">
 </head>
-
-<>
+    
+<body>
     <!-- Body main wrapper start -->
     <div class="body-wrapper">
         @include('clients.partials.header')
@@ -50,7 +50,7 @@
     </div>
     <!-- preloader area end -->
 
-    <!-- Jqueyry -->
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- All JS Plugins -->
@@ -58,14 +58,30 @@
     <!-- Main JS -->
     <script src="{{ asset ('assets/clients/js/main.js')}}"></script>
 
-    <!-- Jquery-toast  -->
+    <!-- Toastr JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- JavaScript custom -->
     <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
 
-    <!-- Import CSS toastr  -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-</body>
+    <!-- Toastr Flash Messages -->
+  <script>
+    @if(session('success'))
+        toastr.success("{{ session('success') }}");
+    @endif
+    @if(session('error'))
+        toastr.error("{{ session('error') }}");
+    @endif
+    @if(session('warning'))
+        toastr.warning("{{ session('warning') }}");
+    @endif
+    @if(session('info'))
+        toastr.info("{{ session('info') }}");
+    @endif
+</script>
 
+
+
+</body>
 </html>

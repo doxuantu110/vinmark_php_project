@@ -3,7 +3,6 @@ $(document).ready(function () {
     // Register Form Submission
     // **********************************************
     // Validate and submit the registration form
-    console.log("Custom JS loaded");
     $('#register-form').submit(function (event) {
         let name = $('input[name="name"]').val().trim();
         let email = $('input[name="email"]').val().trim();
@@ -39,4 +38,48 @@ $(document).ready(function () {
             event.preventDefault();
         }
     });
+// **********************************************
+
+// Login Form Submission
+// **********************************************
+// Validate and submit the login form
+    $('#login-form').submit(function (event) {
+        toastr.clear();
+        let email = $('input[name="email"]').val().trim();
+        let password = $('input[name="password"]').val().trim();
+        let errorMessages = "";
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            errorMessages += "Email không hợp lệ.<br>";
+        }
+        if (password.length < 6) {
+            errorMessages += "Mật khẩu phải có ít nhất 6 ký tự.<br>";
+        }
+        if (errorMessages) {
+            errorMessages.split("<br>").forEach(msg => {
+                if (msg.trim() !== "") toastr.error(msg, 'Lỗi đăng nhập');
+            });
+            event.preventDefault();
+        }
+    });
+});
+
+// reset password form]
+$('#reset-password-form').submit(function (event) {
+    toastr.clear();
+    let password = $('input[name="password"]').val().trim();
+    let confirmpassword = $('input[name="confirmpassword"]').val().trim();
+    let errorMessages = "";
+    if (password.length < 6) {
+        errorMessages += "Mật khẩu phải có ít nhất 6 ký tự.<br>";
+    }
+    if (password !== confirmpassword) {
+        errorMessages += "Mật khẩu và xác nhận mật khẩu không khớp.<br>";
+    }
+    if (errorMessages) {
+        errorMessages.split("<br>").forEach(msg => {
+            if (msg.trim() !== "") toastr.error(msg, 'Lỗi đặt lại mật khẩu');
+        });
+        event.preventDefault();
+    }
 });
