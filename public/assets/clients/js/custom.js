@@ -33,7 +33,7 @@ $(document).ready(function () {
         }
         if (errorMessages) {
             errorMessages.split("<br>").forEach(msg => {
-                if (msg.trim() !== "") toastr.error(msg, 'Lỗi đăng ký');
+                if (msg.trim() !== "" && typeof toastr !== 'undefined') toastr.error(msg, 'Lỗi đăng ký');
             });
             event.preventDefault();
         }
@@ -44,7 +44,10 @@ $(document).ready(function () {
 // **********************************************
 // Validate and submit the login form
     $('#login-form').submit(function (event) {
-        toastr.clear();
+        // Clear toastr messages if toastr is available
+        if (typeof toastr !== 'undefined' && toastr.clear) {
+            toastr.clear();
+        }
         let email = $('input[name="email"]').val().trim();
         let password = $('input[name="password"]').val().trim();
         let errorMessages = "";
@@ -57,7 +60,7 @@ $(document).ready(function () {
         }
         if (errorMessages) {
             errorMessages.split("<br>").forEach(msg => {
-                if (msg.trim() !== "") toastr.error(msg, 'Lỗi đăng nhập');
+                if (msg.trim() !== "" && typeof toastr !== 'undefined') toastr.error(msg, 'Lỗi đăng nhập');
             });
             event.preventDefault();
         }
@@ -66,7 +69,7 @@ $(document).ready(function () {
 
 // reset password form]
 $('#reset-password-form').submit(function (event) {
-    toastr.clear();
+    if (typeof toastr !== 'undefined' && toastr.clear) toastr.clear();
     let password = $('input[name="password"]').val().trim();
     let confirmpassword = $('input[name="confirmpassword"]').val().trim();
     let errorMessages = "";
@@ -78,7 +81,7 @@ $('#reset-password-form').submit(function (event) {
     }
     if (errorMessages) {
         errorMessages.split("<br>").forEach(msg => {
-            if (msg.trim() !== "") toastr.error(msg, 'Lỗi đặt lại mật khẩu');
+            if (msg.trim() !== "" && typeof toastr !== 'undefined') toastr.error(msg, 'Lỗi đặt lại mật khẩu');
         });
         event.preventDefault();
     }

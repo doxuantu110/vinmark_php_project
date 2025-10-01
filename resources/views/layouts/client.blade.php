@@ -19,6 +19,12 @@
     <link rel="stylesheet" href="{{ asset ('assets/clients/css/style.css')}}">
     <!-- Responsive css -->
     <link rel="stylesheet" href="{{ asset ('assets/clients/css/responsive.css')}}">
+    <style>
+        #flasher-container, .flashes, .toast { z-index: 999999 !important; }
+    </style>
+    
+    <!-- Toastr CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
 </head>
     
 <body>
@@ -50,36 +56,47 @@
     </div>
     <!-- preloader area end -->
 
-    <!-- jQuery -->
+    <!-- jQuery (CDN) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
+    
     <!-- All JS Plugins -->
     <script src="{{ asset ('assets/clients/js/plugins.js')}}"></script>
     <!-- Main JS -->
     <script src="{{ asset ('assets/clients/js/main.js')}}"></script>
 
-    <!-- Toastr JS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <!-- Toastr JS (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <!-- JavaScript custom -->
     <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
 
-    <!-- Toastr Flash Messages -->
-  <script>
-    @if(session('success'))
-        toastr.success("{{ session('success') }}");
-    @endif
-    @if(session('error'))
-        toastr.error("{{ session('error') }}");
-    @endif
-    @if(session('warning'))
-        toastr.warning("{{ session('warning') }}");
-    @endif
-    @if(session('info'))
-        toastr.info("{{ session('info') }}");
-    @endif
-</script>
+    <!-- Manual Toastr Script for Session Messages -->
+    <script>
+        $(document).ready(function() {
+            @if(session('success'))
+                if(typeof toastr !== 'undefined') {
+                    toastr.success("{{ session('success') }}");
+                }
+            @endif
+            @if(session('error'))
+                if(typeof toastr !== 'undefined') {
+                    toastr.error("{{ session('error') }}");
+                }
+            @endif
+            @if(session('warning'))
+                if(typeof toastr !== 'undefined') {
+                    toastr.warning("{{ session('warning') }}");
+                }
+            @endif
+            @if(session('info'))
+                if(typeof toastr !== 'undefined') {
+                    toastr.info("{{ session('info') }}");
+                }
+            @endif
+        });
+    </script>
+
+    
 
 
 

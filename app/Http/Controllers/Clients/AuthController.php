@@ -106,6 +106,7 @@ class AuthController extends Controller
     if (Auth::attempt(['email' => $request->email, 'password' => $request->password, 'status' => 'active'])) {
         if (in_array(Auth::user()->role_id, [3])) { // chỉ cho phép customer
             $request->session()->regenerate();
+            // Gửi thông báo qua Flasher và redirect kèm session flash để Toastr hiển thị sau redirect
             return redirect()->route('home')->with('success', 'Đăng nhập thành công!');
         } else {
             Auth::logout();
@@ -115,7 +116,8 @@ class AuthController extends Controller
 
     // Sai mật khẩu hoặc tài khoản chưa active
     Log::warning('Login failed for email: ' . $request->email);
-    return redirect()->back()->with('error', 'Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu, hoặc kích hoạt tài khoản nếu bạn chưa làm điều đó.');
+    toastr()->error('Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu, hoặc kích hoạt tài khoản nếu bạn chưa làm điều đó.');
+    return redirect()->back()->with('error', 'Đăng nhập thất bại! Vui lòng kiểm tra lại email và mật khẩu.');
 }
 
     public function logout(Request $request)
