@@ -38,11 +38,11 @@ $(document).ready(function () {
             event.preventDefault();
         }
     });
-// **********************************************
+    // **********************************************
 
-// Login Form Submission
-// **********************************************
-// Validate and submit the login form
+    // Login Form Submission
+    // **********************************************
+    // Validate and submit the login form
     $('#login-form').submit(function (event) {
         // Clear toastr messages if toastr is available
         if (typeof toastr !== 'undefined' && toastr.clear) {
@@ -85,4 +85,84 @@ $('#reset-password-form').submit(function (event) {
         });
         event.preventDefault();
     }
+});
+
+// When click on the image => open input file
+$('.profile-pic').click(function () {
+    $('#avatar').click();
+});
+
+// When selecting an image => display preview image
+$('#avatar').change(function () {
+    let input = this;
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $('#preview-image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+})
+
+// validate and submit the update account form
+// Khi chọn ảnh => hiển thị preview
+$('#avatar').change(function () {
+    let input = this;
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $('#preview-image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+
+$('#update-account-form').on("submit", function (event) {
+    event.preventDefault();
+
+    let formData = new FormData(this);
+    let urlUpdate = $(this).attr('action');
+
+    // Nếu route dùng PUT/PATCH trong Laravel thì thêm dòng sau:
+    formData.append('_method', 'PUT');
+    
+    $.ajax({
+        url: urlUpdate,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function () {
+            $(".btn-wrapper button")
+                .text("Đang cập nhật...")
+                .attr("disabled", true);
+        },
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message || "Cập nhật thành công!");
+                if (response.avatar) {
+                    $('#preview-image').attr('src', response.avatar);
+                }
+            } else {
+                toastr.error(response.message || "Có lỗi xảy ra khi cập nhật!");
+            }
+        },
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    toastr.error(value[0]);
+                });
+            } else {
+                toastr.error("Đã xảy ra lỗi không xác định!");
+            }
+        },
+        complete: function () {
+            $(".btn-wrapper button")
+                .text("Cập nhật")
+                .attr("disabled", false);
+        }
+    });
 });

@@ -21,7 +21,7 @@
                                             điều khiển <i class="fas fa-home"></i></a>
                                         <a data-bs-toggle="tab" href="#liton_tab_orders">Đơn hàng <i
                                                 class="fas fa-file-alt"></i></a>
-                                        <a data-bs-toggle="tab" href="#liton_tab_address">Địa chỉ <i
+                                        <a data-bs-toggle="tab" href="#liton_tab_address">Địa chỉ giao hàng <i
                                                 class="fas fa-map-marker-alt"></i></a>
                                         <a data-bs-toggle="tab" href="#liton_tab_account">Chi tiết tài khoản <i
                                                 class="fas fa-user"></i></a>
@@ -131,21 +131,20 @@
                                     <div class="tab-pane fade" id="liton_tab_account">
                                         <div class="ltn__myaccount-tab-content-inner">
                                             <div class="ltn__form-box">
-                                                <form action="#" method="POST" id="update-account-form"
+                                                <form action="{{ route ('account.update')}}" method="POST" id="update-account-form"
                                                     enctype="multipart/form-data">
+                                                    @csrf
                                                     @method('PUT')
                                                     <div class="row mb-50">
                                                         <div class="col-md-12 text-center mb-3">
                                                             <div class="profile-pic-container">
-                                                                <img src="{{ $user->avatar }}" alt="Ảnh đại diện"
-                                                                    class="profile-pic" id="profile-pic-preview">
-                                                                <div class="overlay">
-                                                                    <label for="profile-pic-input"
-                                                                        class="btn btn-sm btn-primary">Chọn ảnh</label>
-                                                                    <input type="file" id="profile-pic-input"
-                                                                        name="profile_picture" accept="image/*"
-                                                                        style="display: none;">
-                                                                </div>
+                                                                <img src="{{ $user->avatar_url }}" 
+                                                                            alt="Ảnh đại diện" 
+                                                                            class="profile-pic" 
+                                                                            id="preview-image">
+                                                                <input type="file" id="avatar"
+                                                                    name="avatar" accept="image/*" class="d-none"
+                                                                    style="display: none;">
                                                             </div>
                                                         </div>
                                                     </div>
