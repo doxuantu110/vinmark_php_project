@@ -184,7 +184,9 @@
                                     <div class="tab-pane fade" id="liton_tab_password">
                                         <div class="ltn__myaccount-tab-content-inner">
                                             <div class="ltn__form-box">
-                                                <form action="#" method="POST" id="change-password-form">
+                                                <form action="{{ route ('account.change-password')}}" method="POST" id="change-password-form">
+                                                @csrf
+                                                <fieldset>
                                                     <div class="row">
                                                         <div class="col-md-12">
                                                             <label for="current_password">Mật khẩu hiện tại:</label>
@@ -201,6 +203,7 @@
                                                                 required>
                                                         </div>
                                                     </div>
+                                                 </fieldset>
                                                     <div class="btn-wrapper mt-3">
                                                         <button type="submit"
                                                             class="btn theme-btn-1 btn-effect-1 text-uppercase">

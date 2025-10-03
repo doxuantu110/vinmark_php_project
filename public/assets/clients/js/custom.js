@@ -117,6 +117,7 @@ $('#avatar').change(function () {
     }
 });
 
+// Update account
 $('#update-account-form').on("submit", function (event) {
     event.preventDefault();
 
@@ -162,6 +163,80 @@ $('#update-account-form').on("submit", function (event) {
         complete: function () {
             $(".btn-wrapper button")
                 .text("Cập nhật")
+                .attr("disabled", false);
+        }
+    });
+});
+
+// Change password form
+$('#change-password-form').submit(function (e) {
+    e.preventDefault();
+
+    let current_password = $('input[name="current_password"]').val().trim();
+    let new_password = $('input[name="new_password"]').val().trim();
+    let confirm_new_password = $('input[name="confirm_new_password"]').val().trim();
+
+    let errorMessages = "";
+    if (current_password.length < 6) {
+        errorMessages += "Mật khẩu hiện tại phải có ít nhất 6 ký tự.<br>";
+    }
+    if (new_password.length < 6) {
+        errorMessages += "Mật khẩu mới phải có ít nhất 6 ký tự.<br>";
+    }
+    if (new_password !== confirm_new_password) {
+        errorMessages += "Mật khẩu và xác nhận mật khẩu không khớp.<br>";
+    }
+
+    if (errorMessages) {
+        errorMessages.split("<br>").forEach(msg => {
+            if (msg.trim() !== "" && typeof toastr !== 'undefined') {
+                toastr.error(msg, 'Lỗi đặt lại mật khẩu');
+            }
+        });
+        return; // Dừng AJAX nếu có lỗi client-side
+    }
+
+    let formData = $(this).serialize(); // hoặc new FormData(this)
+    let urlUpdate = $(this).attr('action');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+
+    $.ajax({
+        url: urlUpdate,
+        type: 'POST',
+        data: formData,
+        // Nếu dùng FormData thì cần:
+        // processData: false,
+        // contentType: false,
+        beforeSend: function () {
+            $(".btn-wrapper button")
+                .text("Đang đổi mật khẩu...")
+                .attr("disabled", true);
+        },
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message || "Đổi mật khẩu thành công!");
+                $('#change-password-form')[0].reset();
+            } else {
+                toastr.error(response.message || "Có lỗi xảy ra khi đổi mật khẩu!");
+            }
+        },
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    toastr.error(value[0]);
+                });
+            } else {
+                toastr.error("Đã xảy ra lỗi không xác định!");
+            }
+        },
+        complete: function () {
+            $(".btn-wrapper button")
+                .text("Đổi mật khẩu")
                 .attr("disabled", false);
         }
     });
