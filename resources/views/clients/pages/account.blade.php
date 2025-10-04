@@ -92,37 +92,49 @@
                                         <div class="ltn__myaccount-tab-content-inner">
                                             <p>Các địa chỉ sau sẽ được sử dụng mặc định trên trang thanh toán.</p>
                                             <div class="container">
-                                                <h4>Danh sách địa chỉ</h4>
-                                                <table class="table table-bordered">
-                                                    <thead class="table-light">
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Họ tên</th>
-                                                            <th>Địa chỉ</th>
-                                                            <th>Điện thoại</th>
-                                                            <th>Loại địa chỉ</th>
-                                                            <th>Hành động</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Alex Tuntuni</td>
-                                                            <td>1355 Market St, Suite 900, San Francisco, CA 94103</td>
-                                                            <td>(123) 456-7890</td>
-                                                            <td>Thanh toán</td>
-                                                            <td>
-                                                                <a href="#" class="btn btn-sm btn-primary">Chỉnh sửa</a>
-                                                                <a href="#" class="btn btn-sm btn-danger">Xóa</a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <h4>Danh sách địa chỉ</h4>
+                                                        <table class="table table-bordered">
+                                                            <thead class="table-light">
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>Họ tên</th>
+                                                                    <th>Địa chỉ</th>
+                                                                    <th>Điện thoại</th>
+                                                                    <th>Loại địa chỉ</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td>1</td>
+                                                                    <td>Alex Tuntuni</td>
+                                                                    <td>1355 Market St, Suite 900, San Francisco, CA 94103</td>
+                                                                    <td>(123) 456-7890</td>
+                                                                    <td>Thanh toán</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <br>
+                                                        <br>
+                                                        <div class="d-grid gap-2">
+                                                            <button type="button" class="btn btn-lg w-100" style="background-color: blue; color: white;">
+                                                                <i class="fas fa-edit me-2"></i>Chỉnh sửa
+                                                            </button>
+                                                            <button type="button" class="btn btn-lg w-100" style="background-color: #dc3545; color: white;">
+                                                                <i class="fas fa-trash me-2"></i>Xóa
+                                                            </button>
+                                                        </div>
+                                                    </div>                                                  
+                                                </div>
                                                 <!-- Nút thêm địa chỉ mới -->
                                                 <div class="mt-3">
                                                     <button type="button"
-                                                        class="btn theme-btn-1 btn-effect-1 text-uppercase">Thêm địa chỉ
-                                                        mới</button>
+                                                        class="btn theme-btn-1 btn-effect-1 text-uppercase">
+                                                        <i class="fas fa-plus me-2"></i>Thêm địa chỉ mới
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
