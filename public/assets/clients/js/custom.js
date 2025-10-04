@@ -126,7 +126,7 @@ $('#update-account-form').on("submit", function (event) {
 
     // Nếu route dùng PUT/PATCH trong Laravel thì thêm dòng sau:
     formData.append('_method', 'PUT');
-    
+
     $.ajax({
         url: urlUpdate,
         type: 'POST',
@@ -241,3 +241,101 @@ $('#change-password-form').submit(function (e) {
         }
     });
 });
+
+// Validate address form
+$('#addAddressForm').submit(function (e) {
+    e.preventDefault();
+    $('.error-message').remove();
+
+    let isValid = true;
+    let fullName = $('#full_name').val().trim();
+    let phone = $('#phone').val().trim();
+    let address = $('#address').val().trim();
+    let city = $('#city').val().trim();
+    let isDefault = $('#default').is(':checked') ? 1 : 0;
+
+    if (fullName.length < 3) {
+        isValid = false;
+        $('#full_name').after('<p class="error-message text-danger mt-1">Họ và tên phải có ít nhất 3 ký tự.</p>');
+    }
+
+    let phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+        isValid = false;
+        $('#phone').after('<p class="error-message text-danger mt-1">Số điện thoại phải gồm 10 chữ số.</p>');
+    }
+
+    if (address.length < 5) {
+        isValid = false;
+        $('#address').after('<p class="error-message text-danger mt-1">Địa chỉ phải có ít nhất 5 ký tự.</p>');
+    }
+
+    if (city.length < 2) {
+        isValid = false;
+        $('#city').after('<p class="error-message text-danger mt-1">Vui lòng nhập tên thành phố hợp lệ.</p>');
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    if (isValid) {
+        $.ajax({
+            url: addAddressUrl,
+            method: 'POST',
+            data: {
+                full_name: fullName,
+                phone: phone,
+                address: address,
+                city: city,
+                default: isDefault
+            },
+            beforeSend: function () {
+                $('.btn-primary[form="addAddressForm"]').prop('disabled', true).text('Đang lưu...');
+            },
+            success: function (response) {
+                $('#addAddressModal').modal('hide');
+                $('#addAddressForm')[0].reset();
+
+                // Hiển thị thông báo toastr
+                toastr.success(response.message || 'Đã thêm địa chỉ thành công!');
+
+                // Reload lại trang sau 1.5 giây để cập nhật danh sách
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+            },
+            error: function () {
+                toastr.error('Có lỗi xảy ra khi thêm địa chỉ!');
+            },
+            complete: function () {
+                $('.btn-primary[form="addAddressForm"]').prop('disabled', false).text('Lưu địa chỉ');
+            }
+        });
+    }
+});
+
+// $(document).on('click', '.set-default', function () {
+//     let id = $(this).data('id');
+
+//     $.ajax({
+//         url: '/account/addresses/' + id,  // ✅ đúng route
+//         type: 'PUT',
+//         data: {
+//             _token: $('meta[name="csrf-token"]').attr('content')
+//         },
+//         success: function (response) {
+//             if (response.status === 'success') {
+//                 toastr.success(response.message);
+//                 setTimeout(() => location.reload(), 800);
+//             }
+//         },
+//         error: function (xhr) {
+//             toastr.error('Không thể cập nhật địa chỉ mặc định!');
+//             console.log(xhr.responseText);
+//         }
+//     });
+// });
+

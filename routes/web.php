@@ -58,5 +58,10 @@ Route::middleware(['auth.custom'])->group(function () {
         Route::put('/update', [AccountController::class, 'update'])->name('account.update');
 
         Route::post('/change-password', [AccountController::class, 'changePassword'])->name('account.change-password');
+
+        // Add address
+        Route::post('/addresses', [AccountController::class, 'addAddress'])->name('account.addresses.add');
+        Route::put('/addresses/{id}', [AccountController::class, 'updatePrimaryAddress'])->name('account.addresses.update');
+        Route::delete('/addresses/{id}', action: [AccountController::class, 'deleteAddress'])->name('account.addresses.delete');
     });
 });

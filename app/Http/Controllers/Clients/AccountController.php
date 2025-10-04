@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Clients;
 
 use App\Http\Controllers\Controller;
+use App\Models\ShippingAddress;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -14,9 +15,11 @@ class AccountController extends Controller
     public function index()
     {
         $user = Auth::user();
-        return view('clients.pages.account', compact('user'));
+        $addresses =  ShippingAddress::where('user_id', Auth::id())->get();
+        return view('clients.pages.account', compact('user', 'addresses'));
     }
 
+    // Update user's account
     public function update(Request $request)
     {
         $user = Auth::user();
@@ -63,6 +66,7 @@ class AccountController extends Controller
         ]);
     }
 
+    // Change password
     public function changePassword(Request $request)
     {
         $request->validate(
@@ -99,5 +103,72 @@ class AccountController extends Controller
             'success' => true,
             'message' => 'Đổi mật khẩu thành công!'
         ]);
+    }
+
+    // Manage user's address of Clients
+    // Add address 
+    public function addAddress(Request $request)
+    {
+        // Validate form
+        $validated = $request->validate([
+            'full_name' => 'required|string|min:3|max:100',
+            'phone' => 'required|digits:10',
+            'address' => 'required|string|min:5|max:255',
+            'city' => 'required|string|min:2|max:100',
+            'default' => 'nullable|boolean',
+        ]);
+
+        // Nếu chọn "Đặt làm mặc định" thì reset địa chỉ khác
+        if ($request->has('default')) {
+            ShippingAddress::where('user_id', Auth::id())->update(['default' => 0]);
+        }
+
+        // Thêm địa chỉ mới
+        ShippingAddress::create([
+            'user_id' => Auth::id(),
+            'full_name' => $request->full_name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'city' => $request->city,
+            'default' => $request->has('default') ? 1 : 0,
+        ]);
+
+        return response()->json([
+        'success' => true,
+        'message' => 'Đã thêm địa chỉ thành công!'
+    ]);
+    }
+public function updatePrimaryAddress($id)
+{
+    // Tìm địa chỉ của user hiện tại
+    $address = ShippingAddress::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
+
+    // Reset tất cả địa chỉ khác
+    ShippingAddress::where('user_id', Auth::id())
+        ->update(['default' => 0]);
+
+    // Cập nhật địa chỉ được chọn
+    $address->update(['default' => 1]);
+
+    toastr()->success('Địa chỉ mặc định đã được cập nhật!');
+    return back();
+}
+
+    // Trong AccountController.php (hoặc Controller tương ứng)
+
+    public function deleteAddress($id)
+    {
+        $address = ShippingAddress::where('id', $id)
+                                    ->where('user_id', Auth::id())
+                                    ->first();
+        if ($address) {
+            $address->delete();
+            toastr()->success('Địa chỉ đã được xóa thành công!');
+        } else {
+            toastr()->error('Không tìm thấy địa chỉ hoặc bạn không có quyền xóa địa chỉ này.');
+        }
+        return back();
     }
 }
