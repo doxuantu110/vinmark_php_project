@@ -1,11 +1,13 @@
 <?php
 
 namespace App\Models;
-
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name', 'slug', 'category_id', 'description', 'price', 'status', 'stock', 'unit'];
 
     public function category(){
@@ -23,4 +25,9 @@ class Product extends Model
     public function reviews(){
         return $this->hasMany(Review::class);
     }
+
+    public function firstImage(){
+        return $this->hasOne(ProductImage::class)->oldest('id');
+    }
+
 }

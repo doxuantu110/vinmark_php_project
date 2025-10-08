@@ -98,10 +98,5 @@
             @endif
         });
     </script>
-
-    
-
-
-
 </body>
 </html>

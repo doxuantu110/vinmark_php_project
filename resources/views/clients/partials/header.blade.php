@@ -4,16 +4,6 @@
     <div class="ltn__header-top-area d-none">
         <div class="container">
             <div class="row">
-                <div class="col-md-7">
-                    <div class="ltn__top-bar-menu">
-                        <ul>
-                            <li><a href="locations.html"><i class="icon-placeholder"></i> Ngu Hanh Son, Da
-                                    Nang</a></li>
-                            <li><a href="mailto:minhdien.dev@gmail.com?Subject=Contact%20with%20to%20you"><i
-                                        class="icon-mail"></i> minhdien.dev@gmail.com</a></li>
-                        </ul>
-                    </div>
-                </div>
                 <div class="col-md-5">
                     <div class="top-bar-right text-right text-end">
                         <div class="ltn__top-bar-menu">
@@ -51,7 +41,7 @@
                 <div class="col">
                     <div class="site-logo-wrap">
                         <div class="site-logo">
-                            <a href="index.html"><img src="img/logo-2.png" alt="Logo"></a>
+                            <a href="/"><img src="{{ asset('assets/clients/img/logo-2.png')}}" alt="Logo"></a>
                         </div>
                     </div>
                 </div>
@@ -60,19 +50,19 @@
                         <nav>
                             <div class="ltn__main-menu">
                                 <ul>
-                                    <li class="menu-icon"><a href="index.html">Trang chủ</a> </li>
-                                    <li class="menu-icon"><a href="#">Về chúng tôi</a>
+                                    <li class="menu-icon"><a href="\">Trang chủ</a> </li>
+                                    <li class="menu-icon"><a href="javascript:void(0)">Về chúng tôi</a>
                                         <ul>
-                                            <li><a href="about.html">Về chúng tôi</a></li>
-                                            <li><a href="service.html">Dịch vụ</a></li>
-                                            <li><a href="team.html">Team</a></li>
-                                            <li><a href="faq.html">FAQ</a></li>
+                                            <li><a href="{{ route('about')}}">Về chúng tôi</a></li>
+                                            <li><a href="{{ route('service')}}">Dịch vụ</a></li>
+                                            <li><a href="{{ route('team')}}">Team</a></li>
+                                            <li><a href="{{ route('faq')}}">FAQ</a></li>
                                         </ul>
                                     </li>
-                                    <li class="menu-icon"><a href="shop.html">Cửa hàng</a>
+                                    <li class="menu-icon"><a href="{{ route('about')}}">Cửa hàng</a>
                                     </li>
-                                    <li><a href="contact.html">Liên hệ</a></li>
-                                    <li class="special-link"><a href="contact.html">GET A QUOTE</a></li>
+                                    <li><a href="{{ route('about')}}">Liên hệ</a></li>
+                                    <li class="special-link"><a href="{{ route('about')}}">Nhận báo giá</a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -97,19 +87,22 @@
                         </div>
                     </div>
                     <!-- user-menu -->
-                    <div class="ltn__drop-menu user-menu">
-                        <ul>
-                            <li>
-                                <a href="#"><i class="icon-user"></i></a>
-                                <ul>
-                                    <li><a href="login.html">Đăng nhập</a></li>
-                                    <li><a href="register.html">Đăng kí</a></li>
-                                    <li><a href="account.html">Tài khoản</a></li>
-                                    <li><a href="wishlist.html">Yêu thích</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
+                     <div class="ltn__drop-menu user-menu">
+                         <ul>
+                             <li>
+                                 <a href="#"><i class="icon-user"></i></a>
+                                 <ul>
+                                    @if (Auth::check())
+                                        <li><a href="{{ route('account')}}">Tài khoản</a></li>
+                                        <li><a href="{{ route('login')}}">Yêu thích</a></li>
+                                        <li><a href="{{ route('logout')}}">Đăng xuất</a></li>
+                                    @else
+                                        <li><a href="{{ route('login')}}">Đăng nhập</a></li>
+                                    @endif
+                                 </ul>
+                             </li>
+                         </ul>
+                     </div>
                     <!-- mini-cart -->
                     <div class="mini-cart-icon">
                         <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">

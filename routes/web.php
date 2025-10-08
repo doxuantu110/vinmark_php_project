@@ -3,26 +3,26 @@
 use App\Http\Controllers\Clients\AccountController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\AuthController;
+use App\Http\Controllers\Clients\HomeController;
+use App\Http\Controllers\Clients\ProductController;
 
-Route::get('/', function () {
-    return view('clients.pages.home');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/about', function () {
     return view('clients.pages.about');
-});
+})->name('about');
 
 Route::get('/service', function () {
     return view('clients.pages.service');
-});
+})->name('service');
 
 Route::get('/team', function () {
     return view('clients.pages.team');
-});
+})->name('team');
 
 Route::get('/faq', function () {
     return view('clients.pages.faq');
-});
+})->name('faq');
 
 // guest routes
 Route::middleware('guest')->group(function () {
@@ -65,3 +65,6 @@ Route::middleware(['auth.custom'])->group(function () {
         Route::delete('/addresses/{id}', action: [AccountController::class, 'deleteAddress'])->name('account.addresses.delete');
     });
 });
+
+// Product
+Route::get('/product', [ProductController::class, 'index'])->name('products.index');
