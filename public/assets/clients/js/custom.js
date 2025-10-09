@@ -338,4 +338,84 @@ $('#addAddressForm').submit(function (e) {
 //         }
 //     });
 // });
+ // **********************************************
+    // Page Product
+// **********************************************
+
+$(document).ready(function(){
+
+    function fetchProducts() {
+        let category_id = $(".category-filter.active").data('id') || '';
+        let minPrice = $(".slider-range").slider('values', 0);
+        let maxPrice = $(".slider-range").slider('values', 1);
+        let sort_by = $("#sort-by").val() || '';
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/products/filter',
+            type: "GET",
+            data: {
+                category_id: category_id,
+                min_price: minPrice,
+                max_price: maxPrice,
+                sort_by: sort_by
+            },
+            beforeSend: function () {
+                $("#loading-spinner").show();
+                $("#liton_product_grid").hide();    // <- sử dụng id đúng
+            },
+            success: function (response) {
+                $("#liton_product_grid").html(response.products); // <- id đúng
+            },
+            complete: function () {
+                $("#loading-spinner").hide();       // <- id đúng
+                $("#liton_product_grid").show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi AJAX fetchProducts:", error);
+                alert("Đã xảy ra lỗi khi tải sản phẩm. Vui lòng thử lại sau!");
+            }
+        });
+    }
+
+    // delegation để chắc chắn event luôn bắt được
+    $(document).on('click', '.category-filter', function(e){
+        e.preventDefault();
+        $(".category-filter").removeClass("active");
+        $(this).addClass('active');
+        fetchProducts();
+    });
+
+    $("#sort-by").on('change', function(){
+        fetchProducts();
+    });
+
+    // Slider: chỉ khởi tạo 1 lần
+    $(".slider-range").slider({
+        range: true,
+        min: 0,
+        max: 300000,
+        values: [0, 300000],
+        slide: function(event, ui) {
+            $(".amount").val(
+                ui.values[0].toLocaleString() + " ₫ - " + ui.values[1].toLocaleString() + " ₫"
+            );
+        },
+        change: function(event, ui) {
+            fetchProducts();
+        }
+    });
+
+    // hiển thị giá ban đầu
+    $(".amount").val(
+        $(".slider-range").slider("values", 0).toLocaleString() + " ₫ - " +
+        $(".slider-range").slider("values", 1).toLocaleString() + " ₫"
+    );
+
+});
 

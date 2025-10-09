@@ -21,11 +21,10 @@
                                 <li>
                                     <div class="short-by text-center">
                                         <select id="sort-by" class="nice-select">
-                                            <option>Sắp xếp mặc định</option>
-                                            <option>Sắp xếp theo độ phổ biến</option>
-                                            <option>Sắp xếp theo sản phẩm mới</option>
-                                            <option>Sắp xếp theo giá: thấp đến cao</option>
-                                            <option>Sắp xếp theo giá: cao đến thấp</option>
+                                            <option value="default">Sắp xếp mặc định</option>
+                                            <option value="latest">Sắp xếp theo sản phẩm mới</option>
+                                            <option value="price_asc">Sắp xếp theo giá: thấp đến cao</option>
+                                            <option value="price_desc">Sắp xếp theo giá: cao đến thấp</option>
                                         </select>
                                     </div>
                                 </li>
@@ -37,6 +36,10 @@
                             </ul>
                         </div>
                         <div class="tab-content">
+                            <div id="loading-spinner">
+                                <div class="loader">
+                                </div>
+                            </div>
                             <div class="tab-pane fade active show" id="liton_product_grid">
                                 @include('clients.components.products_grid', ['products' => $products]);
                             </div>
@@ -75,7 +78,7 @@
                                 <h4 class="ltn__widget-title ltn__widget-title-border">Lọc theo giá</h4>
                                 <div class="price_filter">
                                     <div class="price_slider_amount">
-                                        <input type="submit" value="Your range:" />
+                                        <input type="submit" value="Khoảng giá:" />
                                         <input type="text" class="amount" name="price" placeholder="Add Your Price" />
                                     </div>
                                     <div class="slider-range"></div>
