@@ -38,11 +38,11 @@ $(document).ready(function () {
             event.preventDefault();
         }
     });
-// **********************************************
+    // **********************************************
 
-// Login Form Submission
-// **********************************************
-// Validate and submit the login form
+    // Login Form Submission
+    // **********************************************
+    // Validate and submit the login form
     $('#login-form').submit(function (event) {
         // Clear toastr messages if toastr is available
         if (typeof toastr !== 'undefined' && toastr.clear) {
@@ -86,3 +86,336 @@ $('#reset-password-form').submit(function (event) {
         event.preventDefault();
     }
 });
+
+// When click on the image => open input file
+$('.profile-pic').click(function () {
+    $('#avatar').click();
+});
+
+// When selecting an image => display preview image
+$('#avatar').change(function () {
+    let input = this;
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $('#preview-image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+})
+
+// validate and submit the update account form
+// Khi chọn ảnh => hiển thị preview
+$('#avatar').change(function () {
+    let input = this;
+    if (input.files && input.files[0]) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            $('#preview-image').attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+});
+
+// Update account
+$('#update-account-form').on("submit", function (event) {
+    event.preventDefault();
+
+    let formData = new FormData(this);
+    let urlUpdate = $(this).attr('action');
+
+    // Nếu route dùng PUT/PATCH trong Laravel thì thêm dòng sau:
+    formData.append('_method', 'PUT');
+
+    $.ajax({
+        url: urlUpdate,
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        beforeSend: function () {
+            $(".btn-wrapper button")
+                .text("Đang cập nhật...")
+                .attr("disabled", true);
+        },
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message || "Cập nhật thành công!");
+                if (response.avatar) {
+                    $('#preview-image').attr('src', response.avatar);
+                }
+            } else {
+                toastr.error(response.message || "Có lỗi xảy ra khi cập nhật!");
+            }
+        },
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    toastr.error(value[0]);
+                });
+            } else {
+                toastr.error("Đã xảy ra lỗi không xác định!");
+            }
+        },
+        complete: function () {
+            $(".btn-wrapper button")
+                .text("Cập nhật")
+                .attr("disabled", false);
+        }
+    });
+});
+
+// Change password form
+$('#change-password-form').submit(function (e) {
+    e.preventDefault();
+
+    let current_password = $('input[name="current_password"]').val().trim();
+    let new_password = $('input[name="new_password"]').val().trim();
+    let confirm_new_password = $('input[name="confirm_new_password"]').val().trim();
+
+    let errorMessages = "";
+    if (current_password.length < 6) {
+        errorMessages += "Mật khẩu hiện tại phải có ít nhất 6 ký tự.<br>";
+    }
+    if (new_password.length < 6) {
+        errorMessages += "Mật khẩu mới phải có ít nhất 6 ký tự.<br>";
+    }
+    if (new_password !== confirm_new_password) {
+        errorMessages += "Mật khẩu và xác nhận mật khẩu không khớp.<br>";
+    }
+
+    if (errorMessages) {
+        errorMessages.split("<br>").forEach(msg => {
+            if (msg.trim() !== "" && typeof toastr !== 'undefined') {
+                toastr.error(msg, 'Lỗi đặt lại mật khẩu');
+            }
+        });
+        return; // Dừng AJAX nếu có lỗi client-side
+    }
+
+    let formData = $(this).serialize(); // hoặc new FormData(this)
+    let urlUpdate = $(this).attr('action');
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+    });
+
+    $.ajax({
+        url: urlUpdate,
+        type: 'POST',
+        data: formData,
+        // Nếu dùng FormData thì cần:
+        // processData: false,
+        // contentType: false,
+        beforeSend: function () {
+            $(".btn-wrapper button")
+                .text("Đang đổi mật khẩu...")
+                .attr("disabled", true);
+        },
+        success: function (response) {
+            if (response.success) {
+                toastr.success(response.message || "Đổi mật khẩu thành công!");
+                $('#change-password-form')[0].reset();
+            } else {
+                toastr.error(response.message || "Có lỗi xảy ra khi đổi mật khẩu!");
+            }
+        },
+        error: function (xhr) {
+            if (xhr.responseJSON && xhr.responseJSON.errors) {
+                $.each(xhr.responseJSON.errors, function (key, value) {
+                    toastr.error(value[0]);
+                });
+            } else {
+                toastr.error("Đã xảy ra lỗi không xác định!");
+            }
+        },
+        complete: function () {
+            $(".btn-wrapper button")
+                .text("Đổi mật khẩu")
+                .attr("disabled", false);
+        }
+    });
+});
+
+// Validate address form
+$('#addAddressForm').submit(function (e) {
+    e.preventDefault();
+    $('.error-message').remove();
+
+    let isValid = true;
+    let fullName = $('#full_name').val().trim();
+    let phone = $('#phone').val().trim();
+    let address = $('#address').val().trim();
+    let city = $('#city').val().trim();
+    let isDefault = $('#default').is(':checked') ? 1 : 0;
+
+    if (fullName.length < 3) {
+        isValid = false;
+        $('#full_name').after('<p class="error-message text-danger mt-1">Họ và tên phải có ít nhất 3 ký tự.</p>');
+    }
+
+    let phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone)) {
+        isValid = false;
+        $('#phone').after('<p class="error-message text-danger mt-1">Số điện thoại phải gồm 10 chữ số.</p>');
+    }
+
+    if (address.length < 5) {
+        isValid = false;
+        $('#address').after('<p class="error-message text-danger mt-1">Địa chỉ phải có ít nhất 5 ký tự.</p>');
+    }
+
+    if (city.length < 2) {
+        isValid = false;
+        $('#city').after('<p class="error-message text-danger mt-1">Vui lòng nhập tên thành phố hợp lệ.</p>');
+    }
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    if (isValid) {
+        $.ajax({
+            url: addAddressUrl,
+            method: 'POST',
+            data: {
+                full_name: fullName,
+                phone: phone,
+                address: address,
+                city: city,
+                default: isDefault
+            },
+            beforeSend: function () {
+                $('.btn-primary[form="addAddressForm"]').prop('disabled', true).text('Đang lưu...');
+            },
+            success: function (response) {
+                $('#addAddressModal').modal('hide');
+                $('#addAddressForm')[0].reset();
+
+                // Hiển thị thông báo toastr
+                toastr.success(response.message || 'Đã thêm địa chỉ thành công!');
+
+                // Reload lại trang sau 1.5 giây để cập nhật danh sách
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+            },
+            error: function () {
+                toastr.error('Có lỗi xảy ra khi thêm địa chỉ!');
+            },
+            complete: function () {
+                $('.btn-primary[form="addAddressForm"]').prop('disabled', false).text('Lưu địa chỉ');
+            }
+        });
+    }
+});
+
+// $(document).on('click', '.set-default', function () {
+//     let id = $(this).data('id');
+
+//     $.ajax({
+//         url: '/account/addresses/' + id,  // ✅ đúng route
+//         type: 'PUT',
+//         data: {
+//             _token: $('meta[name="csrf-token"]').attr('content')
+//         },
+//         success: function (response) {
+//             if (response.status === 'success') {
+//                 toastr.success(response.message);
+//                 setTimeout(() => location.reload(), 800);
+//             }
+//         },
+//         error: function (xhr) {
+//             toastr.error('Không thể cập nhật địa chỉ mặc định!');
+//             console.log(xhr.responseText);
+//         }
+//     });
+// });
+ // **********************************************
+    // Page Product
+// **********************************************
+
+$(document).ready(function(){
+
+    function fetchProducts() {
+        let category_id = $(".category-filter.active").data('id') || '';
+        let minPrice = $(".slider-range").slider('values', 0);
+        let maxPrice = $(".slider-range").slider('values', 1);
+        let sort_by = $("#sort-by").val() || '';
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/products/filter',
+            type: "GET",
+            data: {
+                category_id: category_id,
+                min_price: minPrice,
+                max_price: maxPrice,
+                sort_by: sort_by
+            },
+            beforeSend: function () {
+                $("#loading-spinner").show();
+                $("#liton_product_grid").hide();    // <- sử dụng id đúng
+            },
+            success: function (response) {
+                $("#liton_product_grid").html(response.products); // <- id đúng
+            },
+            complete: function () {
+                $("#loading-spinner").hide();       // <- id đúng
+                $("#liton_product_grid").show();
+            },
+            error: function (xhr, status, error) {
+                console.error("Lỗi AJAX fetchProducts:", error);
+                alert("Đã xảy ra lỗi khi tải sản phẩm. Vui lòng thử lại sau!");
+            }
+        });
+    }
+
+    // delegation để chắc chắn event luôn bắt được
+    $(document).on('click', '.category-filter', function(e){
+        e.preventDefault();
+        $(".category-filter").removeClass("active");
+        $(this).addClass('active');
+        fetchProducts();
+    });
+
+    $("#sort-by").on('change', function(){
+        fetchProducts();
+    });
+
+    // Slider: chỉ khởi tạo 1 lần
+    $(".slider-range").slider({
+        range: true,
+        min: 0,
+        max: 300000,
+        values: [0, 300000],
+        slide: function(event, ui) {
+            $(".amount").val(
+                ui.values[0].toLocaleString() + " ₫ - " + ui.values[1].toLocaleString() + " ₫"
+            );
+        },
+        change: function(event, ui) {
+            fetchProducts();
+        }
+    });
+
+    // hiển thị giá ban đầu
+    $(".amount").val(
+        $(".slider-range").slider("values", 0).toLocaleString() + " ₫ - " +
+        $(".slider-range").slider("values", 1).toLocaleString() + " ₫"
+    );
+
+});
+
