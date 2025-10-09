@@ -58,7 +58,8 @@ class ProductController extends Controller
         }
 
         // --- Phân trang ---
-        $products = $query->paginate(9);
+        $products = $query->paginate(9)->appends($request->except('page'));
+
 
         // load ảnh
         foreach ($products as $product) {
@@ -70,6 +71,7 @@ class ProductController extends Controller
         // --- Trả về JSON chứa HTML render ---
         return response()->json([
             'products' => view('clients.components.products_grid', compact('products'))->render(),
-        ]);
+            'pagination' => (string) $products->links('clients.components.pagination.pagination_custom')->render()
+        ]); 
     }
 }

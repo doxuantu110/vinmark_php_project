@@ -65,7 +65,7 @@ $(document).ready(function () {
             event.preventDefault();
         }
     });
-});
+
 
 // reset password form]
 $('#reset-password-form').submit(function (event) {
@@ -342,7 +342,16 @@ $('#addAddressForm').submit(function (e) {
     // Page Product
 // **********************************************
 
-$(document).ready(function(){
+    let currentPage = 1; // Biến lưu trang hiện tại
+
+    // Xử lý khi click vào nút phân trang
+    $(document).on('click', '.pagination-link', function (e) {
+        e.preventDefault();
+        let pageUrl = $(this).attr('href');
+        let page = pageUrl.split('page=')[1];
+        currentPage = page;
+        fetchProducts();
+    });
 
     function fetchProducts() {
         let category_id = $(".category-filter.active").data('id') || '';
@@ -357,9 +366,10 @@ $(document).ready(function(){
         });
 
         $.ajax({
-            url: '/products/filter',
+            url: '/products/filter?page=' + currentPage,
             type: "GET",
             data: {
+                page: currentPage,
                 category_id: category_id,
                 min_price: minPrice,
                 max_price: maxPrice,
@@ -370,7 +380,8 @@ $(document).ready(function(){
                 $("#liton_product_grid").hide();    // <- sử dụng id đúng
             },
             success: function (response) {
-                $("#liton_product_grid").html(response.products); // <- id đúng
+                $("#liton_product_grid").html(response.products);
+                $(".ltn__pagination").html(response.pagination);
             },
             complete: function () {
                 $("#loading-spinner").hide();       // <- id đúng
@@ -384,14 +395,15 @@ $(document).ready(function(){
     }
 
     // delegation để chắc chắn event luôn bắt được
-    $(document).on('click', '.category-filter', function(e){
-        e.preventDefault();
+    $(".category-filter").click(function(){
         $(".category-filter").removeClass("active");
         $(this).addClass('active');
+        currentPage = 1;
         fetchProducts();
     });
 
-    $("#sort-by").on('change', function(){
+    $("#sort-by").change(function(){
+        currentPage = 1;
         fetchProducts();
     });
 
@@ -407,6 +419,7 @@ $(document).ready(function(){
             );
         },
         change: function(event, ui) {
+            currentPage = 1;
             fetchProducts();
         }
     });
@@ -416,6 +429,4 @@ $(document).ready(function(){
         $(".slider-range").slider("values", 0).toLocaleString() + " ₫ - " +
         $(".slider-range").slider("values", 1).toLocaleString() + " ₫"
     );
-
 });
-
