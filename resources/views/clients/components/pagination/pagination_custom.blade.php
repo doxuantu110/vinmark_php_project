@@ -7,8 +7,7 @@
             </li>
         @else
             <li>
-                <a href="{{ $paginator->previousPageUrl() }}" 
-                   class="pagination-link">
+                <a href="{{ $paginator->previousPageUrl() }}" class="pagination-link">
                     <i class="fas fa-angle-double-left"></i>
                 </a>
             </li>
@@ -30,9 +29,7 @@
                         </li>
                     @else
                         <li>
-                            <a href="{{ $url }}" 
-                               class="pagination-link"
-                               >{{-- data-page="{{ $page }}"> --}}
+                            <a href="{{ $url }}" class="pagination-link">
                                 {{ $page }}
                             </a>
                         </li>
@@ -44,9 +41,7 @@
         {{-- Nút sang trang sau --}}
         @if ($paginator->hasMorePages())
             <li>
-                <a href="{{ $paginator->nextPageUrl() }}" 
-                   class="pagination-link"
-                  > {{-- data-page="{{ $paginator->currentPage() + 1 }}"> --}}
+                <a href="{{ $paginator->nextPageUrl() }}" class="pagination-link">
                     <i class="fas fa-angle-double-right"></i>
                 </a>
             </li>
