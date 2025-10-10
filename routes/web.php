@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\AuthController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -72,3 +73,6 @@ Route::get('/products/filter', [ProductController::class, 'filter'])->name('prod
 
 // Product Detail
 Route::get('/product/{slug}', [ProductController::class, 'detail'])->name('product.detail');
+
+// Add Cart Item
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');

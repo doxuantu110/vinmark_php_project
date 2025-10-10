@@ -338,9 +338,9 @@ $(document).ready(function () {
     //         }
     //     });
     // });
-    // **********************************************
+// **********************************************
     // Page Product
-    // **********************************************
+// **********************************************
 
     let currentPage = 1; // Biến lưu trang hiện tại
 
@@ -429,4 +429,57 @@ $(document).ready(function () {
         $(".slider-range").slider("values", 0).toLocaleString() + " ₫ - " +
         $(".slider-range").slider("values", 1).toLocaleString() + " ₫"
     );
+
+// **********************************************
+    // Detail Product
+// **********************************************
+    $(document).on('click', '.qtybutton', function () {
+        console.log(16313125785);
+
+        var $button = $(this);
+        var $input = $button.siblings('input');
+        var oldValue = parseInt($input.val());
+        var maxStock = parseInt($input.data('max'));
+
+        if ($button.hasClass('inc')) {
+            if (oldValue < maxStock) {
+                $input.val(oldValue + 1);
+            }
+        } else {
+            if (oldValue > 1) {
+                $input.val(oldValue - 1);
+            }
+        }
+    });
+
+    // Add to cart
+    $(document).on('click', '.add-to-cart-btn', function (e) {
+        e.preventDefault();
+
+        let productId = $(this).data('id');
+        let quantity = $(this).closest('li').prev().find('.cart-plus-minus-box').val();
+
+        quantity = quantity ?  quantity : 1;
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/cart/add',
+            type: "POST",
+            data: {
+                product_id : productId,
+                quantity : quantity
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr) {
+                alert("Có lỗi xảy ra với ajax addToCart In Detail!");
+            }
+        });
+    });
 });
