@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\AuthController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\ProductController;
+use App\Http\Controllers\CartController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -53,7 +54,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::middleware(['auth.custom'])->group(function () {
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-    Route::prefix('account')->group(function (){
+    Route::prefix('account')->group(function () {
         Route::get('/', [AccountController::class, 'index'])->name('account');
         Route::put('/update', [AccountController::class, 'update'])->name('account.update');
 
@@ -69,3 +70,9 @@ Route::middleware(['auth.custom'])->group(function () {
 // Product
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/filter', [ProductController::class, 'filter'])->name('products.filter');
+
+// Product Detail
+Route::get('/product/{slug}', [ProductController::class, 'detail'])->name('product.detail');
+
+// Add Cart Item
+Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');

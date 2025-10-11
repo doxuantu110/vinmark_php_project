@@ -24,7 +24,26 @@ class ProductFactory extends Factory
             'Xà lách', 'Dưa leo', 'Ớt chuông đỏ', 'Cà rốt', 'Bắp cải',
             'Nho đen', 'Chuối chín', 'Bưởi đỏ', 'Cam sành', 'Dưa hấu',
             'Hành lá', 'Tỏi Lý Sơn', 'Gừng tươi', 'Khoai lang', 'Mướp đắng',
-            'Thịt heo ba rọi', 'Thịt bò Úc', 'Cá hồi phi lê', 'Tôm sú', 'Gà ta nguyên con'
+            'Thịt heo ba rọi', 'Thịt bò Úc', 'Cá hồi phi lê', 'Tôm sú', 'Gà ta nguyên con', 'Gạo ST25 5kg',
+            'Dầu ăn Tường An 1L',
+            'Nước mắm Nam Ngư 500ml',
+            'Đường trắng Biên Hòa 1kg',
+            'Sữa tươi Vinamilk 1L',
+            'Bánh Oreo 133g',
+            'Mì Hảo Hảo tôm chua cay',
+            'Trứng gà ta hộp 10 quả',
+            'Thịt heo ba rọi 500g',
+            'Thịt bò Mỹ 300g',
+            'Táo Mỹ 1kg',
+            'Chuối già 1kg',
+            'Cà rốt Đà Lạt 1kg',
+            'Rau muống 500g',
+            'Cà chua 500g',
+            'Nước ngọt Coca-Cola lon 330ml',
+            'Bia Heineken lon 330ml',
+            'Bánh mì gối Sandwich',
+            'Phô mai Con Bò Cười 8 miếng',
+            'Cà phê G7 hòa tan 16 gói',
         ]);
 
         return [

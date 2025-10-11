@@ -1,6 +1,6 @@
  <!-- MODAL AREA START (Wishlist Modal) -->
  <div class="ltn__modal-area ltn__add-to-cart-modal-area">
-     <div class="modal fade" id="liton_wishlist_modal" tabindex="-1">
+     <div class="modal fade" id="liton_wishlist_modal-{{ $product->id }}" tabindex="-1">
          <div class="modal-dialog modal-md" role="document">
              <div class="modal-content">
                  <div class="modal-header">
@@ -14,15 +14,16 @@
                              <div class="row">
                                  <div class="col-12">
                                      <div class="modal-product-img">
-                                         <img src="img/product/7.png" alt="#">
+                                         <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                      </div>
-                                     <div class="modal-product-info">
-                                         <h5><a href="product-details.html">Vegetables Juices</a></h5>
-                                         <p class="added-cart"><i class="fa fa-check-circle"></i> Successfully
-                                             added to your Wishlist</p>
+                                      <div class="modal-product-info">
+                                         <h5><a
+                                                 href="{{ route('product.detail', $product->slug) }}">{{ $product->name }}</a>
+                                         </h5>
+                                         <p class="added-cart"><i class="fa fa-check-circle"></i>Đã thêm thành công vào
+                                             Giỏ hàng của bạn</p>
                                          <div class="btn-wrapper">
-                                             <a href="wishlist.html" class="theme-btn-1 btn btn-effect-1">View
-                                                 Wishlist</a>
+                                             <a href="cart.html" class="theme-btn-1 btn btn-effect-1">Xem giỏ hàng</a>
                                          </div>
                                      </div>
                                      <!-- additional-info -->

@@ -10,20 +10,22 @@ use Illuminate\Support\Facades\Response;
 
 class ProductController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $categories = Category::with('products')->get();
         $products = Product::with('firstImage')->where('status', 'in_stock')->paginate(9);
 
-     foreach ($products as $product) {
-                $product->image_url = $product->firstImage?->image
-                    ? asset('storage/uploads/products/' . $product->firstImage->image)
-                    : asset('storage/uploads/products/default-product.png');
+        foreach ($products as $product) {
+            $product->image_url = $product->firstImage?->image
+                ? asset('storage/uploads/products/' . $product->firstImage->image)
+                : asset('storage/uploads/products/default-product.png');
         }
-            
+
         return view('clients.pages.products', compact('categories', 'products'));
     }
 
-    public function filter(Request $request){
+    public function filter(Request $request)
+    {
         $query = Product::query();
 
         // --- Filter Category nếu có ---
@@ -58,18 +60,32 @@ class ProductController extends Controller
         }
 
         // --- Phân trang ---
-        $products = $query->paginate(9);
+        $products = $query->paginate(9)->appends($request->except('page'));
+
 
         // load ảnh
         foreach ($products as $product) {
-                $product->image_url = $product->firstImage?->image
-                    ? asset('storage/uploads/products/' . $product->firstImage->image)
-                    : asset('storage/uploads/products/default-product.png');
+            $product->image_url = $product->firstImage?->image
+                ? asset('storage/uploads/products/' . $product->firstImage->image)
+                : asset('storage/uploads/products/default-product.png');
         }
 
         // --- Trả về JSON chứa HTML render ---
         return response()->json([
             'products' => view('clients.components.products_grid', compact('products'))->render(),
+            'pagination' => $products->links('clients.components.pagination.pagination_custom')
         ]);
+    }
+
+    public function detail($slug)
+    {
+        $product = Product::with(['category', 'images'])->where('slug', $slug)->firstOrFail();
+
+        // Get products in the same category
+        $relatedProducts = Product::where('category_id', $product->category->id)
+            ->where('id', '!=', $product->id)
+            ->limit(6)
+            ->get();
+        return view('clients.pages.product-detail', compact('product', 'relatedProducts'));
     }
 }
