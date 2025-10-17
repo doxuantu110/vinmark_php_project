@@ -194,7 +194,12 @@ class CartController extends Controller
         // Caculate total price
         $subtotal = $product->price * $request->quantity;
         $total = $this->calculateTotal();
+        
         $grandTotal = $total + 25000; // Add any additional fees if necessary
+
+        $subtotal = number_format($subtotal, 0, ',', '.');
+        $total = number_format($total, 0, ',', '.');
+        $grandTotal = number_format($grandTotal, 0, ',', '.');
 
         return response()->json([
             'status' => true,
@@ -209,6 +214,7 @@ class CartController extends Controller
         ]);
     }
 
+    // calaculate total price helper function
     public function calculateTotal()
     {
         if (Auth::check()) {
@@ -223,5 +229,36 @@ class CartController extends Controller
             }, 0);
         }
         return $total;
+    }
+
+    // Remove item from cart
+    public function removeCart(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+        ]);
+        if (Auth::check()) {
+            CartItem::where('user_id', Auth::id())
+                ->where('product_id', $request->product_id)
+                ->delete();
+            $cartItems = CartItem::where('user_id', Auth::id())->get();
+            $cartCount = $cartItems->count();
+        } else {
+            $cart = session()->get('cart', []);
+            unset($cart[$request->product_id]);
+            session()->put('cart', $cart);
+            $cartItems = $cart;
+            $cartCount = count($cart);
+        }
+        // Caculate total price
+        $total = $this->calculateTotal();
+        $grandTotal = $total + 25000; // Add any additional fees if necessary
+        return response()->json([
+            'status' => true,
+            'message' => 'Đã xóa sản phẩm khỏi giỏ hàng thành công',
+            'cart_count' => $cartCount,
+            'cart_total' => $total,
+            'grand_total' => $grandTotal,
+        ]);
     }
 }

@@ -21,7 +21,7 @@
                                             $subtotal = $item['price'] * $item['quantity'];
                                             $cartTotal += $subtotal;
                                         @endphp
-                                        <tr>
+                                        <tr id="cart_item_row_{{ $item['product_id'] }}">
                                             <td class="cart-product-remove">
                                                 <button class="remove-from-cart"
                                                     data-id="{{ $item['product_id'] }}">x</button>
@@ -75,8 +75,8 @@
                                             <td>25.000 đ</td>
                                         </tr>
                                         <tr>
-                                            <td><strong>Tổng tiền hàng</strong></td>
-                                            <td><strong>{{ number_format($cartTotal + 25000, 0, ',', '.') }} đ</strong>
+                                            <td><strong>Tổng thanh toán</strong></td>
+                                            <td><strong id="grand_total">{{ number_format($cartTotal + 25000, 0, ',', '.') }} đ</strong></td>
                                             </td>
                                         </tr>
                                     </tbody>

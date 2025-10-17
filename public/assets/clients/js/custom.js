@@ -470,6 +470,9 @@ $(document).ready(function () {
             } else {
                 if (oldValue > 1) {
                     newValue = oldValue - 1;
+                } else {
+                    toastr.warning('Số lượng tối thiểu là 1!');
+                    return;
                 }
             }
 
@@ -604,6 +607,7 @@ $(document).ready(function () {
                     $input.val(quantity);
                     $('#cart_count').text(response.cart_count);
                     $('#cart_total').text(response.cart_total.toLocaleString() + ' ₫');
+                    $('#grand_total').text(response.grand_total.toLocaleString() + ' ₫');
                     $('#cart_item_total_' + productId).text(response.item_total.toLocaleString() + ' ₫');
                     toastr.success('Cập nhật số lượng thành công!');
                 } else {
@@ -618,4 +622,43 @@ $(document).ready(function () {
             }
         });
     }
+
+    // Remove item from cart page
+    $('.remove-from-cart').click(function (e) {
+        e.preventDefault();
+        let productId = $(this).data('id');
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/cart/remove',
+            type: 'POST',
+            data: {
+                product_id: productId
+            },
+            success: function (response) {
+                if (response.status) {
+                    $('#cart_item_row_' + productId).remove();
+                    $('#cart_count').text(response.cart_count);
+                    $('#cart_total').text(Math.round(response.cart_total).toLocaleString('vi-VN') + ' ₫');
+                    $('#grand_total').text(Math.round(response.grand_total).toLocaleString('vi-VN') + ' ₫');
+                    $('#cart_item_total_' + productId).text(Math.round(response.item_total).toLocaleString('vi-VN') + ' ₫');
+
+
+                    if (response.cart_count === 0) {
+                        $('tbody').html('<tr><td colspan="6" class="text-center">Không có sản phẩm nào trong giỏ hàng</td></tr>');
+                        $('.shoping-cart-total').remove();
+                    }
+
+                    toastr.success('Đã xóa sản phẩm khỏi giỏ hàng!');
+                } else {
+                    toastr.error('Lỗi kết nối đến máy chủ!');
+                }
+            }
+        });
+    });
 });
