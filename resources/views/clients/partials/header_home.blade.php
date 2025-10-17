@@ -1,48 +1,5 @@
  <!-- HEADER AREA START (header-5) -->
  <header class="ltn__header-area ltn__header-5 ltn__header-transparent-- gradient-color-4---">
-     <!-- ltn__header-top-area start -->
-     {{-- <div class="ltn__header-top-area">
-         <div class="container">
-             <div class="row">
-                 <div class="col-md-7">
-                     <div class="ltn__top-bar-menu">
-                         <ul>
-                             <li><a href="locations.html"><i class="icon-placeholder"></i> Ngu Hanh Son, Da
-                                     Nang</a></li>
-                             <li><a href="mailto:minhdien.dev@gmail.com?Subject=Contact%20with%20to%20you"><i
-                                         class="icon-mail"></i> minhdien.dev@gmail.com</a></li>
-                         </ul>
-                     </div>
-                 </div>
-                 <div class="col-md-5">
-                     <div class="top-bar-right text-right text-end">
-                         <div class="ltn__top-bar-menu">
-                             <ul>
-                                 <li>
-                                     <!-- ltn__social-media -->
-                                     <div class="ltn__social-media">
-                                         <ul>
-                                             <li><a href="#" title="Facebook"><i
-                                                         class="fab fa-facebook-f"></i></a></li>
-                                             <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
-                                             </li>
-
-                                             <li><a href="#" title="Instagram"><i
-                                                         class="fab fa-instagram"></i></a></li>
-                                             <li><a href="#" title="Dribbble"><i class="fab fa-dribbble"></i></a>
-                                             </li>
-                                         </ul>
-                                     </div>
-                                 </li>
-                             </ul>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </div> --}}
-     <!-- ltn__header-top-area end -->
-
      <!-- ltn__header-middle-area start -->
      <div
          class="ltn__header-middle-area ltn__header-sticky ltn__sticky-bg-white sticky-active-into-mobile ltn__logo-right-menu-option plr--9---">
@@ -60,19 +17,21 @@
                          <nav>
                              <div class="ltn__main-menu">
                                  <ul>
-                                     <li class="menu-icon"><a href="\">Trang chủ</a> </li>
-                                     <li class="menu-icon"><a href="javascript:void(0)">Về chúng tôi</a>
-                                         <ul>
-                                             <li><a href="{{ route('about')}}">Về chúng tôi</a></li>
-                                             <li><a href="{{ route('service')}}">Dịch vụ</a></li>
-                                             <li><a href="{{ route('team')}}">Team</a></li>
-                                             <li><a href="{{ route('faq')}}">FAQ</a></li>
-                                         </ul>
+                                     <li class="menu-icon"><a
+                                             href="\">Trang chủ</a> </li>
+                                     <li class="menu-icon"><a
+                                                 href="javascript:void(0)">Về chúng tôi</a>
+                                             <ul>
+                                                 <li><a href="{{ route('about') }}">Về chúng tôi</a></li>
+                                                 <li><a href="{{ route('service') }}">Dịch vụ</a></li>
+                                                 <li><a href="{{ route('team') }}">Team</a></li>
+                                                 <li><a href="{{ route('faq') }}">FAQ</a></li>
+                                             </ul>
                                      </li>
-                                     <li class="menu-icon"><a href="{{ route('products.index')}}">Cửa hàng</a>
+                                     <li class="menu-icon"><a href="{{ route('products.index') }}">Cửa hàng</a>
                                      </li>
-                                     <li><a href="{{ route('about')}}">Liên hệ</a></li>
-                                     <li class="special-link"><a href="{{ route('about')}}">Nhận báo giá</a></li>
+                                     <li><a href="{{ route('about') }}">Liên hệ</a></li>
+                                     <li class="special-link"><a href="{{ route('about') }}">Nhận báo giá</a></li>
                                  </ul>
                              </div>
                          </nav>
@@ -102,26 +61,34 @@
                              <li>
                                  <a href="#"><i class="icon-user"></i></a>
                                  <ul>
-                                    @if (Auth::check())
-                                        <li><a href="{{ route('account')}}">Tài khoản</a></li>
-                                        <li><a href="{{ route('login')}}">Yêu thích</a></li>
-                                        <li><a href="{{ route('logout')}}">Đăng xuất</a></li>
-                                    @else
-                                        <li><a href="{{ route('login')}}">Đăng nhập</a></li>
-                                    @endif
-                                    
+                                     @if (Auth::check())
+                                         <li><a href="{{ route('account') }}">Tài khoản</a></li>
+                                         <li><a href="{{ route('login') }}">Yêu thích</a></li>
+                                         <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
+                                     @else
+                                         <li><a href="{{ route('login') }}">Đăng nhập</a></li>
+                                     @endif
+
                                  </ul>
                              </li>
                          </ul>
                      </div>
-                     <!-- mini-cart -->
-                     <div class="mini-cart-icon">
-                         <a href="#ltn__utilize-cart-menu" class="ltn__utilize-toggle">
-                             <i class="icon-shopping-cart"></i>
-                             <sup>2</sup>
-                         </a>
-                     </div>
-                     <!-- mini-cart -->
+                      <!-- mini-cart -->
+                    <div class="mini-cart-icon">
+                        <a href="#ltn_utilize-cart-menu" class="ltn_utilize-toggle">
+                            <i class="icon-shopping-cart"></i>
+                            <sup id="cart_count">
+                                @auth
+                                    {{ \App\Models\CartItem::where('user_id', auth()->id())->count() }}
+                                @else
+                                    {{ session('cart') ? count(session('cart')) : 0 }}
+                                @endauth
+                            </sup>
+
+                        </a>
+                    </div>
+                    <!-- /mini-cart -->
+
                      <!-- Mobile Menu Button -->
                      <div class="mobile-menu-toggle d-xl-none">
                          <a href="#ltn__utilize-mobile-menu" class="ltn__utilize-toggle">
@@ -132,8 +99,8 @@
                                  <path d="M300,320 L540,320" id="middle"></path>
                                  <path
                                      d="M300,210 C300,210 520,210 540,210 C740,210 640,530 520,410 C440,330 300,190 300,190"
-                                     id="bottom"
-                                     transform="translate(480, 320) scale(1, -1) translate(-480, -318) "></path>
+                                     id="bottom" transform="translate(480, 320) scale(1, -1) translate(-480, -318) ">
+                                 </path>
                              </svg>
                          </a>
                      </div>
@@ -148,66 +115,10 @@
  <!-- Utilize Cart Menu Start -->
  <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
      <div class="ltn__utilize-menu-inner ltn__scrollbar">
-         <div class="ltn__utilize-menu-head">
-             <span class="ltn__utilize-menu-title">Cart</span>
-             <button class="ltn__utilize-close">×</button>
-         </div>
-         <div class="mini-cart-product-area ltn__scrollbar">
-             <div class="mini-cart-item clearfix">
-                 <div class="mini-cart-img">
-                     <a href="#"><img src="img/product/1.png" alt="Image"></a>
-                     <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
-                 </div>
-                 <div class="mini-cart-info">
-                     <h6><a href="#">Red Hot Tomato</a></h6>
-                     <span class="mini-cart-quantity">1 x $65.00</span>
-                 </div>
-             </div>
-             <div class="mini-cart-item clearfix">
-                 <div class="mini-cart-img">
-                     <a href="#"><img src="img/product/2.png" alt="Image"></a>
-                     <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
-                 </div>
-                 <div class="mini-cart-info">
-                     <h6><a href="#">Vegetables Juices</a></h6>
-                     <span class="mini-cart-quantity">1 x $85.00</span>
-                 </div>
-             </div>
-             <div class="mini-cart-item clearfix">
-                 <div class="mini-cart-img">
-                     <a href="#"><img src="img/product/3.png" alt="Image"></a>
-                     <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
-                 </div>
-                 <div class="mini-cart-info">
-                     <h6><a href="#">Orange Sliced Mix</a></h6>
-                     <span class="mini-cart-quantity">1 x $92.00</span>
-                 </div>
-             </div>
-             <div class="mini-cart-item clearfix">
-                 <div class="mini-cart-img">
-                     <a href="#"><img src="img/product/4.png" alt="Image"></a>
-                     <span class="mini-cart-item-delete"><i class="icon-cancel"></i></span>
-                 </div>
-                 <div class="mini-cart-info">
-                     <h6><a href="#">Orange Fresh Juice</a></h6>
-                     <span class="mini-cart-quantity">1 x $68.00</span>
-                 </div>
-             </div>
-         </div>
-         <div class="mini-cart-footer">
-             <div class="mini-cart-sub-total">
-                 <h5>Subtotal: <span>$310.00</span></h5>
-             </div>
-             <div class="btn-wrapper">
-                 <a href="cart.html" class="theme-btn-1 btn btn-effect-1">View Cart</a>
-                 <a href="cart.html" class="theme-btn-2 btn btn-effect-2">Checkout</a>
-             </div>
-             <p>Free Shipping on All Orders Over $100!</p>
-         </div>
-
+            @include('clients.components.include.mini-cart')
      </div>
  </div>
  <!-- Utilize Cart Menu End -->
 
-  @include('clients.partials.utlize_mobile')
-<div class="ltn__utilize-overlay"></div>
+ @include('clients.partials.utlize_mobile')
+ <div class="ltn__utilize-overlay"></div>

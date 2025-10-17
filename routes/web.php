@@ -76,3 +76,14 @@ Route::get('/product/{slug}', [ProductController::class, 'detail'])->name('produ
 
 // Add Cart Item
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+
+// ****** Handle Mini Cart ******
+// Load Mini Cart
+Route::get('/mini-cart', [CartController::class, 'loadMiniCart'])->name('cart.mini');
+
+// Delete Cart Item
+Route::post('/cart/remove', [CartController::class, 'removeFromMiniCart'])->name('cart.remove');
+
+//Handle Page Cart
+Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.index');
+Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');

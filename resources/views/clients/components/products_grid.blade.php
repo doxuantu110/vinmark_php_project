@@ -21,8 +21,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" title="Thêm vào giỏ hàng" data-bs-toggle="modal"
-                                        data-bs-target="#add_to_cart_modal-{{ $product->id }}">
+                                    <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="add-to-cart-btn" data-id="{{ $product->id }}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
                                 </li>
@@ -43,7 +42,7 @@
                         <h2 class="product-title"><a
                                 href="{{ route('product.detail', $product->slug) }}">{{ $product->name }}</a></h2>
                         <div class="product-price">
-                            <span>{{ number_format($product->price, 0, ',', '.') }}VNĐ</span>
+                            <span>{{ number_format($product->price, 0, ',', '.') }} đ</span>
                             <del>$162.00</del>
                         </div>
                     </div>

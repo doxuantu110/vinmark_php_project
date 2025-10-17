@@ -43,8 +43,11 @@
                                              <ul>
                                                  <li>
                                                      <div class="cart-plus-minus">
-                                                         <input type="text" value="02" name="qtybutton"
-                                                             class="cart-plus-minus-box">
+                                                         <div class="dec qtybutton">-</div>
+                                                         <input type="text" value="1" name="qtybutton"
+                                                             class="cart-plus-minus-box" readonly
+                                                             data-max="{{ $product->stock }}">
+                                                         <div class="inc qtybutton">+</div>
                                                      </div>
                                                  </li>
                                                  <li>

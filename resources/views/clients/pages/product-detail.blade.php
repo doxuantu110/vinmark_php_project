@@ -216,6 +216,7 @@
             </div>
         </div>
     </div>
+    @include('clients.components.include.include-modal')
     <!-- SHOP DETAILS AREA END -->
 
     <!-- PRODUCT SLIDER AREA START -->
