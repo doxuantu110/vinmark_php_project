@@ -661,4 +661,41 @@ $(document).ready(function () {
             }
         });
     });
+
+
+    // **********************************************
+    // Checkout Page
+    // **********************************************
+
+    $('#list_address').change(function () {
+        let addressId = $(this).val();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/checkout/get-address',
+            type: 'GET',
+            data: {
+                address_id: addressId
+            },
+            success: function (response) {
+                if (response.success) {
+                    $('input[name="ltn__name"]').val(response.data.full_name);
+                    $('input[name="ltn__lastname"]').val(response.data.phone);
+                    $('input[name="ltn__address"]').val(response.data.address);
+                    $('input[name="ltn__city"]').val(response.data.city);
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function () {
+                toastr.error('Lỗi kết nối đến máy chủ!');
+            }
+        });
+    });
+
 });
