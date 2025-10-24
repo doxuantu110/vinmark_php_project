@@ -669,7 +669,6 @@ $(document).ready(function () {
 
     $('#list_address').change(function () {
         let addressId = $(this).val();
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

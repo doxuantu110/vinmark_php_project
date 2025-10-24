@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('payment_method', ['paypal', 'cash']);
             $table->string('transaction_id')->nullable();
             $table->decimal('amount', 10, 2);
-            $table->dateTime('payment_date');
+            $table->dateTime('paid_at')->nullable();
             $table->enum('status', ['pending','completed', 'failed'])->default('pending');
             $table->timestamps();
         });

@@ -11,20 +11,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-@section('title', 'Trang chủ')
+    @section('title', 'Trang chủ')
 
     <!-- favicon -->
-    <link rel="shortcut icon" href="{{ asset ('assets/clients/img/favicon.png')}}" type="image/x-icon" />
+    <link rel="shortcut icon" href="{{ asset('assets/clients/img/favicon.png') }}" type="image/x-icon" />
     <!-- Font Icons css -->
-    <link rel="stylesheet" href="{{ asset ('assets/clients/css/font-icons.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/font-icons.css') }}">
     <!-- plugins css -->
-    <link rel="stylesheet" href="{{ asset ('assets/clients/css/plugins.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/plugins.css') }}">
     <!-- Main Stylesheet -->
-    <link rel="stylesheet" href="{{ asset ('assets/clients/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/style.css') }}">
     <!-- Responsive css -->
-    <link rel="stylesheet" href="{{ asset ('assets/clients/css/responsive.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/responsive.css') }}">
     <style>
-        #flasher-container, .flashes, .toast { z-index: 999999 !important; }
+        #flasher-container,
+        .flashes,
+        .toast {
+            z-index: 999999 !important;
+        }
     </style>
 
     <!-- Toastr CSS (CDN) -->
@@ -56,37 +60,52 @@
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery Easing Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
     <!-- Toastr JS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Flasher core JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@flasher/flasher/dist/flasher.min.js"></script>
 
+    <script>
+    // Fix lỗi jQuery.easing.def không tồn tại
+    if (typeof jQuery.easing === 'undefined') {
+        jQuery.easing = {};
+    }
+    if (typeof jQuery.easing.def === 'undefined') {
+        jQuery.easing.def = 'swing';
+        jQuery.easing.swing = function (x, t, b, c, d) {
+            return c * (t / d) + b;
+        };
+    }
+    </script>
+    </script>
     <!-- All JS Plugins -->
-    <script src="{{ asset ('assets/clients/js/plugins.js')}}"></script>
+    <script src="{{ asset('assets/clients/js/plugins.js') }}"></script>
     <!-- Main JS -->
-    <script src="{{ asset ('assets/clients/js/main.js')}}"></script>
+    <script src="{{ asset('assets/clients/js/main.js') }}"></script>
     <!-- Custom JS -->
     <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
- <script>
+    <script>
         $(document).ready(function() {
-            @if(session('success'))
-                if(typeof toastr !== 'undefined') {
+            @if (session('success'))
+                if (typeof toastr !== 'undefined') {
                     toastr.success("{{ session('success') }}");
                 }
             @endif
-            @if(session('error'))
-                if(typeof toastr !== 'undefined') {
+            @if (session('error'))
+                if (typeof toastr !== 'undefined') {
                     toastr.error("{{ session('error') }}");
                 }
             @endif
-            @if(session('warning'))
-                if(typeof toastr !== 'undefined') {
+            @if (session('warning'))
+                if (typeof toastr !== 'undefined') {
                     toastr.warning("{{ session('warning') }}");
                 }
             @endif
-            @if(session('info'))
-                if(typeof toastr !== 'undefined') {
+            @if (session('info'))
+                if (typeof toastr !== 'undefined') {
                     toastr.info("{{ session('info') }}");
                 }
             @endif
@@ -94,4 +113,5 @@
     </script>
 
 </body>
+
 </html>

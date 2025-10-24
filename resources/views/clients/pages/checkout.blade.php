@@ -18,7 +18,7 @@
                                 <div>
                                     <select name="address_id" id="list_address" class="input-item">
                                         @foreach ($addresses as $address)
-                                            <option value="{{ $address->id }}" {{ $address->default ? 'selected' : '' }} >
+                                            <option value="{{ $address->id }}" {{ $address->default ? 'selected' : '' }}>
                                                 {{ $address->full_name }} - {{ $address->address }}
                                             </option>
                                         @endforeach
@@ -35,12 +35,14 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="input-item input-item-name ltn__custom-icon">
-                                                <input type="text" name="ltn__name" placeholder="Họ và tên" value="{{ $defaultAddress->full_name }}" readonly>
+                                                <input type="text" name="ltn__name" placeholder="Họ và tên"
+                                                    value="{{ $defaultAddress->full_name }}" readonly>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-item input-item-name ltn__custom-icon">
-                                                <input type="text" name="ltn__lastname" placeholder="Số điện thoại" value="{{ $defaultAddress->phone }}" readonly>
+                                                <input type="text" name="ltn__lastname" placeholder="Số điện thoại"
+                                                    value="{{ $defaultAddress->phone }}" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -50,12 +52,15 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="input-item">
-                                                        <input type="text" name="ltn__address" placeholder="Số nhà và tên đường" value="{{ $defaultAddress->address }}" readonly>
+                                                        <input type="text" name="ltn__address"
+                                                            placeholder="Số nhà và tên đường"
+                                                            value="{{ $defaultAddress->address }}" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="input-item">
-                                                        <input type="text" name="ltn__city" placeholder="Thành phố" value="{{ $defaultAddress->city }}" readonly>
+                                                        <input type="text" name="ltn__city" placeholder="Thành phố"
+                                                            value="{{ $defaultAddress->city }}" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,36 +79,43 @@
                 <div class="col-lg-6">
                     <div class="ltn__checkout-payment-method mt-50">
                         <h4 class="title-2">Phương thức thanh toán</h4>
-                        <div id="checkout_accordion_1">
-                            {{-- COD --}}
-                            <div class="card">
-                                <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
-                                    data-bs-target="#faq-item-2-4" aria-expanded="false">
-                                    <input type="radio" name ="payment_method" value="cash" id="payment_cod" checked>
-                                    <label for="payment_cod">
-                                        Thanh toán khi nhận hàng (COD)
-                                        <img src="{{ asset('assets/clients/img/icons/cash.png') }}" alt="#">
-                                    </label>
-                                </h5>
+                        <form action="{{ route('checkout.placeOrder') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="address_id" value="{{ $defaultAddress->id }}">
+                            <div id="checkout_payment">
+                                {{-- COD --}}
+                                <div class="card">
+                                    <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-item-2-4" aria-expanded="false">
+                                        <input type="radio" name ="payment_method" value="cash" id="payment_cod"
+                                            checked>
+                                        <label for="payment_cod">
+                                            Thanh toán khi nhận hàng (COD)
+                                            <img src="{{ asset('assets/clients/img/icons/cash.png') }}" alt="#">
+                                        </label>
+                                    </h5>
+                                </div>
+                                {{-- /COD  --}}
+                                {{-- Paypal --}}
+                                <div class="card">
+                                    <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-item-2-4" aria-expanded="false">
+                                        <input type="radio" name ="payment_method" value="paypal" id="payment_paypal">
+                                        PayPal <img src="{{ asset('assets/clients/img/icons/payment-3.png') }}"
+                                            alt="#">
+                                    </h5>
+                                </div>
+                                {{-- /Paypal  --}}
                             </div>
-                            {{-- /COD  --}}
-                            {{-- Paypal --}}
-                            <div class="card">
-                                <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
-                                    data-bs-target="#faq-item-2-4" aria-expanded="false">
-                                    <input type="radio" name ="payment_method" value="paypal" id="payment_paypal" checked>
-                                    PayPal <img src="{{ asset('assets/clients/img/icons/payment-3.png') }}" alt="#">
-                                </h5>
+                            <div class="ltn__payment-note mt-30 mb-30">
+                                <p>Thông tin cá nhân của bạn sẽ được sử dụng để xử lý đơn hàng, hỗ trợ trải nghiệm trên
+                                    website
+                                    và cho các mục đích khác được mô tả trong chính sách bảo mật.</p>
                             </div>
-                            {{-- /Paypal  --}}
-                        </div>
-                        <div class="ltn__payment-note mt-30 mb-30">
-                            <p>Thông tin cá nhân của bạn sẽ được sử dụng để xử lý đơn hàng, hỗ trợ trải nghiệm trên website
-                                và cho các mục đích khác được mô tả trong chính sách bảo mật.</p>
-                        </div>
-                        <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">
-                            Đặt hàng
-                        </button>
+                            <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">
+                                Đặt hàng
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -112,20 +124,23 @@
                         <h4 class="title-2">Tổng đơn hàng</h4>
                         <table class="table">
                             <tbody>
-                                
-                                    @foreach ($cartItems as $item)
+
+                                @foreach ($cartItems as $item)
                                     <tr>
                                         <td>{{ $item->product->name }} <strong>× {{ $item->quantity }}</strong></td>
-                                        <td>{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }} ₫</td>
-                                    @endforeach
-                                    </tr>
+                                        <td>{{ number_format($item->product->price * $item->quantity, 0, ',', '.') }} ₫
+                                        </td>
+                                @endforeach
+                                </tr>
                                 <tr>
                                     <td>Phí vận chuyển</td>
-                                    <td>{{ number_format( 25000, 0, ',', '.') }} đ</td>
+                                    <td>{{ number_format(25000, 0, ',', '.') }} đ</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Tổng thanh toán</strong></td>
-                                    <td><strong class="totalPrice_Checkout">{{ number_format($totalPrice + 25000, 0, ',', '.') }} đ</strong></td>
+                                    <td><strong
+                                            class="totalPrice_Checkout">{{ number_format($totalPrice + 25000, 0, ',', '.') }}
+                                            đ</strong></td>
                                 </tr>
                             </tbody>
                         </table>
