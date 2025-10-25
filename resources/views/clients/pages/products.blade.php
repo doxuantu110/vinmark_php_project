@@ -28,11 +28,6 @@
                                     </select>
                                 </div>
                             </li>
-                            <li>
-                                <div class="showing-product-number text-right text-end">
-                                    <span>Showing 9 of 20 results</span>
-                                </div>
-                            </li>
                         </ul>
                     </div>
                     <div class="tab-content">

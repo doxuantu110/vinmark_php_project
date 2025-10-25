@@ -697,4 +697,64 @@ $(document).ready(function () {
         });
     });
 
+    // Handle Paypal Button
+    function togglePaypal() {
+        if ($('#payment_paypal').is(':checked')) {
+            $('#paypal-button-container').show();
+            $('#place-order-button').hide();
+        } else {
+            $('#paypal-button-container').hide();
+            $('#place-order-button').show();
+        }
+    }
+    togglePaypal();
+    $('input[name="payment_method"]').on('change', togglePaypal);
+
+    var totalPriceText = $('.totalPrice_Checkout').text().replace(/[₫,.đ]/g, '').trim();
+    var totalPrice = parseFloat(totalPriceText) / 24000; // chuyển sang USD
+
+    paypal.Buttons({
+        createOrder: function (data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: totalPrice.toFixed(2)
+                    }
+                }]
+            });
+        },
+        onApprove: function (data, actions) {
+            return actions.order.capture().then(function (details) {
+                fetch('/checkout/paypal', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        body: JSON.stringify({
+                            orderID: data.orderID,
+                            payerID: data.payerID,
+                            transactionID: details.id,
+                            amount: details.purchase_units[0].amount.value,
+                            address_id: $('#list_address').val(),
+                            payment_method: 'paypal'
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            toastr.success('Thanh toán PayPal thành công!');
+                            window.location.href = '/account';
+                        } else {
+                            toastr.error(data.message || 'Đã xảy ra lỗi khi xử lý thanh toán PayPal.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        toastr.error('Đã xảy ra lỗi khi kết nối đến máy chủ.');
+                    });
+            });
+        }
+    }).render('#paypal-button-container');
+
 });

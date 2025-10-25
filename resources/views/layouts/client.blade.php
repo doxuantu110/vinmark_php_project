@@ -69,6 +69,7 @@
     <!-- jQuery Easing Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
 
+
     <!-- ⚡ Patch Fix: đảm bảo easing tồn tại trước khi các plugin khác dùng -->
     <script>
         if (typeof jQuery.easing === 'undefined' || typeof jQuery.easing.def === 'undefined') {
@@ -92,7 +93,8 @@
 
     <!-- JavaScript custom -->
     <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
-
+    <!-- PAYPAL SDK -->
+        <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}" data-sdk-integration-source="buttons"></script>
     <!-- Manual Toastr Script for Session Messages -->
     <script>
         $(document).ready(function() {

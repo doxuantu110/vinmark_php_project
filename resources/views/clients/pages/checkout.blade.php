@@ -96,6 +96,17 @@
                                     </h5>
                                 </div>
                                 {{-- /COD  --}}
+                                {{-- MoMo --}}
+                                <div class="card">
+                                    <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
+                                        data-bs-target="#faq-item-2-5" aria-expanded="false">
+                                        <input type="radio" name="payment_method" value="momo" id="payment_momo">
+                                        MoMo
+                                        <img src="{{ asset('assets/clients/img/icons/payment-momo.png') }}" alt="MoMo"
+                                            style="width: 40px; margin-left: 10px;">
+                                    </h5>
+                                </div>
+                                {{-- /MoMo --}}
                                 {{-- Paypal --}}
                                 <div class="card">
                                     <h5 class="collapsed ltn__card-title" data-bs-toggle="collapse"
@@ -112,9 +123,10 @@
                                     website
                                     và cho các mục đích khác được mô tả trong chính sách bảo mật.</p>
                             </div>
-                            <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">
+                            <button class="btn theme-btn-1 btn-effect-1 text-uppercase" id="place-order-button" type="submit">
                                 Đặt hàng
                             </button>
+                            <div id="paypal-button-container"></div>
                         </form>
                     </div>
                 </div>

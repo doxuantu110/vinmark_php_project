@@ -105,4 +105,65 @@ class CheckoutController extends Controller
             return redirect()->route('checkout');
         }
     }
+
+    public function placeOrderPaypal(Request $request)
+    {
+        $request->validate([
+            'orderID' => 'required',
+            'payerID' => 'required',
+            'transactionID' => 'required',
+            'amount' => 'required|numeric',
+            'address_id' => 'required|exists:shipping_addresses,id',
+            'payment_method' => 'required|string'
+        ]);
+
+        $user = Auth::user();
+        $cartItems = CartItem::where('user_id', $user->id)->with('product')->get();
+
+        if ($cartItems->isEmpty()) {
+            return response()->json(['success' => false, 'message' => 'Giỏ hàng trống.']);
+        }
+
+        DB::beginTransaction();
+        try {
+            // Tính tổng giá sản phẩm trong giỏ
+            $subtotalUSD = $request->amount;
+            $totalPriceVND = $subtotalUSD * 25000 + 25000; // nhân tỷ giá & cộng phí ship
+
+            // Tạo đơn hàng
+            $order = Order::create([
+                'user_id' => $user->id,
+                'shipping_address_id' => $request->address_id,
+                'total_price' => $totalPriceVND,
+                'status' => 'paid',
+            ]);
+
+            foreach ($cartItems as $item) {
+                OrderItem::create([
+                    'order_id' => $order->id,
+                    'product_id' => $item->product->id,
+                    'quantity' => $item->quantity,
+                    'price' => $item->product->price,
+                ]);
+            }
+
+            Payment::create([
+                'order_id' => $order->id,
+                'amount' => $totalPriceVND,
+                'payment_method' => 'paypal',
+                'status' => 'completed',
+                'paid_at' => now(),
+                'transaction_id' => $request->transactionID,
+            ]);
+
+            CartItem::where('user_id', $user->id)->delete();
+
+            DB::commit();
+            return response()->json(['success' => true]);
+        } catch (\Exception $e) {
+            Log::error("Lỗi PayPal: " . $e->getMessage());
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Đặt hàng qua PayPal thất bại.']);
+        }
+    }
 }
