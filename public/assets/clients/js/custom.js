@@ -757,4 +757,42 @@ $(document).ready(function () {
         }
     }).render('#paypal-button-container');
 
+    // Handle MoMo payment
+    $('#checkout-form').on('submit', function (e) {
+        const paymentMethod = $('input[name="payment_method"]:checked').val();
+
+        if (paymentMethod === 'momo') {
+            e.preventDefault(); // Chặn submit mặc định
+
+            const addressId = $('#list_address').val();
+            const totalPriceText = $('.totalPrice_Checkout').text().replace(/[₫,.đ]/g, '').trim();
+            const totalPrice = parseInt(totalPriceText);
+
+            fetch('/checkout/momo', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    body: JSON.stringify({
+                        amount: totalPrice,
+                        address_id: addressId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.payUrl) {
+                        window.location.href = data.payUrl; // Chuyển hướng đến MoMo
+                    } else {
+                        toastr.error(data.message || 'Không thể khởi tạo thanh toán MoMo.');
+                    }
+                })
+                .catch(error => {
+                    console.error('MoMo Error:', error);
+                    toastr.error('Không thể kết nối đến máy chủ.');
+                });
+        }
+    });
+
+
 });

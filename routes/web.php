@@ -68,8 +68,17 @@ Route::middleware(['auth.custom'])->group(function () {
     });
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
     Route::get('/checkout/get-address', [CheckoutController::class, 'getAddress'])->name('checkout.getAddress');
+
+    // Place Order Route
     Route::post('/checkout', [CheckoutController::class, 'placeOrder'])->name('checkout.placeOrder');
+
+    // Paypal route
     Route::post('/checkout/paypal', [CheckoutController::class, 'placeOrderPaypal'])->name('checkout.placeOrderPaypal');
+
+    // MoMo routes
+    Route::post('/checkout/momo', [CheckoutController::class, 'placeOrderMoMo'])->name('checkout.placeOrderMoMo');
+    Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momoReturn');
+    Route::post('/checkout/momo/notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momoNotify');
 });
 
 // Product

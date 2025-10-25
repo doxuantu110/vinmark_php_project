@@ -79,7 +79,7 @@
                 <div class="col-lg-6">
                     <div class="ltn__checkout-payment-method mt-50">
                         <h4 class="title-2">Phương thức thanh toán</h4>
-                        <form action="{{ route('checkout.placeOrder') }}" method="POST">
+                        <form id="checkout-form" action="{{ route('checkout.placeOrder') }}" method="POST">
                             @csrf
                             <input type="hidden" name="address_id" value="{{ $defaultAddress->id }}">
                             <div id="checkout_payment">
@@ -123,7 +123,8 @@
                                     website
                                     và cho các mục đích khác được mô tả trong chính sách bảo mật.</p>
                             </div>
-                            <button class="btn theme-btn-1 btn-effect-1 text-uppercase" id="place-order-button" type="submit">
+                            <button class="btn theme-btn-1 btn-effect-1 text-uppercase" id="place-order-button"
+                                type="submit">
                                 Đặt hàng
                             </button>
                             <div id="paypal-button-container"></div>
