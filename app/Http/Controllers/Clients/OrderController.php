@@ -14,4 +14,20 @@ class OrderController extends Controller
 
         return view('clients.pages.order_detail', compact('order'));
     }
+
+    public function cancelOrder($id){
+        $order = Order::where('id', $id)
+        ->where('user_id', auth()->id())
+        ->where('status', 'pending')
+        ->firstOrFail();
+        
+        // restock products
+        foreach ($order->orderItems as $item) {
+            $item->product->increment('stock', $item->quantity);
+        }
+
+        // update order status
+        $order->update(['status' => 'canceled']);
+        return redirect()->back()->with('success', 'Đơn hàng đã được hủy thành công.');
+    }
 }

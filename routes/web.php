@@ -83,6 +83,8 @@ Route::middleware(['auth.custom'])->group(function () {
 
     // Order
     Route::get('/order/{id}', [OrderController::class, 'showOrder'])->name('order.show');
+    // Cancel Order
+    Route::post('/order/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
 });
 
 // Product

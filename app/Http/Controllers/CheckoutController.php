@@ -83,6 +83,12 @@ class CheckoutController extends Controller
                     'quantity' => $item->quantity,
                     'price' => $item->product->price,
                 ]);
+                $product = $item->product;
+                // decrease product stock
+                if ($product->stock < $item->quantity) {
+                    throw new \Exception("Sản phẩm {$product->name} không đủ số lượng trong kho.");
+                }
+                $product->decrement('stock', $item->quantity);
             }
 
             // create payment
@@ -139,7 +145,7 @@ class CheckoutController extends Controller
                 'total_price' => $totalPriceVND,
                 'status' => 'pending',
             ]);
-
+            
             foreach ($cartItems as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
@@ -147,6 +153,13 @@ class CheckoutController extends Controller
                     'quantity' => $item->quantity,
                     'price' => $item->product->price,
                 ]);
+
+                $product = $item->product;
+                // decrease product stock
+                if ($product->stock < $item->quantity) {
+                    throw new \Exception("Sản phẩm {$product->name} không đủ số lượng trong kho.");
+                }
+                $product->decrement('stock', $item->quantity);
             }
 
             Payment::create([
