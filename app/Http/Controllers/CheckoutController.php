@@ -137,7 +137,7 @@ class CheckoutController extends Controller
                 'user_id' => $user->id,
                 'shipping_address_id' => $request->address_id,
                 'total_price' => $totalPriceVND,
-                'status' => 'paid',
+                'status' => 'pending',
             ]);
 
             foreach ($cartItems as $item) {
@@ -191,7 +191,7 @@ class CheckoutController extends Controller
 
         $requestId = time() . "";
         $requestType = "payWithATM";
-
+        
         // Chuẩn bị dữ liệu ký
         $rawHash = "accessKey=" . $accessKey .
             "&amount=" . $amount .
@@ -259,7 +259,7 @@ class CheckoutController extends Controller
                 'shipping_address_id' => session('address_id'),
                 'total_price' => session('total_price'),
                 'payment_method' => 'momo',
-                'status' => 'completed',
+                'status' => 'pending',
             ]);
 
             // 2️⃣ Lưu Payment

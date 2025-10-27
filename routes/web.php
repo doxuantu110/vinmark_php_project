@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Clients\AuthController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\ProductController;
+use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\CartController;
 use \App\Http\Controllers\CheckoutController;
 
@@ -79,6 +80,9 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::post('/checkout/momo', [CheckoutController::class, 'placeOrderMoMo'])->name('checkout.placeOrderMoMo');
     Route::get('/checkout/momo/return', [CheckoutController::class, 'momoReturn'])->name('checkout.momoReturn');
     Route::post('/checkout/momo/notify', [CheckoutController::class, 'momoNotify'])->name('checkout.momoNotify');
+
+    // Order
+    Route::get('/order/{id}', [OrderController::class, 'showOrder'])->name('order.show');
 });
 
 // Product

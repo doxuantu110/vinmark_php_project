@@ -61,27 +61,25 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>22 Tháng 6, 2019</td>
-                                                            <td>Đang chờ xử lý</td>
-                                                            <td>$3000</td>
-                                                            <td><a href="cart.html">Xem</a></td>
+                                                        @foreach ($orders as $order)
+                                                            <tr>
+                                                            <td>#{{ $order->id }}</td>
+                                                            <td>{{ $order->created_at->format('d/m/y') }}</td>
+                                                            <td>
+                                                                @if ($order->status == 'pending')
+                                                                    <span class="badge bg-warning">Chờ xử lý</span>
+                                                                @elseif($order->status == 'processing')
+                                                                    <span class="badge bg-info">Đang xử lý</span>
+                                                                @elseif($order->status == 'completed')
+                                                                    <span class="badge bg-success">Hoàn thành</span>
+                                                                @elseif($order->status == 'cancelled')
+                                                                    <span class="badge bg-danger">Đã hủy</span>
+                                                                @endif
+                                                            </td>
+                                                            <td>{{ number_format($order->total_price, 0, ',', '.') }} đ</td>
+                                                            <td><a href="{{ route('order.show', $order->id) }}" class="btn btn-sm btn-info">Xem chi tiết</a></td>
                                                         </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>22 Tháng 11, 2019</td>
-                                                            <td>Đã duyệt</td>
-                                                            <td>$200</td>
-                                                            <td><a href="cart.html">Xem</a></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>12 Tháng 1, 2020</td>
-                                                            <td>Tạm giữ</td>
-                                                            <td>$990</td>
-                                                            <td><a href="cart.html">Xem</a></td>
-                                                        </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
                                             </div>
