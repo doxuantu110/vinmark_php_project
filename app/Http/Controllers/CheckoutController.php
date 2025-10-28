@@ -221,8 +221,8 @@ class CheckoutController extends Controller
 
         $data = [
             'partnerCode' => $partnerCode,
-            'partnerName' => "MoMo Test",
-            'storeId' => "MomoTestStore",
+            'partnerName' => "Vinmark",
+            'storeId' => "VinmarkStore",
             'requestId' => $requestId,
             'amount' => $amount,
             'orderId' => $orderId,
@@ -280,6 +280,7 @@ class CheckoutController extends Controller
                 'order_id' => $order->id,
                 'payment_method' => 'momo',
                 'amount' => $order->total_price,
+                'paid_at' => now(),
                 'status' => 'completed',
                 'transaction_id' => $request->transId ?? null,
             ]);

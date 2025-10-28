@@ -43,7 +43,7 @@
         <h5>Tổng tiền: <span>{{ number_format($subtotal ?? 0, 0, ',', '.') }} đ</span></h5>
     </div>
     <div class="btn-wrapper">
-        <a href="{{route('cart.index')}}" class="theme-btn-1 btn btn-effect-1">Xem giỏ hàng</a>
+        <a href="{{route(('cart.index'))}}" class="theme-btn-1 btn btn-effect-1">Xem giỏ hàng</a>
         <a href="{{route('checkout')}}" class="theme-btn-2 btn btn-effect-2">Thanh toán</a>
     </div>
 </div>

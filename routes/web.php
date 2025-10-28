@@ -6,6 +6,7 @@ use App\Http\Controllers\Clients\AuthController;
 use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\Clients\OrderController;
+use App\Http\Controllers\Clients\ReviewController;
 use App\Http\Controllers\CartController;
 use \App\Http\Controllers\CheckoutController;
 
@@ -85,6 +86,10 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::get('/order/{id}', [OrderController::class, 'showOrder'])->name('order.show');
     // Cancel Order
     Route::post('/order/{id}/cancel', [OrderController::class, 'cancelOrder'])->name('order.cancel');
+
+    // Review Product
+    Route::post('/review', [ReviewController::class, 'createReview']);
+    Route::get('/review/{product}', [ReviewController::class, 'index']);
 });
 
 // Product

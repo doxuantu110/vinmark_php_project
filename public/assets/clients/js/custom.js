@@ -794,5 +794,103 @@ $(document).ready(function () {
         }
     });
 
+    /**********************************************
+     * HANDLE RATING PRODUCT
+     **********************************************/
 
+    if (window.location.pathname.startsWith('/product/')) {
+        let selectedRating = 0;
+
+        // Handle hover on stars
+        $(".rating-star").hover(
+            function () {
+                let value = $(this).data("value");
+                highlightStars(value);
+            },
+            function () {
+                highlightStars(selectedRating);
+            }
+        );
+
+        // Handle click on stars
+        $(".rating-star").click(function (e) {
+            e.preventDefault();
+            selectedRating = $(this).data("value");
+            $("#rating-value").val(selectedRating);
+            highlightStars(selectedRating);
+        });
+
+        // Function to highlight stars
+        function highlightStars(value) {
+            $(".rating-star i").each(function () {
+                let starValue = $(this).parent().data("value");
+                if (starValue <= value) {
+                    $(this).removeClass("far").addClass("fas"); // Show filled star
+                } else {
+                    $(this).removeClass("fas").addClass("far"); // Show empty star
+                }
+            });
+        }
+
+        // Handle submit rating with AJAX
+
+        $("#review-form").submit(function (e) {
+            e.preventDefault();
+
+            let productId = $(this).data("product-id");
+            let rating = $("#rating-value").val();
+            let content = $("#review-content").val();
+
+            // Kiểm tra nếu chưa chọn số sao
+            if (rating == 0 || rating === "") {
+                $("#review-message").html(
+                    '<div class="alert alert-danger">Vui lòng chọn số sao!</div>'
+                );
+                return;
+            }
+
+            // Cấu hình token CSRF cho AJAX
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                },
+            });
+
+            // Gửi dữ liệu qua AJAX
+            $.ajax({
+                url: "/review",
+                type: "POST",
+                data: {
+                    product_id: productId,
+                    rating: rating,
+                    comment: content,
+                },
+                success: function (response) {
+                    $("#review-content").val("");
+                    highlightStars(0); // reset lại sao
+                    selectedRating = 0;
+                    $(".ltn__comment-reply-area").hide();
+                    toastr.success("Cảm ơn bạn đã đánh giá sản phẩm!");
+
+                    loadReviews(productId);
+                },
+                error: function (xhr) {
+                    toastr.error("Đã xảy ra lỗi khi gửi đánh giá. Vui lòng thử lại!");
+                },
+            });
+        });
+
+        function loadReviews(productId) {
+            $.ajax({
+                url: '/review/' + productId,
+                type: 'GET',
+                success: function (response) {
+                    $(".ltn__comment-inner").html(response);
+                },
+                error: function () {
+                    toastr.error('Không thể tải đánh giá sản phẩm!');
+                }
+            });
+        }
+    }
 });

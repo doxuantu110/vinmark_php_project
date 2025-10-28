@@ -79,7 +79,7 @@ class ProductController extends Controller
 
     public function detail($slug)
     {
-        $product = Product::with(['category', 'images'])->where('slug', $slug)->firstOrFail();
+        $product = Product::with(['category', 'images', 'reviews.user'])->where('slug', $slug)->firstOrFail();
 
         // Get products in the same category
         $relatedProducts = Product::where('category_id', $product->category->id)

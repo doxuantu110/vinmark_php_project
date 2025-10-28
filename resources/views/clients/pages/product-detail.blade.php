@@ -62,13 +62,13 @@
                                                 <div class="cart-plus-minus">
                                                     <div class="dec qtybutton">-</div>
                                                     <input type="text" value="1" name="qtybutton"
-                                                        class="cart-plus-minus-box" readonly 
-                                                        data-max="{{ $product->stock}}">
-                                                        <div class="inc qtybutton">+</div>
+                                                        class="cart-plus-minus-box" readonly
+                                                        data-max="{{ $product->stock }}">
+                                                    <div class="inc qtybutton">+</div>
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="#" class="theme-btn-1 btn btn-effect-1 add-to-cart-btn" 
+                                                <a href="#" class="theme-btn-1 btn btn-effect-1 add-to-cart-btn"
                                                     title="Thêm vào giỏ hàng" data-id="{{ $product->id }}">
                                                     <i class="fas fa-shopping-cart"></i>
                                                     <span>Thêm vào giỏ hàng</span>
@@ -124,7 +124,6 @@
                                 <div class="ltn__shop-details-tab-content-inner">
                                     <h4 class="title-2">Lorem ipsum dolor sit amet elit.</h4>
                                     <p>{{ $product->description }}</p>
-
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="liton_tab_details_1_2">
@@ -141,66 +140,34 @@
                                     <!-- comment-area -->
                                     <div class="ltn__comment-area mb-30">
                                         <div class="ltn__comment-inner">
-                                            <ul>
-                                                <li>
-                                                    <div class="ltn__comment-item clearfix">
-                                                        <div class="ltn__commenter-img">
-                                                            <img src="img/testimonial/1.jpg" alt="Image">
-                                                        </div>
-                                                        <div class="ltn__commenter-comment">
-                                                            <h6><a href="#">Adam Smit</a></h6>
-                                                            <div class="product-ratting">
-                                                                <ul>
-                                                                    <li><a href="#"><i class="fas fa-star"></i></a>
-                                                                    </li>
-
-                                                                </ul>
-                                                            </div>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing
-                                                                elit. Doloribus, omnis fugit corporis iste magnam
-                                                                ratione.</p>
-                                                            <span class="ltn__comment-reply-btn">September 3,
-                                                                2020</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                            </ul>
+                                            @include('clients.components.include.review-list', ['product' => $product])
                                         </div>
                                     </div>
                                     <!-- comment-reply -->
                                     <div class="ltn__comment-reply-area ltn__form-box mb-30">
-                                        <form action="#">
+                                        <form id="review-form" data-product-id="{{ $product->id }}">
                                             <h4 class="title-2">Thêm đánh giá</h4>
                                             <div class="mb-30">
                                                 <div class="add-a-review">
                                                     <h6>Số sao:</h6>
                                                     <div class="product-ratting">
                                                         <ul>
-                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                            <li><a href="#"><i class="fas fa-star-half-alt"></i></a>
-                                                            </li>
-                                                            <li><a href="#"><i class="far fa-star"></i></a></li>
+                                                            @for ($i = 1; $i <= 5; $i++)
+                                                                <li>
+                                                                    <a href="javascript:void(0)" class="rating-star"
+                                                                        data-value="{{ $i }}">
+                                                                        <i class="far fa-star"></i>
+                                                                    </a>
+                                                                </li>
+                                                            @endfor
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
+                                            <input type="hidden" name="rating" id="rating-value" value="0">
                                             <div class="input-item input-item-textarea ltn__custom-icon">
-                                                <textarea placeholder="Type your comments...."></textarea>
+                                                <textarea placeholder="Nhập đánh giá của bạn...." id="review-content"></textarea>
                                             </div>
-                                            <div class="input-item input-item-name ltn__custom-icon">
-                                                <input type="text" placeholder="Type your name....">
-                                            </div>
-                                            <div class="input-item input-item-email ltn__custom-icon">
-                                                <input type="email" placeholder="Type your email....">
-                                            </div>
-                                            <div class="input-item input-item-website ltn__custom-icon">
-                                                <input type="text" name="website" placeholder="Type your website....">
-                                            </div>
-                                            <label class="mb-0"><input type="checkbox" name="agree"> Save my name,
-                                                email, and website in this browser for the next time I
-                                                comment.</label>
                                             <div class="btn-wrapper">
                                                 <button class="btn theme-btn-1 btn-effect-1 text-uppercase"
                                                     type="submit">Submit</button>
