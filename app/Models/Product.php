@@ -10,6 +10,7 @@ class Product extends Model
 
     protected $fillable = ['name', 'slug', 'category_id', 'description', 'price', 'status', 'stock', 'unit'];
 
+    protected $append = ['image_url', 'average_rating'];
     public function category(){
         return $this->belongsTo(Category::class);
     }
@@ -28,5 +29,12 @@ class Product extends Model
 
     public function firstImage(){
         return $this->hasOne(ProductImage::class)->oldest('id');
+    }
+
+    public function getImageUrlAttribute(){
+        return $this->firstImage?->image ? asset('storage/' . $this->firstImage->image): asset('storage/uploads/products/default-product.png');
+    }
+    public function getAverageRatingAttribute(){
+        return $this->reviews()->avg('rating') ?? 0;
     }
 }

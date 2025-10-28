@@ -21,7 +21,8 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="add-to-cart-btn" data-id="{{ $product->id }}">
+                                    <a href="javascript:void(0)" title="Thêm vào giỏ hàng" class="add-to-cart-btn"
+                                        data-id="{{ $product->id }}">
                                         <i class="fas fa-shopping-cart"></i>
                                     </a>
                                 </li>
@@ -35,15 +36,14 @@
                     </div>
                     <div class="product-info">
                         <div class="product-ratting">
-                            <ul>
-                                <li><a href="#"><i class="fas fa-star"></i></a></li>
-                            </ul>
+                            @include('clients.components.include.rating', [
+                                'product' => $product,
+                            ])
                         </div>
                         <h2 class="product-title"><a
                                 href="{{ route('product.detail', $product->slug) }}">{{ $product->name }}</a></h2>
                         <div class="product-price">
                             <span>{{ number_format($product->price, 0, ',', '.') }} đ</span>
-                            <del>$162.00</del>
                         </div>
                     </div>
                 </div>

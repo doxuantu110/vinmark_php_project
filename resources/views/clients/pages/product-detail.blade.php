@@ -37,10 +37,9 @@
                             <div class="col-md-6">
                                 <div class="modal-product-info shop-details-info pl-0">
                                     <div class="product-ratting">
-                                        <ul>
-                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                            <li class="review-total"> <a href="#"> ( 95 Reviews )</a></li>
-                                        </ul>
+                                        @include('clients.components.include.rating', [
+                                            'product' => $product,
+                                        ])
                                     </div>
                                     <h3>{{ $product->name }}</h3>
                                     <div class="product-price">
@@ -131,9 +130,18 @@
                                     <h4 class="title-2">Đánh giá của khách hàng</h4>
                                     <div class="product-ratting">
                                         <ul>
-                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                            <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                            <li class="review-total"> <a href="#"> ( 95 Reviews )</a></li>
+                                            @for ($i = 1; $i <= 5; $i++)
+                                                @if ($i <= floor($averageRating))
+                                                    <li><a href="javascript:void(0)"><i class="fas fa-star"></i></a></li>
+                                                @elseif($i == ceil($averageRating) && $averageRating - floor($averageRating) >= 0.5)
+                                                    <li><a href="javascript:void(0)"><i
+                                                                class="fas fa-star-half-alt"></i></a></li>
+                                                @else
+                                                    <li><a href="javascript:void(0)"><i class="far fa-star"></i></a></li>
+                                                @endif
+                                            @endfor
+                                            <li class="review-total"> <a href="javascript:void(0)">
+                                                    {{ $product->reviews->count() }} Đánh giá</a></li>
                                         </ul>
                                     </div>
                                     <hr>
@@ -238,16 +246,15 @@
                             </div>
                             <div class="product-info">
                                 <div class="product-ratting">
-                                    <ul>
-                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                    </ul>
+                                    @include('clients.components.include.rating', [
+                                        'product' => $product,
+                                    ])
                                 </div>
                                 <h2 class="product-title"><a
                                         href="{{ route('product.detail', $product->slug) }}">{{ $product->name }}</a>
                                 </h2>
                                 <div class="product-price">
-                                    <span>{{ number_format($product->price, 0, ',', '.') }}VNĐ</span>
-                                    <del>$162.00</del>
+                                    <span>{{ number_format($product->price, 0, ',', '.') }} đ</span>
                                 </div>
                             </div>
                         </div>

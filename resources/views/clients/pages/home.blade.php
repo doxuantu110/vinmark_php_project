@@ -38,8 +38,8 @@
                                     </div>
                                 </div>
                                 <!-- <div class="slide-item-img">
-                                        <img src="img/slider/21.png" alt="#">
-                                    </div> -->
+                                                <img src="img/slider/21.png" alt="#">
+                                            </div> -->
                             </div>
                         </div>
                     </div>
@@ -70,8 +70,8 @@
                                     </div>
                                 </div>
                                 <!-- <div class="slide-item-img slide-img-left">
-                                        <img src="img/slider/22.png" alt="#">
-                                    </div> -->
+                                                <img src="img/slider/22.png" alt="#">
+                                            </div> -->
                             </div>
                         </div>
                     </div>
@@ -212,19 +212,12 @@
                                                     </div>
                                                     <div class="product-info">
                                                         <div class="product-ratting">
-                                                            <ul>
-                                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                                <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                                                <li><a href="#"><i
-                                                                            class="fas fa-star-half-alt"></i></a>
-                                                                </li>
-                                                                <li><a href="#"><i class="far fa-star"></i></a></li>
-                                                                <li class="review-total"> <a href="#"> (24)</a></li>
-                                                            </ul>
+                                                            @include('clients.components.include.rating', [
+                                                                'product' => $product,
+                                                            ])
                                                         </div>
                                                         <h2 class="product-title"><a
-                                                                href="product-details.html">{{ $product->name }}</a></h2>
+                                                                href="{{route ('product.detail', $product->slug)}}">{{ $product->name }}</a></h2>
                                                         <div class="product-price">
                                                             <span>{{ number_format($product->price, 0, '.', '.') }}VND</span>
                                                             <del>$46.00</del>
@@ -305,7 +298,7 @@
                     <div class="col-lg-3 col-md-4 col-sm-6 col-6">
                         <div class="ltn__product-item ltn__product-item-3 text-left">
                             <div class="product-img">
-                                <a href="product-details.html"><img src="img/product/1.png" alt="#"></a>
+                                <a href="{{route('product.detail', $product->slug)}}"><img src="img/product/1.png" alt="#"></a>
                                 <div class="product-hover-action">
                                     <ul>
                                         <li>
@@ -330,20 +323,13 @@
                             </div>
                             <div class="product-info">
                                 <div class="product-ratting">
-                                    <ul>
-                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                        <li><a href="#"><i class="fas fa-star"></i></a></li>
-                                        <li><a href="#"><i class="fas fa-star-half-alt"></i></a>
-                                        </li>
-                                        <li><a href="#"><i class="far fa-star"></i></a></li>
-                                        <li class="review-total"> <a href="#"> (24)</a></li>
-                                    </ul>
+                                    @include('clients.components.include.rating', [
+                                        'product' => $product,
+                                    ])
                                 </div>
-                                <h2 class="product-title"><a href="product-details.html">{{ $product->name }}</a></h2>
+                                <h2 class="product-title"><a href="{{ route('product.detail', $product->slug) }}">{{ $product->name }}</a></h2>
                                 <div class="product-price">
                                     <span>{{ number_format($product->price, 0, '.', '.') }}VND</span>
-                                    <del>$46.00</del>
                                 </div>
                             </div>
                         </div>

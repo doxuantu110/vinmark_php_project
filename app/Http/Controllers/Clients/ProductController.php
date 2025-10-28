@@ -18,12 +18,6 @@ class ProductController extends Controller
         $categories = Category::with('products')->get();
         $products = Product::with('firstImage')->where('status', 'in_stock')->paginate(9);
 
-        foreach ($products as $product) {
-            $product->image_url = $product->firstImage?->image
-                ? asset('storage/uploads/products/' . $product->firstImage->image)
-                : asset('storage/uploads/products/default-product.png');
-        }
-
         return view('clients.pages.products', compact('categories', 'products'));
     }
 
@@ -92,6 +86,8 @@ class ProductController extends Controller
         $hasPurchased = false;
         $hasReviewed = false;
 
+        // Caculate stars rating
+        $averageRating = round($product->reviews()->avg('rating') ?? 0, 1);
         if(Auth::check()){
             $user = Auth::user();
 
@@ -104,6 +100,6 @@ class ProductController extends Controller
                             ->where('product_id', $product->id)
                             ->exists();
         }
-        return view('clients.pages.product-detail', compact('product', 'relatedProducts', 'hasPurchased', 'hasReviewed'));
+        return view('clients.pages.product-detail', compact('product', 'relatedProducts', 'hasPurchased', 'hasReviewed', 'averageRating'));
     }
 }
