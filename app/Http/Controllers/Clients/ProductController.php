@@ -5,8 +5,11 @@ namespace App\Http\Controllers\Clients;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\OrderItem;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -86,6 +89,21 @@ class ProductController extends Controller
             ->where('id', '!=', $product->id)
             ->limit(6)
             ->get();
-        return view('clients.pages.product-detail', compact('product', 'relatedProducts'));
+        $hasPurchased = false;
+        $hasReviewed = false;
+
+        if(Auth::check()){
+            $user = Auth::user();
+
+            $hasPurchased = OrderItem::whereHas('order', function($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->where('status', 'completed');
+            })->where('product_id', $product->id)->exists();
+
+            $hasReviewed = Review::where('user_id', $user->id)
+                            ->where('product_id', $product->id)
+                            ->exists();
+        }
+        return view('clients.pages.product-detail', compact('product', 'relatedProducts', 'hasPurchased', 'hasReviewed'));
     }
 }

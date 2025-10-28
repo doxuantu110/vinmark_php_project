@@ -140,40 +140,44 @@
                                     <!-- comment-area -->
                                     <div class="ltn__comment-area mb-30">
                                         <div class="ltn__comment-inner">
-                                            @include('clients.components.include.review-list', ['product' => $product])
+                                            @include('clients.components.include.review-list', [
+                                                'product' => $product,
+                                            ])
                                         </div>
                                     </div>
                                     <!-- comment-reply -->
-                                    <div class="ltn__comment-reply-area ltn__form-box mb-30">
-                                        <form id="review-form" data-product-id="{{ $product->id }}">
-                                            <h4 class="title-2">Thêm đánh giá</h4>
-                                            <div class="mb-30">
-                                                <div class="add-a-review">
-                                                    <h6>Số sao:</h6>
-                                                    <div class="product-ratting">
-                                                        <ul>
-                                                            @for ($i = 1; $i <= 5; $i++)
-                                                                <li>
-                                                                    <a href="javascript:void(0)" class="rating-star"
-                                                                        data-value="{{ $i }}">
-                                                                        <i class="far fa-star"></i>
-                                                                    </a>
-                                                                </li>
-                                                            @endfor
-                                                        </ul>
+                                    @if (Auth::check() && $hasPurchased && !$hasReviewed)
+                                        <div class="ltn__comment-reply-area ltn__form-box mb-30">
+                                            <form id="review-form" data-product-id="{{ $product->id }}">
+                                                <h4 class="title-2">Thêm đánh giá</h4>
+                                                <div class="mb-30">
+                                                    <div class="add-a-review">
+                                                        <h6>Số sao:</h6>
+                                                        <div class="product-ratting">
+                                                            <ul>
+                                                                @for ($i = 1; $i <= 5; $i++)
+                                                                    <li>
+                                                                        <a href="javascript:void(0)" class="rating-star"
+                                                                            data-value="{{ $i }}">
+                                                                            <i class="far fa-star"></i>
+                                                                        </a>
+                                                                    </li>
+                                                                @endfor
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <input type="hidden" name="rating" id="rating-value" value="0">
-                                            <div class="input-item input-item-textarea ltn__custom-icon">
-                                                <textarea placeholder="Nhập đánh giá của bạn...." id="review-content"></textarea>
-                                            </div>
-                                            <div class="btn-wrapper">
-                                                <button class="btn theme-btn-1 btn-effect-1 text-uppercase"
-                                                    type="submit">Submit</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                                <input type="hidden" name="rating" id="rating-value" value="0">
+                                                <div class="input-item input-item-textarea ltn__custom-icon">
+                                                    <textarea placeholder="Nhập đánh giá của bạn...." id="review-content"></textarea>
+                                                </div>
+                                                <div class="btn-wrapper">
+                                                    <button class="btn theme-btn-1 btn-effect-1 text-uppercase"
+                                                        type="submit">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
