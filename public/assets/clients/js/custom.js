@@ -875,7 +875,6 @@ $(document).ready(function () {
     /**********************************************
      * HANDLE CONTACNT PAGE
      **********************************************/
-
     $(".contact-form").on("submit", function (e) {
         let name = $('input[name="name"]').val();
         let email = $('input[name="email"]').val();
@@ -902,4 +901,35 @@ $(document).ready(function () {
         }
     });
 
+     /**********************************************
+     * HANDLE WISHLIST PAGE
+     **********************************************/
+
+      $(document).on('click', '.add-to-wishlist', function (e) {
+        e.preventDefault();
+
+        let productId = $(this).data("id");
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: '/wishlist/add',
+            type: "POST",
+            data: {
+                product_id: productId
+            },
+            success: function (response) {
+                if(response.status){
+                    $("#liton_wishlist_modal-" + productId).modal("show");
+                }
+            },
+            error: function (xhr) {
+                alert("Có lỗi xảy ra với ajax addToWishList");
+            }
+        });
+    });
 });

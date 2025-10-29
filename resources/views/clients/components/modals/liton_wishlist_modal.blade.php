@@ -23,15 +23,7 @@
                                          <p class="added-cart"><i class="fa fa-check-circle"></i>Đã thêm thành công vào
                                              Danh sách yêu thích của bạn</p>
                                          <div class="btn-wrapper">
-                                             <a href="cart.html" class="theme-btn-1 btn btn-effect-1">Xem giỏ hàng</a>
-                                         </div>
-                                     </div>
-                                     <!-- additional-info -->
-                                     <div class="additional-info d-none">
-                                         <p>We want to give you <b>10% discount</b> for your first order, <br>
-                                             Use discount code at checkout</p>
-                                         <div class="payment-method">
-                                             <img src="img/icons/payment.png" alt="#">
+                                             <a href="{{route('wishlist.index')}}" class="theme-btn-1 btn btn-effect-1">Xem giỏ hàng</a>
                                          </div>
                                      </div>
                                  </div>

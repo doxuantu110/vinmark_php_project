@@ -8,6 +8,7 @@ use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ReviewController;
 use App\Http\Controllers\Clients\ContactController;
+use App\Http\Controllers\Clients\WishlistController;
 use App\Http\Controllers\CartController;
 use \App\Http\Controllers\CheckoutController;
 
@@ -92,7 +93,9 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::post('/review', [ReviewController::class, 'createReview']);
     Route::get('/review/{product}', [ReviewController::class, 'index']);
 
-   
+    //Wishlist Route
+    Route::get('/wishlist',[WishListController::class,'index'])->name('wishlist.index');
+    Route::post('/wishlist/add', [WishListController::class,'addToWishList']);
 });
 
 // Product

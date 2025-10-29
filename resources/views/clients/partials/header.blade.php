@@ -96,7 +96,7 @@
                                 <ul>
                                     @if (Auth::check())
                                         <li><a href="{{ route('account') }}">Tài khoản</a></li>
-                                        <li><a href="{{ route('login') }}">Yêu thích</a></li>
+                                        <li><a href="{{ route('wishlist.index') }}">Yêu thích</a></li>
                                         <li><a href="{{ route('logout') }}">Đăng xuất</a></li>
                                     @else
                                         <li><a href="{{ route('login') }}">Đăng nhập</a></li>

@@ -237,8 +237,8 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="javascript:void(0)" title="Yêu thích" data-bs-toggle="modal"
-                                                data-bs-target="#liton_wishlist_modal-{{ $product->id }}">
+                                            <a href="javascript:void(0)" title="Yêu thích" class="add-to-wishlist"
+                                                data-id="{{ $product->id }}">
                                                 <i class="far fa-heart"></i></a>
                                         </li>
                                     </ul>
