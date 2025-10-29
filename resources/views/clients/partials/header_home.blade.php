@@ -31,7 +31,8 @@
                                      <li class="menu-icon"><a href="{{ route('products.index') }}">Cửa hàng</a>
                                      </li>
                                      <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-                                     <li class="special-link"><a href="{{ route('contact.index') }}">Nhận báo giá</a></li>
+                                     <li class="special-link"><a href="{{ route('contact.index') }}">Nhận báo giá</a>
+                                     </li>
                                  </ul>
                              </div>
                          </nav>
@@ -40,20 +41,20 @@
                  <div class="ltn__header-options ltn__header-options-2 mb-sm-20">
                      <!-- header-search-1 -->
                      <div class="header-search-wrap">
-                         <div class="header-search-1">
+                        <div class="header-search-1">
                              <div class="search-icon">
                                  <i class="icon-search for-search-show"></i>
                                  <i class="icon-cancel  for-search-close"></i>
                              </div>
-                         </div>
-                         <div class="header-search-1-form">
-                             <form id="#" method="get" action="#">
-                                 <input type="text" name="search" value="" placeholder="Search here..." />
+                        </div>
+                        <div class="header-search-1-form">
+                             <form id="#" method="GET" action="{{ route('search') }}">
+                                 <input type="text" name="keyword" value="" placeholder="Tìm kiếm..." />
                                  <button type="submit">
                                      <span><i class="icon-search"></i></span>
                                  </button>
                              </form>
-                         </div>
+                        </div>
                      </div>
                      <!-- user-menu -->
                      <div class="ltn__drop-menu user-menu">
@@ -73,21 +74,21 @@
                              </li>
                          </ul>
                      </div>
-                      <!-- mini-cart -->
-                    <div class="mini-cart-icon">
-                        <a href="#ltn_utilize-cart-menu" class="ltn_utilize-toggle">
-                            <i class="icon-shopping-cart"></i>
-                            <sup id="cart_count">
-                                @auth
-                                    {{ \App\Models\CartItem::where('user_id', auth()->id())->count() }}
-                                @else
-                                    {{ session('cart') ? count(session('cart')) : 0 }}
-                                @endauth
-                            </sup>
+                     <!-- mini-cart -->
+                     <div class="mini-cart-icon">
+                         <a href="#ltn_utilize-cart-menu" class="ltn_utilize-toggle">
+                             <i class="icon-shopping-cart"></i>
+                             <sup id="cart_count">
+                                 @auth
+                                     {{ \App\Models\CartItem::where('user_id', auth()->id())->count() }}
+                                 @else
+                                     {{ session('cart') ? count(session('cart')) : 0 }}
+                                 @endauth
+                             </sup>
 
-                        </a>
-                    </div>
-                    <!-- /mini-cart -->
+                         </a>
+                     </div>
+                     <!-- /mini-cart -->
 
                      <!-- Mobile Menu Button -->
                      <div class="mobile-menu-toggle d-xl-none">
@@ -115,10 +116,12 @@
  <!-- Utilize Cart Menu Start -->
  <div id="ltn__utilize-cart-menu" class="ltn__utilize ltn__utilize-cart-menu">
      <div class="ltn__utilize-menu-inner ltn__scrollbar">
-            @include('clients.components.include.mini-cart')
+         @include('clients.components.include.mini-cart')
      </div>
  </div>
- <!-- Utilize Cart Menu End -->
 
+<script src="{{ asset('assets/clients/js/main.js') }}"></script>
+
+ <!-- Utilize Cart Menu End -->
  @include('clients.partials.utlize_mobile')
  <div class="ltn__utilize-overlay"></div>

@@ -9,6 +9,7 @@ use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ReviewController;
 use App\Http\Controllers\Clients\ContactController;
 use App\Http\Controllers\Clients\WishlistController;
+use App\Http\Controllers\Clients\SearchController;
 use App\Http\Controllers\CartController;
 use \App\Http\Controllers\CheckoutController;
 
@@ -124,3 +125,6 @@ Route::post('/cart/remove', [CartController::class, 'removeCart'])->name('cart.r
  // Contact page
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact');
+
+// Search
+Route::get('/search', [SearchController::class, 'index'])->name('search');
