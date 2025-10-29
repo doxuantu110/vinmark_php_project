@@ -7,6 +7,7 @@ use App\Http\Controllers\Clients\HomeController;
 use App\Http\Controllers\Clients\ProductController;
 use App\Http\Controllers\Clients\OrderController;
 use App\Http\Controllers\Clients\ReviewController;
+use App\Http\Controllers\Clients\ContactController;
 use App\Http\Controllers\CartController;
 use \App\Http\Controllers\CheckoutController;
 
@@ -90,6 +91,8 @@ Route::middleware(['auth.custom'])->group(function () {
     // Review Product
     Route::post('/review', [ReviewController::class, 'createReview']);
     Route::get('/review/{product}', [ReviewController::class, 'index']);
+
+   
 });
 
 // Product
@@ -113,3 +116,7 @@ Route::post('/cart/remove', [CartController::class, 'removeFromMiniCart'])->name
 Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.index');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'removeCart'])->name('cart.remove');
+
+ // Contact page
+Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
+Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact');

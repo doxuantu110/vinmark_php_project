@@ -317,28 +317,6 @@ $(document).ready(function () {
         }
     });
 
-    // $(document).on('click', '.set-default', function () {
-    //     let id = $(this).data('id');
-
-    //     $.ajax({
-    //         url: '/account/addresses/' + id,  // ✅ đúng route
-    //         type: 'PUT',
-    //         data: {
-    //             _token: $('meta[name="csrf-token"]').attr('content')
-    //         },
-    //         success: function (response) {
-    //             if (response.status === 'success') {
-    //                 toastr.success(response.message);
-    //                 setTimeout(() => location.reload(), 800);
-    //             }
-    //         },
-    //         error: function (xhr) {
-    //             toastr.error('Không thể cập nhật địa chỉ mặc định!');
-    //             console.log(xhr.responseText);
-    //         }
-    //     });
-    // });
-    // **********************************************
     // Page Product
     // **********************************************
 
@@ -893,4 +871,35 @@ $(document).ready(function () {
             });
         }
     }
+
+    /**********************************************
+     * HANDLE CONTACNT PAGE
+     **********************************************/
+
+    $(".contact-form").on("submit", function (e) {
+        let name = $('input[name="name"]').val();
+        let email = $('input[name="email"]').val();
+        let phone = $('input[name="phone"]').val();
+        let message = $('textarea[name="message"]').val();
+        let errorMessage = "";
+
+        if (name.length < 3) {
+            errorMessage += "Họ và tên phải có ít nhất 3 ký tự.<br>";
+        }
+
+        if (phone.length < 10 || phone.length > 11) {
+            errorMessage += "Số điện thoại phải từ 10-11 số.<br>";
+        }
+
+        let emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            errorMessage += "Email không hợp lệ.<br>";
+        }
+
+        if (errorMessage !== "") {
+            toastr.error(errorMessage, "Lỗi");
+            e.preventDefault();
+        }
+    });
+
 });
