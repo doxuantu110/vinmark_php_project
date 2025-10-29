@@ -901,11 +901,11 @@ $(document).ready(function () {
         }
     });
 
-     /**********************************************
+    /**********************************************
      * HANDLE WISHLIST PAGE
      **********************************************/
 
-      $(document).on('click', '.add-to-wishlist', function (e) {
+    $(document).on('click', '.add-to-wishlist', function (e) {
         e.preventDefault();
 
         let productId = $(this).data("id");
@@ -923,7 +923,7 @@ $(document).ready(function () {
                 product_id: productId
             },
             success: function (response) {
-                if(response.status){
+                if (response.status) {
                     $("#liton_wishlist_modal-" + productId).modal("show");
                 }
             },
@@ -932,4 +932,31 @@ $(document).ready(function () {
             }
         });
     });
+
+    $(document).on('click', '.wishlist-product-remove', function (e) {
+        e.preventDefault();
+        let productId = $(this).data('id');
+        let row = $(this).closest("tr");
+
+        $.ajax({
+            url: '/wishlist/remove',
+            type: 'POST',
+            data: {
+                product_id: productId
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                if (response.status) {
+                    row.remove();
+                    toastr.success("Đã xóa sản phẩm khỏi danh sách yêu thích!");
+                }
+            },
+            error: function (xhr){
+                toastr.error("Có lỗi xảy ra với ajax removeProductWishList.");
+            }
+        });
+    });
+
 });

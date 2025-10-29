@@ -96,6 +96,7 @@ Route::middleware(['auth.custom'])->group(function () {
     //Wishlist Route
     Route::get('/wishlist',[WishListController::class,'index'])->name('wishlist.index');
     Route::post('/wishlist/add', [WishListController::class,'addToWishList']);
+    Route::post('/wishlist/remove', [WishListController::class,'removeWishListItem']);
 });
 
 // Product

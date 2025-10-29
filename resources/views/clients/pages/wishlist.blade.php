@@ -12,83 +12,44 @@
                         <div class="shoping-cart-table table-responsive">
                             <table class="table">
                                 <tbody>
-                                    @php
-                                        $cartTotal = 0;
-
-                                    @endphp
-                                    @forelse ($cartItems as $item)
-                                        @php
-                                            $subtotal = $item['price'] * $item['quantity'];
-                                            $cartTotal += $subtotal;
-                                        @endphp
-                                        <tr id="cart_item_row_{{ $item['product_id'] }}">
-                                            <td class="cart-product-remove">
-                                                <button class="remove-from-cart"
-                                                    data-id="{{ $item['product_id'] }}">x</button>
+                                    @forelse ($wishlists as $item)
+                                        <tr>
+                                            <td class="wishlist-product-remove"
+                                                    data-id="{{ $item->product_id }}">
+                                                    <a href="javascript:void(0)">x</a></>
                                             </td>
                                             <td class="cart-product-image">
-                                                <a href="javascript:void(0)">
-                                                    <img src="{{ asset('storage/' . ($item['image'] ?? 'uploads/products/default-product.png')) }}"
-                                                        alt="Sản phẩm"></a>
+                                                <a href="{{ route('product.detail', $item->product->slug) }}">
+                                                    <img src="{{ $item->product->image_url }}" alt="Sản phẩm">
+                                                </a>
                                             </td>
-                                            <td class="cart-product-info">
-                                                <h4><a href="javascript:void(0)">{{ $item['name'] }}</a>
-                                                </h4>
+                                            <td class="wishlist-product-info">
+                                                <h4><a href="javascript:void(0)">{{ $item->product->name }}</a></h4>
                                             </td>
-                                            <td class="cart-product-price">
-                                                {{ number_format($item['price'], 0, ',', '.') }} đ
+                                            <td class="wishlist-product-price">
+                                                {{ number_format($item->product->price, 0, ',', '.') }} đ
                                             </td>
-                                            <td class="cart-product-quantity">
-                                                <div class="cart-plus-minus">
-                                                    <div class="dec qtybutton">-</div>
-                                                    <input type="text" value="{{ $item['quantity'] }}" name="qtybutton"
-                                                        class="cart-plus-minus-box" readonly data-max="{{ $item['stock'] }}"
-                                                        data-id="{{ $item['product_id'] }}">
-                                                    <div class="inc qtybutton">+</div>
-                                                </div>
+                                            <td class="wishlist-product-stock">
+                                                {{ $item->product->status == 'in_stock' ? 'Còn hàng' : 'Hết hàng' }}
                                             </td>
-                                            <td class="cart-product-subtotal"
-                                                id="cart_item_total_{{ $item['product_id'] }}">
-                                                {{ number_format($subtotal, 0, ',', '.') }} đ
+                                            <td>
+                                                <a href="{{ route('product.detail', $item->product->slug) }}"
+                                                    class="submit-button-1"
+                                                    title="Thêm vào giỏ hàng">
+                                                    <span>Thêm vào giỏ hàng</span>
+                                                </a>
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="text-center">Không có sản phẩm nào trong giỏ hàng</td>
+                                            <td colspan="6" class="text-center">Không có sản phẩm nào trong danh sách yêu
+                                                thích</td>
                                         </tr>
                                     @endforelse
 
                                 </tbody>
                             </table>
                         </div>
-                        @if (!empty($cartItems))
-                            <div class="shoping-cart-total mt-50">
-                                <h4>Tổng giỏ hàng</h4>
-                                <table class="table">
-                                    <tbody>
-                                        <tr>
-                                            <td>Tổng tiền hàng</td>
-                                            <td id="cart_total">{{ number_format($cartTotal, 0, ',', '.') }} đ</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Phí vận chuyển</td>
-                                            <td>25.000 đ</td>
-                                        </tr>
-                                        <tr>
-                                            <td><strong>Tổng thanh toán</strong></td>
-                                            <td><strong
-                                                    id="grand_total">{{ number_format($cartTotal + 25000, 0, ',', '.') }}
-                                                    đ</strong></td>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <div class="btn-wrapper text-right text-end">
-                                    <a href="{{ route('checkout') }}" class="theme-btn-1 btn btn-effect-1">Tiến hành thanh
-                                        toán</a>
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
