@@ -120,8 +120,11 @@
      </div>
  </div>
 
-<script src="{{ asset('assets/clients/js/main.js') }}"></script>
-
+{{-- <script src="{{ asset('assets/clients/js/main.js') }}"></script> --}}
+<!-- PAYPAL SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id={{ config('PAYPAL_CLIENT_ID') }}"
+        data-sdk-integration-source="buttons"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
  <!-- Utilize Cart Menu End -->
  @include('clients.partials.utlize_mobile')
  <div class="ltn__utilize-overlay"></div>

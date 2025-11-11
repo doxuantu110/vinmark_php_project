@@ -94,7 +94,7 @@
     <!-- JavaScript custom -->
     <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
     <!-- PAYPAL SDK -->
-        <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}" data-sdk-integration-source="buttons"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}"></script>
     <!-- Manual Toastr Script for Session Messages -->
     <script>
         $(document).ready(function() {

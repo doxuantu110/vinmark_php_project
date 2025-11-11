@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('phone');
             $table->string('address');
             $table->string('city');
-            $table->boolean('is_default')->default(false);
+            $table->boolean('default')->default(false);
             $table->timestamps();
         });
     }

@@ -1,6 +1,5 @@
 <!doctype html>
 <html class="no-js" lang="zxx">
-@extends('layouts.client')
 
 <head>
     <meta charset="utf-8">
@@ -67,18 +66,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- Flasher core JS (CDN) -->
     <script src="https://cdn.jsdelivr.net/npm/@flasher/flasher/dist/flasher.min.js"></script>
-
+    <!-- PAYPAL SDK -->
+    <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID') }}"></script>
     <script>
-    // Fix lỗi jQuery.easing.def không tồn tại
-    if (typeof jQuery.easing === 'undefined') {
-        jQuery.easing = {};
-    }
-    if (typeof jQuery.easing.def === 'undefined') {
-        jQuery.easing.def = 'swing';
-        jQuery.easing.swing = function (x, t, b, c, d) {
-            return c * (t / d) + b;
-        };
-    }
+        // Fix lỗi jQuery.easing.def không tồn tại
+        if (typeof jQuery.easing === 'undefined') {
+            jQuery.easing = {};
+        }
+        if (typeof jQuery.easing.def === 'undefined') {
+            jQuery.easing.def = 'swing';
+            jQuery.easing.swing = function(x, t, b, c, d) {
+                return c * (t / d) + b;
+            };
+        }
     </script>
     </script>
     <!-- All JS Plugins -->
