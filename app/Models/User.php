@@ -28,9 +28,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function cartItems()
