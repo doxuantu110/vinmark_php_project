@@ -10,8 +10,8 @@ use App\Http\Controllers\Clients\ReviewController;
 use App\Http\Controllers\Clients\ContactController;
 use App\Http\Controllers\Clients\WishlistController;
 use App\Http\Controllers\Clients\SearchController;
-use App\Http\Controllers\CartController;
-use \App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\Clients\CartController;
+use \App\Http\Controllers\Clients\CheckoutController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -128,3 +128,5 @@ Route::post('/contact', [ContactController::class, 'sendContact'])->name('contac
 
 // Search
 Route::get('/search', [SearchController::class, 'index'])->name('search');
+
+require __DIR__ .'/admin.php';
