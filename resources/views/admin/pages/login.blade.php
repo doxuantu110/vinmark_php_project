@@ -55,7 +55,7 @@
                             <br />
 
                             <div>
-                                <h1><i class="fa fa-paw"></i> Gentelella Alela!</h1>
+                                <h1><i class="fa fa-paw"></i> Vinmark </h1>
                                 <p>©2025 Bản quyền thuộc về Đỗ Xuân Tú! — Mẫu giao diện Bootstrap 4. Chính sách
                                     bảo mật và điều khoản.</p>
                             </div>

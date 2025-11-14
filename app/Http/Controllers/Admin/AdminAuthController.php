@@ -23,7 +23,7 @@ class AdminAuthController extends Controller
     // ✅ Thử đăng nhập với guard admin
     if (Auth::guard('admin')->attempt([
         'email' => $request->email,
-        'password' => $request->password
+        'password' => $request->password 
     ])) {
         $user = Auth::guard('admin')->user();
 
@@ -48,8 +48,7 @@ class AdminAuthController extends Controller
         Auth::guard('admin')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        toastr()->success('Đăng xuất thành công!');
-        return redirect()->route('admin.login');
+        return redirect()->route('admin.login')->with('success', 'Đăng xuất thành công!');
     }
 
 }

@@ -178,7 +178,7 @@
                                             <div class="col-lg-12">
                                                 <div class="ltn__product-item ltn__product-item-3 text-center">
                                                     <div class="product-img">
-                                                        <a href="#"><img src="{{ $product->image_url }}"
+                                                        <a href="{{ route('product.detail', $product->slug) }}"><img src="{{ $product->image_url }}"
                                                                 alt="{{ $product->name }}"></a>
                                                         <div class="product-badge">
                                                             <ul>
@@ -221,7 +221,6 @@
                                                         </h2>
                                                         <div class="product-price">
                                                             <span>{{ number_format($product->price, 0, '.', '.') }}VND</span>
-                                                            <del>$46.00</del>
                                                         </div>
                                                     </div>
                                                 </div>
