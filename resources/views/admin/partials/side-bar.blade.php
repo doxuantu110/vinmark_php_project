@@ -30,7 +30,7 @@
                      <li><a href="{{ route('admin.dashboard') }}"><i class="fa fa-home"></i> Dashboard</a></li>
 
                      @if ($adminUser->role->permissions->contains('name', 'manage_users'))
-                        <li><a href="#"><i class="fa fa-users"></i> Quản lý người dùng</span></a></li>
+                        <li><a href="{{ route('admin.users.index') }}"><i class="fa fa-users"></i> Quản lý người dùng</span></a></li>
                      @endif
                      
                       @if ($adminUser->role->permissions->contains('name', 'manage_categories'))

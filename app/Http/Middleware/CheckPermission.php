@@ -14,12 +14,12 @@ class CheckPermission
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $permissions): Response
+    public function handle(Request $request, Closure $next, $permission): Response
     {
         $user = Auth::guard('admin')->user();
 
         // Check permissions of user
-        if(!$user || !$user->role->permission->contains('name', $permissions)){
+        if(!$user || !$user->role->permissions->contains('name', $permission)){
             abort(403, 'Bạn không có quyền truy cập');
         }
 

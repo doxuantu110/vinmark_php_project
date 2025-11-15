@@ -18,11 +18,9 @@ use App\Http\Controllers\Admin\AdminAuthController;
         })->name('admin.dashboard');
         });
 
-        Route::middleware(['permission:manage users'])->group(function () {
+        Route::middleware(['permission:manage_users'])->group(function () {
             // User management routes can be added here
-            Route::get('/users', function(){
-                return;
-            })->name('admin.users.index');
+            Route::get('/users', [App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
         });
         
         // Logout route
