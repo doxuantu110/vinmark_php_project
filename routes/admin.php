@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\UsersController;
 
     Route::prefix('admin')->group(function () {
 
@@ -20,10 +21,14 @@ use App\Http\Controllers\Admin\AdminAuthController;
 
         Route::middleware(['permission:manage_users'])->group(function () {
             // User management routes can be added here
-            Route::get('/users', [App\Http\Controllers\Admin\UsersController::class, 'index'])->name('admin.users.index');
+            Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
+            Route::post('/user/upgrade', [UsersController::class, 'upgrade']);
+
+            // Change user status route
+            Route::post('/user/updateStatus', [UsersController::class, 'updateStatus']);
         });
         
         // Logout route
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
-    });    
+    });     
 ?>

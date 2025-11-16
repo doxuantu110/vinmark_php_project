@@ -6,9 +6,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 	<link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <title>Gentelella Alela!</title>
+    <title>Vinmark</title>
 
     <!-- Bootstrap -->
     <link href="{{asset('assets/admin/vendors/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
@@ -28,6 +29,15 @@
 
     <!-- Custom Theme Style -->
     <link href="{{asset('assets/admin/build/css/custom.min.css')}}"  rel="stylesheet">
+    <style>
+        #flasher-container,
+        .flashes,
+        .toast {
+            z-index: 999999 !important;
+        }
+    </style>
+     <!-- Toastr CSS (CDN) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
   </head>
 
   <body class="nav-md">
@@ -44,8 +54,39 @@
       </div>
     </div>
 
+
     <!-- jQuery -->
     <script src="{{asset('assets/admin/vendors/jquery/dist/jquery.min.js')}}"></script>
+
+     <!-- preloader area start -->
+    <div class="preloader d-none" id="preloader">
+        <div class="preloader-inner">
+            <div class="spinner">
+                <div class="dot1"></div>
+                <div class="dot2"></div>
+            </div>
+        </div>
+    </div>
+    <!-- preloader area end -->
+
+    <!-- jQuery (CDN) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- jQuery Easing Plugin -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+    
+    <!-- ⚡ Patch Fix: đảm bảo easing tồn tại trước khi các plugin khác dùng -->
+    <script>
+        if (typeof jQuery.easing === 'undefined' || typeof jQuery.easing.def === 'undefined') {
+            jQuery.easing = jQuery.easing || {};
+            jQuery.easing.def = 'swing';
+            jQuery.easing.swing = function(x, t, b, c, d) {
+                return c * (t / d) + b;
+            };
+            console.warn('⚠️ jQuery.easing was missing; redefined default easing.');
+        }
+    </script>
+
     <!-- Bootstrap -->
     <script src="{{asset('assets/admin/vendors/bootstrap/dist/js/bootstrap.bundle.min.js')}}"></script>
     <!-- FastClick -->
@@ -82,8 +123,37 @@
     <script src="{{asset('assets/admin/vendors/moment/min/moment.min.js')}}"></script>
     <script src="{{asset('assets/admin/vendors/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
 
+    <!-- Toastr JS (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
     <!-- Custom Theme Scripts -->
     <script src="{{asset('assets/admin/build/js/custom.min.js')}}"></script>
-	
+    <script src="{{asset('assets/admin/js/custom.js')}}"></script>
+     <!-- Manual Toastr Script for Session Messages -->
+    <script>
+        $(document).ready(function() {
+            @if (session('success'))
+                if (typeof toastr !== 'undefined') {
+                    toastr.success("{{ session('success') }}");
+                }
+            @endif
+            @if (session('error'))
+                if (typeof toastr !== 'undefined') {
+                    toastr.error("{{ session('error') }}");
+                }
+            @endif
+            @if (session('warning'))
+                if (typeof toastr !== 'undefined') {
+                    toastr.warning("{{ session('warning') }}");
+                }
+            @endif
+            @if (session('info'))
+                if (typeof toastr !== 'undefined') {
+                    toastr.info("{{ session('info') }}");
+                }
+            @endif
+        });
+    </script>
   </body>
 </html>
