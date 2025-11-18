@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UsersController;
 
     Route::prefix('admin')->group(function () {
@@ -19,6 +20,7 @@ use App\Http\Controllers\Admin\UsersController;
         })->name('admin.dashboard');
         });
 
+        // Route management for users with 'manage_users' permission
         Route::middleware(['permission:manage_users'])->group(function () {
             // User management routes can be added here
             Route::get('/users', [UsersController::class, 'index'])->name('admin.users.index');
@@ -28,6 +30,17 @@ use App\Http\Controllers\Admin\UsersController;
             Route::post('/user/updateStatus', [UsersController::class, 'updateStatus']);
         });
         
+        // Route management for users with 'manage_categories' permission
+        Route::middleware(['permission:manage_categories'])->group(function () {
+            // User management routes can be added here
+            Route::get('/categories/add', [CategoryController::class, 'showFormAddCategory'])->name('admin.categories.add');
+            Route::post('/categories/add', [CategoryController::class, 'addCategory'])->name('admin.categories.store');
+            
+            Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+            Route::post('/categories/update', [CategoryController::class, 'updateCategory']);
+            Route::post('/categories/delete', [CategoryController::class, 'deleteCategory']);
+        });
+
         // Logout route
         Route::get('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
     });     

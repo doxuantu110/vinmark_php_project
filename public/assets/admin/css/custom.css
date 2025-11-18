@@ -1,0 +1,101 @@
+/* ===========================
+   STYLE CHO INPUT FILE
+   =========================== */
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 18px;
+    background: #1abb9c;
+    color: white;
+    cursor: pointer;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    transition: 0.3s;
+}
+
+.custom-file-upload:hover {
+    background: #17a589;
+}
+
+/* Ẩn input file mặc định */
+#category-image {
+    display: none;
+}
+
+/* ===========================
+   STYLE CHO ẢNH XEM TRƯỚC
+   =========================== */
+.preview-image {
+    display: none;
+    /* Ẩn khi chưa có ảnh */
+    margin-top: 15px;
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+    padding: 4px;
+    border-radius: 8px;
+    background: #fafafa;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Hiệu ứng khi hover ảnh */
+.preview-image:hover {
+    transform: scale(1.05);
+    transition: 0.25s;
+}
+
+/* ===========================
+   STYLE WRAPPER
+   =========================== */
+.image-upload-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-category {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/*Custom button*/
+.btn-app {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 8px 14px !important;
+    border-radius: 6px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+    transition: 0.2s ease !important;
+    border: none !important;
+}
+
+/* Sửa */
+.btn-update-category {
+    background-color: #3498db !important;
+    color: #fff !important;
+}
+
+.btn-update-category:hover {
+    background-color: #2980b9 !important;
+}
+
+/* Xóa */
+.btn-delete-category {
+    background-color: #e74c3c !important;
+    color: #fff !important;
+}
+
+.btn-delete-category:hover {
+    background-color: #c0392b !important;
+}
+
+.btn-update-category i,
+.btn-delete-category i {
+    margin-right: 6px !important;
+}
