@@ -14,10 +14,10 @@
                                 <div class="ltn__shop-details-img-gallery">
                                     <div class="ltn__shop-details-large-img">
                                         <div class="single-large-img">
-                                            @foreach ($product->images as $item)
-                                                <a href="{{ asset('storage/' . $image->image) }}"
+                                           @foreach ($product->images as $item)
+                                                <a href="{{ asset('storage/' . $item->image) }}"
                                                     data-rel="lightcase:myCollection">
-                                                    <img src="{{ asset('storage/' . $image->image) }}"
+                                                    <img src="{{ asset('storage/' . $item->image) }}"
                                                         alt="{{ $product->name }}">
                                                 </a>
                                             @endforeach
@@ -27,7 +27,7 @@
                                     <div class="ltn__shop-details-small-img slick-arrow-2">
                                         @foreach ($product->images as $item)
                                             <div class="single-small-img">
-                                                <img src="{{ asset('storage/' . $image->image) }}"
+                                                <img src="{{ asset('storage/' . $item->image) }}"
                                                     alt="{{ $product->name }}">
                                             </div>
                                         @endforeach

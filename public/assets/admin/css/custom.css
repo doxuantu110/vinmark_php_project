@@ -99,3 +99,10 @@
 .btn-delete-category i {
     margin-right: 6px !important;
 }
+
+.image-product {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+}
