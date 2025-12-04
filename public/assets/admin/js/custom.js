@@ -321,8 +321,8 @@ $(document).ready(function () {
         // ... (Giữ nguyên phần xử lý preview ảnh ở bài trước) ...
 
         /* ===============================
- *  AJAX CẬP NHẬT SẢN PHẨM
- =============================== */
+            *  AJAX CẬP NHẬT SẢN PHẨM
+        =============================== */
         $(document).on('click', '.btn-update-submit-product', function (e) {
             e.preventDefault();
 
@@ -406,5 +406,116 @@ $(document).ready(function () {
                 }
             });
         }
+    });
+
+    /* ************************************
+     *     MANAGEMENT ORDERS
+     ************************************/
+    $(document).on('click', '.dropdown-item[data-id]', function () {
+
+        let orderId = $(this).data('id');
+        let row = $(this).closest('tr');
+
+        if (!confirm("Bạn có chắc muốn xác nhận đơn hàng này?")) {
+            return;
+        }
+
+        $.ajax({
+            url: "/admin/orders/confirm",
+            type: "POST",
+            data: {
+                id: orderId,
+                _token: $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (res) {
+                if (res.status) {
+                    toastr.success(res.message);
+                    row.find('.order-status').html('<span class="badge bg-info">Đang giao</span>');
+
+                } else {
+                    toastr.error(res.message);
+                }
+            },
+            error: function () {
+                alert("Có lỗi xảy ra, thử lại sau!");
+            }
+        });
+    });
+
+    // Send mail to customer
+    $(document).on("click", ".send-invoice-mail", function (e) {
+        e.preventDefault();
+
+        let button = $(this);
+        let orderId = button.data("id");
+
+        // Thiết lập CSRF Token (quan trọng để không bị lỗi 419 Page Expired trong Laravel)
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/orders-detail/send-invoice",
+            data: {
+                id: orderId
+            },
+            success: function (response) {
+                if (response.status) {
+                    toastr.success(response.message);
+                    // Xóa nút bấm sau khi gửi thành công để tránh bấm nhiều lần
+                    button.remove();
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                // Hiển thị lỗi ra alert hoặc console để debug
+                alert("An error occurred: " + error);
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    // Cancel order
+    $(document).on("click", ".cancel-order", function (e) {
+        e.preventDefault();
+        let button = $(this);
+
+        let orderId = button.data("id")
+        $.ajaxSetup({
+            headers: {
+                // Lấy giá trị của CSRF Token từ thẻ meta có tên 'csrf-token'
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            }
+        });
+
+        // Thực hiện yêu cầu AJAX để hủy đơn hàng
+        $.ajax({
+            type: "POST",
+            url: "/admin/orders/cancel-order", 
+            data: {
+                id: orderId,
+            },
+
+            // Xử lý khi yêu cầu thành công
+            success: function (response) {
+                if (response.status) {
+                    toastr.success(response.message);
+
+                    button.remove();
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+
+            // Xử lý khi yêu cầu thất bại (lỗi mạng, lỗi server 5xx, 4xx...)
+            error: function (xhr, status, error) {
+                // Hiển thị một thông báo cảnh báo đơn giản
+                alert("An error occurred: " + error);
+            },
+        });
     });
 });

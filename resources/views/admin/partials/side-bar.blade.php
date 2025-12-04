@@ -52,7 +52,7 @@
                      @endif
 
                      @if ($adminUser->role->permissions->contains('name', 'manage_orders'))
-                       <li><a href="#"><i class="fa fa-edit"></i> Quản lý đơn hàng</span></a></li>
+                       <li><a href="{{ route('admin.orders.index') }}"><i class="fa fa-edit"></i> Quản lý đơn hàng</span></a></li>
                      @endif
                      
                      @if ($adminUser->role->permissions->contains('name', 'manage_contacts'))

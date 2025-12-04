@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UsersController;
 
     Route::prefix('admin')->group(function () {
@@ -51,6 +52,20 @@ use App\Http\Controllers\Admin\UsersController;
             Route::get('/products', [ProductController::class, 'index'])->name('admin.products.index');
             Route::post('/products/update', [ProductController::class, 'updateProduct']);
             Route::post('/products/delete', [ProductController::class, 'deleteProduct']);
+        });
+
+        // Route management for users with 'manage_orders' permission
+        Route::middleware(['permission:manage_orders'])->group(function () {
+            // User management routes can be added here
+            Route::get('/orders', [OrderController::class, 'index'])->name('admin.orders.index');
+            // Xác nhận đơn hàng
+            Route::post('/orders/confirm', [OrderController::class, 'confirm'])->name('orders.confirm');
+            // Show order details route
+            Route::get('/order-detail/{id}', [OrderController::class, 'showOrderDetail'])->name('admin.order-detail');
+            // Send order detail email route
+            Route::post('/orders-detail/send-invoice', [OrderController::class, 'sendInvoice']);
+            // Cancel order route
+            Route::post('/orders/cancel-order', [OrderController::class, 'cancelOrder']);
         });
 
         // Logout route
