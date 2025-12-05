@@ -56,7 +56,7 @@
                      @endif
                      
                      @if ($adminUser->role->permissions->contains('name', 'manage_contacts'))
-                       <li><a href="#"><i class="fa fa-envelope"></i> Quản lý liên hệ</span></a></li>
+                       <li><a href="{{ route('admin.contacts.index') }}"><i class="fa fa-envelope"></i> Quản lý liên hệ</span></a></li>
                      @endif
                  </ul>
              </div>

@@ -495,7 +495,7 @@ $(document).ready(function () {
         // Thực hiện yêu cầu AJAX để hủy đơn hàng
         $.ajax({
             type: "POST",
-            url: "/admin/orders/cancel-order", 
+            url: "/admin/orders/cancel-order",
             data: {
                 id: orderId,
             },
@@ -518,4 +518,105 @@ $(document).ready(function () {
             },
         });
     });
+    //********************************************
+    //     MANAGEMENT CONTACTS
+    // ************************************//
+    if ($("#editor-contact").length) {
+        CKEDITOR.replace("editor-contact");
+    }
+
+    $(document).on("click", ".contact-item", function () {
+
+        let contactName = $(this).data("name");
+        let contactEmail = $(this).data("email");
+        let contactMessage = $(this).data("message");
+        let contactId = $(this).data("id");
+        let isReplied = $(this).data("is_replyed");
+
+        $(".mail_view .sender-info strong:first").text(contactName);
+        $(".mail_view .sender-info span").text(contactEmail);
+        $(".mail_view .view-mail p").html(contactMessage);
+
+        $(".mail_view").show();
+
+        if (isReplied == 0) $(".compose").show();
+        else $(".compose").hide();
+
+        $(".send-reply-contact")
+            .data("email", contactEmail)
+            .data("id", contactId);
+    });
+
+    $(document).on("click", ".send-reply-contact", function (e) {
+        e.preventDefault();
+
+        let button = $(this);
+        let email = button.data("email");
+        let contactId = button.data("id");
+
+        let message = CKEDITOR.instances["editor-contact"].getData();
+
+        if (!message.trim()) {
+            toastr.warning("Vui lòng nhập nội dung phản hồi!");
+            return;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/contact/reply",
+            data: {
+                _token: $('meta[name="csrf-token"]').attr('content'),
+                email: email,
+                message: message,
+                contact_id: contactId
+            },
+            beforeSend: function () {
+                button.prop('disabled', true).text('Đang gửi...');
+            },
+            success: function (response) {
+                if (response.status) {
+
+                    $("#status-" + contactId).html(`
+                    <i class="fa fa-check-circle" style="color: green;"></i>
+                `);
+
+                    toastr.success(response.message);
+
+                    updateContactStatus(contactId);
+
+                    $(".mail_view").hide();
+                    $(".compose").hide();
+
+                    CKEDITOR.instances["editor-contact"].setData("");
+                    $('#editor-contact').val("");
+                } else {
+                    toastr.error(response.message);
+                }
+            },
+            error: function () {
+                toastr.error("Gửi mail thất bại!");
+            },
+            complete: function () {
+                button.prop('disabled', false).text('Gửi');
+            }
+        });
+    });
+
+    function updateContactStatus(id) {
+        let item = $('.contact-item[data-id="' + id + '"]');
+
+        item.find(".status-text")
+            .text("Đã phản hồi")
+            .removeClass("bg-danger")
+            .addClass("bg-success")
+            .css("color", "white");
+
+        item.find(".status-text i")
+            .removeClass("fa-times-circle text-danger")
+            .addClass("fa-check-circle")
+            .css("color", "white");
+
+        item.data("is_replyed", 1);
+    }
+
 });

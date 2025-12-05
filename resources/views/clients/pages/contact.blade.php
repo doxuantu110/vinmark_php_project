@@ -70,15 +70,9 @@
                             <div class="input-item input-item-textarea ltn__custom-icon">
                                 <textarea name="message" placeholder="Nhập nội dung tin nhắn"></textarea required>
                                 </div>
-                                <p>
-                                    <label class="input-info-save mb-0">
-                                        <input type="checkbox" name="agree">
-                                        Lưu tên, email và trang web của tôi cho lần bình luận tiếp theo.
-                                    </label>
-                                </p>
                                 <div class="btn-wrapper mt-0">
                                     <button class="btn theme-btn-1 btn-effect-1 text-uppercase" type="submit">
-                                        Nhận dịch vụ miễn phí
+                                        Gửi phản hồi
                                     </button>
                                 </div>
                                 <p class="form-messege mb-0 mt-20"></p>
