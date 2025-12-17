@@ -107,7 +107,207 @@
     border-radius: 6px;
 }
 
-.img-account{
+.img-account {
     width: 260px;
     height: 260px;
+}
+
+.custom-message-top {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    white-space: unset !important;
+}
+
+/* ===============================
+   DROPDOWN NOTIFICATION / MESSAGE
+   =============================== */
+/* Khung bao ngoài Dropdown */
+/* Khung Dropdown chính */
+/* Khung Dropdown chính */
+.top_nav .dropdown-menu.msg_list {
+    width: 400px;
+    max-width: 90vw;
+    max-height: 500px;
+    overflow-y: auto;
+    padding: 0;
+    right: 0;
+    left: auto;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* Từng dòng item */
+.top_nav .msg_list li a.dropdown-item {
+    display: flex !important;
+    /* Quan trọng: Flex chia cột ảnh - nội dung */
+    align-items: flex-start;
+    /* Căn hàng trên cùng */
+    padding: 12px 15px;
+    border-bottom: 1px solid #f1f1f1;
+    background-color: #fff;
+    gap: 12px;
+    /* Khoảng cách giữa Ảnh và Nội dung */
+}
+
+/* 1. Hình ảnh */
+.top_nav .msg_list .image img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    border: 1px solid #e6e6e6;
+}
+
+/* 2. Khối nội dung bên phải */
+.top_nav .msg_list .message-content {
+    flex: 1;
+    /* Tự động chiếm hết khoảng trống còn lại */
+    min-width: 0;
+    /* Fix lỗi text tràn khung flex */
+    display: flex;
+    flex-direction: column;
+    /* Xếp dọc: Tiêu đề trên, tin nhắn dưới */
+}
+
+/* Dòng Tiêu đề + Thời gian */
+.top_nav .msg_list .title-row {
+    display: flex;
+    justify-content: space-between;
+    /* Đẩy Tên sang trái, Giờ sang phải */
+    align-items: baseline;
+    margin-bottom: 4px;
+}
+
+.top_nav .msg_list .title-row .name {
+    font-weight: 700;
+    font-size: 14px;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.top_nav .msg_list .title-row .time {
+    font-size: 11px;
+    color: #4e4e4e;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Nội dung tin nhắn */
+.top_nav .msg_list .message {
+    font-size: 13px;
+    color: #555555;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    /* Hiện tối đa 2 dòng */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* Hover */
+.top_nav .msg_list li a:hover {
+    background-color: #f7f9fa;
+}
+
+
+/* Xóa style danh sách mặc định */
+.custom-msg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Style cho từng dòng thông báo */
+.msg-item {
+    border-bottom: 1px solid #eee;
+    /* Đường gạch chân mờ */
+    transition: background-color 0.2s;
+}
+
+.msg-item:hover {
+    background-color: #f5f7fa;
+    /* Màu nền khi di chuột vào */
+}
+
+/* Thẻ a bao quanh để click được toàn bộ dòng */
+.msg-link {
+    display: flex;
+    padding: 15px 10px;
+    text-decoration: none !important;
+    align-items: flex-start;
+    /* Căn hàng theo mép trên */
+}
+
+/* 1. Style Icon */
+.msg-icon {
+    margin-right: 15px;
+    flex-shrink: 0;
+}
+
+.msg-icon img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+}
+
+/* 2. Style Khối nội dung */
+.msg-content {
+    flex-grow: 1;
+    /* Chiếm hết không gian còn lại */
+    display: flex;
+    flex-direction: column;
+}
+
+/* Dòng Header: Chứa Title và Time */
+.msg-header {
+    display: flex;
+    justify-content: space-between;
+    /* Đẩy Title sang trái, Time sang phải */
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+/* Tiêu đề */
+.msg-title {
+    font-weight: bold;
+    color: #2a3f54;
+    /* Màu xanh đậm giống ảnh */
+    font-size: 15px;
+}
+
+/* Thời gian */
+.msg-time {
+    font-size: 12px;
+    color: #999;
+    font-style: normal;
+}
+
+/* Dòng mô tả bên dưới */
+.msg-desc {
+    font-size: 13px;
+    color: #73879C;
+    display: flex;
+    align-items: center;
+}
+
+/* Dấu gạch đứng | */
+.separator {
+    color: #ddd;
+    margin-right: 8px;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+/* Style cho tin chưa đọc (nếu cần) */
+.unread {
+    background-color: #fff;
+    border-left: 3px solid #1abb9c;
+    /* Có vạch xanh đánh dấu chưa đọc */
 }

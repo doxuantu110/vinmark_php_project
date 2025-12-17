@@ -775,4 +775,29 @@ $(document).ready(function () {
             }
         });
     });
+
+    //********************************************
+    //     MANAGEMENT NOTIFICATIONS
+    // ************************************//
+    $(document).on('click', '.notification-item', function (e) {
+
+        let noti_id = $(this).data('id');
+
+        $.ajax({
+            url: "notifications/mark-as-read",
+            type: "POST",
+            data: {
+                id: noti_id
+            },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+            },
+            error: function () {
+                alert("Có lỗi xảy ra, thử lại sau!");
+            }
+        });
+    });
+
 });
