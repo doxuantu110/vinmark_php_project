@@ -106,3 +106,8 @@
     object-fit: cover;
     border-radius: 6px;
 }
+
+.img-account{
+    width: 260px;
+    height: 260px;
+}

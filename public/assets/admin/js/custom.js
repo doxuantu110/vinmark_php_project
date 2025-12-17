@@ -619,4 +619,160 @@ $(document).ready(function () {
         item.data("is_replyed", 1);
     }
 
+    //********************************************
+    //     MANAGEMENT PROFILES
+    // ************************************//
+
+    $(document).ready(function () {
+        // --- 1. Hàm xử lý AJAX dùng chung (Mang ra ngoài cùng) ---
+        function sendUpdateProfile(formData) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "profile/update", // Nên dùng route('profile.update') nếu viết trong file blade, hoặc để url cứng
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function (response) {
+                    if (response.status) {
+                        toastr.success(response.message);
+
+                        // Cập nhật giao diện Profile
+                        if (formData.get('type') === "profile") {
+                            $("#user-name").text(formData.get("name"));
+                            $("#user-address").text(formData.get("address"));
+                            $("#user-email").text(formData.get("email"));
+                            $("#phone_number").text(formData.get("phone")); // Sửa ID khớp với Blade
+                        }
+
+                        // Reset form mật khẩu
+                        if (formData.get('type') === "password") {
+                            $("#change-password")[0].reset();
+                            $("#change-password").hide();
+                            $(".form-change-pass").text("Đổi mật khẩu");
+                        }
+
+                        // Cập nhật Avatar (lấy URL từ server trả về để chắc chắn)
+                        if (formData.get('type') === "avatar") {
+                            $("#avatar-preview").attr("src", response.avatar_url);
+                        }
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function (xhr) {
+                    toastr.error("Có lỗi xảy ra, vui lòng thử lại.");
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        // --- 2. Xử lý Đổi mật khẩu ---
+        $(".form-change-pass").on("click", function (e) {
+            e.preventDefault();
+            $("#change-password").toggle();
+            if ($("#change-password").is(":visible")) {
+                $(this).text("Đóng");
+            } else {
+                $(this).text("Đổi mật khẩu");
+            }
+        });
+
+        $("#change-password").submit(function (e) {
+            e.preventDefault();
+            let valid = true;
+            let current_password = $('#current_password').val().trim();
+            let new_password = $('#new_password').val().trim();
+            let confirm_password = $('#confirm_password').val().trim();
+
+            if (current_password === "") {
+                toastr.error("Bạn cần nhập mật khẩu hiện tại.");
+                valid = false;
+            }
+            if (new_password.length < 6) {
+                toastr.error("Mật khẩu mới phải có ít nhất 6 ký tự.");
+                valid = false;
+            }
+            if (new_password !== confirm_password) {
+                toastr.error("Mật khẩu xác nhận không khớp.");
+                valid = false;
+            }
+
+            if (valid) {
+                let formData = new FormData();
+                formData.append('type', 'password');
+                formData.append('current_password', current_password);
+                formData.append('new_password', new_password);
+                formData.append('confirm_password', confirm_password);
+
+                // Gọi hàm đã định nghĩa ở trên
+                sendUpdateProfile(formData);
+            }
+        });
+
+        // --- 3. Xử lý Avatar (Tự động upload khi chọn ảnh) ---
+        $('.update-avatar').on('click', function (e) {
+            e.preventDefault();
+            $('#avatar').trigger('click');
+        });
+
+        $('#avatar').on('change', function (e) {
+            let file = e.target.files[0];
+            if (file) {
+                // Preview ảnh (tùy chọn, vì server sẽ trả về ảnh mới)
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    $('#avatar-preview').attr('src', e.target.result);
+                };
+                reader.readAsDataURL(file);
+
+                // Gửi ảnh lên server NGAY LẬP TỨC
+                let formData = new FormData();
+                formData.append('type', 'avatar');
+                formData.append('avatar', file);
+
+                sendUpdateProfile(formData);
+            }
+        });
+
+        // --- 4. Xử lý Update Profile ---
+        $("#update-profile").submit(function (e) {
+            e.preventDefault();
+            let valid = true;
+            let name = $('#name').val().trim();
+            let phone = $('#phone').val().trim();
+            let address = $('#address').val().trim();
+            let email = $('#email').val().trim();
+
+            if (name.length < 3) {
+                toastr.error("Họ và tên phải có ít nhất 3 ký tự.");
+                valid = false;
+            }
+            let phoneRegex = /^0\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                toastr.error("Số điện thoại không hợp lệ (10 số, bắt đầu bằng 0).");
+                valid = false;
+            }
+            if (address === "") {
+                toastr.error("Địa chỉ không được để trống.");
+                valid = false;
+            }
+
+            if (valid) {
+                let formData = new FormData();
+                formData.append('type', "profile");
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('phone', phone);
+                formData.append('address', address);
+
+                sendUpdateProfile(formData);
+            }
+        });
+    });
 });

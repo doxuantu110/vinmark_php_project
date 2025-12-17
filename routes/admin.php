@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ContactController;
+use App\Http\Controllers\Admin\AccountController;
 
 Route::prefix('admin')->group(function () {
 
@@ -21,6 +22,8 @@ Route::prefix('admin')->group(function () {
         Route::get('/dashboard', function () {
             return view('admin.pages.dashboard');
         })->name('admin.dashboard');
+        Route::get('/profile', [AccountController::class, 'index'])->name('admin.profile');
+        Route::post('/profile/update', [AccountController::class, 'update'])->name('profile.update');
     });
 
     // Route management for users with 'manage_users' permission
