@@ -38,7 +38,7 @@
 
 Để chạy dự án này trên máy cục bộ (Localhost), vui lòng làm theo các bước sau:
 
-### 1. Clone dự án
+### Clone dự án
 ```bash
 git clone [https://github.com/doxuantu110/vinmark_php_project.git](https://github.com/doxuantu110/vinmark_php_project.git)
 cd vinmark_php_project
