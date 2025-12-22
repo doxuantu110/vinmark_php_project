@@ -18,38 +18,39 @@
                 <div class="x_content">
 
                     <div class="row">
-                        @foreach ($users as $user)
+                        {{-- ⭐ SỬA LỖI: Đổi $user thành $userItem --}}
+                        @foreach ($users as $userItem)
                             <div class="col-md-4 col-sm-6 col-xs-12">
                                 <div class="well profile_view" style="padding: 15px; min-height: 280px;">
 
                                     <div class="col-sm-12">
 
-                                        <h4 class="brief">
-                                            <i><b>{{ $user->role->name ?? 'Không có vai trò' }}</b></i>
-                                        </h4>
-
                                         <div class="left col-md-8 col-sm-8 col-xs-12">
-                                            <h2>{{ $user->name }}</h2>
+                                            <h4 class="brief">
+                                                <i><b>{{ $userItem->role->name ?? 'Không có vai trò' }}</b></i>
+                                            </h4>
+                                            
+                                            <h2>{{ $userItem->name }}</h2>
 
-                                            <p><strong>Email: </strong> {{ $user->email }}</p>
+                                            <p><strong>Email: </strong> {{ $userItem->email }}</p>
 
                                             <ul class="list-unstyled">
                                                 <li>
                                                     <i class="fa fa-map-marker"></i>
-                                                    {{ $user->address ?? 'Chưa cập nhật' }}
+                                                    {{ $userItem->address ?? 'Chưa cập nhật' }}
                                                 </li>
 
                                                 <li>
                                                     <i class="fa fa-phone"></i>
-                                                    {{ $user->phone_number ?? 'Chưa cập nhật' }}
+                                                    {{ $userItem->phone_number ?? 'Chưa cập nhật' }}
                                                 </li>
                                             </ul>
                                         </div>
 
                                         <div class="right col-md-4 col-sm-4 col-xs-12 text-center">
-                                            <img src="{{ asset('storage/' . ($user->avatar ?? 'uploads/users/default-avatar.png')) }}"
+                                            <img src="{{ asset($userItem->avatar ? 'storage/' . $userItem->avatar : 'storage/uploads/users/default-avatar.png') }}"
                                                 class="img-circle img-responsive"
-                                                style="width: 100px; height: 100px; object-fit: cover; margin-top: 10px;">
+                                                style="width: 100px; height: 100px; object-fit: cover; margin-top: 10px; margin-left: auto; margin-right: auto;">
                                         </div>
 
                                     </div>
@@ -63,38 +64,38 @@
                                         {{-- ========================================================= --}}
                                         {{-- ================ 1) USER LÀ CUSTOMER ====================== --}}
                                         {{-- ========================================================= --}}
-                                        @if ($user->role->name === 'customer')
+                                        @if ($userItem->role->name === 'customer')
                                             {{-- ⭐ NÂNG CẤP NHÂN VIÊN (Chỉ hiển thị khi đang ACTIVE) --}}
-                                            @if ($user->status === 'active')
+                                            @if ($userItem->status === 'active')
                                                 <button class="btn btn-info btn-sm upgradeStaff"
-                                                    data-user-id="{{ $user->id }}">
+                                                    data-user-id="{{ $userItem->id }}">
                                                     <i class="fa fa-arrow-up"></i> Nhân viên
                                                 </button>
                                             @endif
 
                                             {{-- CASE 1: ĐANG BỊ CHẶN --}}
-                                            @if ($user->status === 'banned')
+                                            @if ($userItem->status === 'banned')
                                                 <button class="btn btn-success btn-sm changeStatus"
-                                                    data-user-id="{{ $user->id }}" data-status="active">
+                                                    data-user-id="{{ $userItem->id }}" data-status="active">
                                                     <i class="fa fa-unlock"></i> Bỏ chặn
                                                 </button>
 
                                                 {{-- CASE 2: ĐANG BỊ XÓA --}}
-                                            @elseif ($user->status === 'deleted')
+                                            @elseif ($userItem->status === 'deleted')
                                                 <button class="btn btn-success btn-sm changeStatus"
-                                                    data-user-id="{{ $user->id }}" data-status="active">
+                                                    data-user-id="{{ $userItem->id }}" data-status="active">
                                                     <i class="fa fa-undo"></i> Khôi phục
                                                 </button>
 
                                                 {{-- CASE 3: ĐANG ACTIVE --}}
                                             @else
                                                 <button class="btn btn-warning btn-sm changeStatus"
-                                                    data-user-id="{{ $user->id }}" data-status="banned">
+                                                    data-user-id="{{ $userItem->id }}" data-status="banned">
                                                     <i class="fa fa-ban"></i> Chặn
                                                 </button>
 
                                                 <button class="btn btn-danger btn-sm changeStatus"
-                                                    data-user-id="{{ $user->id }}" data-status="deleted">
+                                                    data-user-id="{{ $userItem->id }}" data-status="deleted">
                                                     <i class="fa fa-trash"></i> Xóa
                                                 </button>
                                             @endif
@@ -103,15 +104,15 @@
                                         {{-- ========================================================= --}}
                                         {{-- ===================== 2) USER LÀ STAFF ================== --}}
                                         {{-- ========================================================= --}}
-                                        @if ($user->role->name === 'staff')
-                                            @if ($user->status === 'deleted')
+                                        @if ($userItem->role->name === 'staff')
+                                            @if ($userItem->status === 'deleted')
                                                 <button class="btn btn-success btn-sm changeStatus"
-                                                    data-user-id="{{ $user->id }}" data-status="active">
+                                                    data-user-id="{{ $userItem->id }}" data-status="active">
                                                     <i class="fa fa-undo"></i> Khôi phục
                                                 </button>
                                             @else
                                                 <button class="btn btn-danger btn-sm changeStatus"
-                                                    data-user-id="{{ $user->id }}" data-status="deleted">
+                                                    data-user-id="{{ $userItem->id }}" data-status="deleted">
                                                     <i class="fa fa-trash"></i> Xóa
                                                 </button>
                                             @endif

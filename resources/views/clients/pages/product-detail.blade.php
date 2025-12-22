@@ -2,28 +2,34 @@
 
 @section('title', 'Chi tiết sản phẩm')
 @section('breadcrumb', 'Chi tiết sản phẩm')
+
 @section('content')
     <!-- SHOP DETAILS AREA START -->
     <div class="ltn__shop-details-area pb-85">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12 col-md-12">
+                <div class="col-lg-12">
                     <div class="ltn__shop-details-inner mb-60">
                         <div class="row">
+
+                            <!-- PRODUCT IMAGES -->
                             <div class="col-md-6">
                                 <div class="ltn__shop-details-img-gallery">
-                                    <div class="ltn__shop-details-large-img">
-                                        <div class="single-large-img">
-                                           @foreach ($product->images as $item)
+
+                                    <!-- ẢNH LỚN -->
+                                    <div class="ltn__shop-details-large-img slick-arrow-1">
+                                        @foreach ($product->images as $item)
+                                            <div class="single-large-img">
                                                 <a href="{{ asset('storage/' . $item->image) }}"
-                                                    data-rel="lightcase:myCollection">
+                                                    data-rel="lightcase:productGallery">
                                                     <img src="{{ asset('storage/' . $item->image) }}"
                                                         alt="{{ $product->name }}">
                                                 </a>
-                                            @endforeach
-                                        </div>
-
+                                            </div>
+                                        @endforeach
                                     </div>
+
+                                    <!-- THUMBNAIL -->
                                     <div class="ltn__shop-details-small-img slick-arrow-2">
                                         @foreach ($product->images as $item)
                                             <div class="single-small-img">
@@ -32,29 +38,47 @@
                                             </div>
                                         @endforeach
                                     </div>
+
                                 </div>
                             </div>
+
+
+                            <!-- PRODUCT INFO -->
                             <div class="col-md-6">
                                 <div class="modal-product-info shop-details-info pl-0">
-                                    <div class="product-ratting">
+
+                                    <!-- RATING -->
+                                    <div class="product-ratting mb-10">
                                         @include('clients.components.include.rating', [
                                             'product' => $product,
                                         ])
                                     </div>
-                                    <h3>{{ $product->name }}</h3>
-                                    <div class="product-price">
-                                        <span>{{ number_format($product->price, 0, ',', '.') }} đ</span>
+
+                                    <!-- NAME -->
+                                    <h2 class="product-title">{{ $product->name }}</h2>
+
+                                    <!-- PRICE -->
+                                    <div class="product-price mb-10">
+                                        <span class="price">
+                                            {{ number_format($product->price, 0, ',', '.') }} đ
+                                        </span>
                                     </div>
-                                    <div class="modal-product-meta ltn__product-details-menu-1">
+
+                                    <!-- CATEGORY -->
+                                    <div class="modal-product-meta ltn__product-details-menu-1 mb-10">
                                         <ul>
                                             <li>
-                                                <strong>Danh mục</strong>
+                                                <strong>Danh mục:</strong>
                                                 <span>
-                                                    <a href="javascript:void(0)">{{ $product->category->name }}</a>
+                                                    <a href="javascript:void(0)">
+                                                        {{ $product->category->name }}
+                                                    </a>
                                                 </span>
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- QUANTITY & ADD TO CART -->
                                     <div class="ltn__product-details-menu-2">
                                         <ul>
                                             <li>
@@ -67,85 +91,107 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="#" class="theme-btn-1 btn btn-effect-1 add-to-cart-btn"
+                                                <a href="javascript:void(0)"
+                                                    class="theme-btn-1 btn btn-effect-1 add-to-cart-btn"
                                                     title="Thêm vào giỏ hàng" data-id="{{ $product->id }}">
                                                     <i class="fas fa-shopping-cart"></i>
-                                                    <span>Thêm vào giỏ hàng</span>
+                                                    <span>Thêm vào giỏ</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
+
+                                    <!-- WISHLIST -->
                                     <div class="ltn__product-details-menu-3">
                                         <ul>
                                             <li>
-                                                <a href="#" class="" title="Wishlist" data-bs-toggle="modal"
+                                                <a href="javascript:void(0)" title="Yêu thích" data-bs-toggle="modal"
                                                     data-bs-target="#liton_wishlist_modal">
                                                     <i class="far fa-heart"></i>
-                                                    <span>Yêu thích</span>
+                                                    <span>Thêm vào yêu thích</span>
                                                 </a>
                                             </li>
                                         </ul>
                                     </div>
+
                                     <hr>
+                                    <!-- SOCIAL SHARE -->
                                     <div class="ltn__social-media">
                                         <ul>
-                                            <li>Chia sẻ</li>
+                                            <li>Chia sẻ:</li>
                                             <li><a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
                                             </li>
                                             <li><a href="#" title="Twitter"><i class="fab fa-twitter"></i></a></li>
-                                            <li><a href="#" title="Linkedin"><i class="fab fa-linkedin"></i></a>
-                                            </li>
+                                            <li><a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a></li>
                                             <li><a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
                                             </li>
-
                                         </ul>
                                     </div>
+
                                     <hr>
+
+                                    <!-- SAFE CHECKOUT -->
                                     <div class="ltn__safe-checkout">
-                                        <h5>Đảm bảo thanh toán an toàn</h5>
+                                        <h5>Thanh toán an toàn & bảo mật</h5>
                                         <img src="{{ asset('assets/clients/img/icons/payment-2.png') }}"
-                                            alt="Payment Image">
+                                            alt="Phương thức thanh toán">
                                     </div>
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                    <!-- Shop Tab Start -->
+
+                    <!-- PRODUCT TABS -->
                     <div class="ltn__shop-details-tab-inner ltn__shop-details-tab-inner-2">
                         <div class="ltn__shop-details-tab-menu">
                             <div class="nav">
-                                <a class="active show" data-bs-toggle="tab" href="#liton_tab_details_description">Mô tả</a>
-                                <a data-bs-toggle="tab" href="#liton_tab_details_1_2" class="">Đánh giá</a>
+                                <a class="active show" data-bs-toggle="tab" href="#liton_tab_details_description">
+                                    Mô tả sản phẩm
+                                </a>
+                                <a data-bs-toggle="tab" href="#liton_tab_details_1_2">
+                                    Đánh giá
+                                </a>
                             </div>
                         </div>
+
                         <div class="tab-content">
+
+                            <!-- DESCRIPTION TAB -->
                             <div class="tab-pane fade active show" id="liton_tab_details_description">
                                 <div class="ltn__shop-details-tab-content-inner">
-                                    <h4 class="title-2">Lorem ipsum dolor sit amet elit.</h4>
-                                    <p>{{ $product->description }}</p>
+                                    <h4 class="title-2">Thông tin chi tiết</h4>
+                                    <div class="product-description">
+                                        {!! nl2br(e($product->description)) !!}
+                                    </div>
                                 </div>
                             </div>
+
+                            <!-- REVIEW TAB -->
                             <div class="tab-pane fade" id="liton_tab_details_1_2">
                                 <div class="ltn__shop-details-tab-content-inner">
-                                    <h4 class="title-2">Đánh giá của khách hàng</h4>
-                                    <div class="product-ratting">
+                                    <h4 class="title-2">Đánh giá từ khách hàng</h4>
+
+                                    <div class="product-ratting mb-20">
                                         <ul>
                                             @for ($i = 1; $i <= 5; $i++)
                                                 @if ($i <= floor($averageRating))
-                                                    <li><a href="javascript:void(0)"><i class="fas fa-star"></i></a></li>
+                                                    <li><i class="fas fa-star"></i></li>
                                                 @elseif($i == ceil($averageRating) && $averageRating - floor($averageRating) >= 0.5)
-                                                    <li><a href="javascript:void(0)"><i
-                                                                class="fas fa-star-half-alt"></i></a></li>
+                                                    <li><i class="fas fa-star-half-alt"></i></li>
                                                 @else
-                                                    <li><a href="javascript:void(0)"><i class="far fa-star"></i></a></li>
+                                                    <li><i class="far fa-star"></i></li>
                                                 @endif
                                             @endfor
-                                            <li class="review-total"> <a href="javascript:void(0)">
-                                                    {{ $product->reviews->count() }} Đánh giá</a></li>
+                                            <li class="review-total">
+                                                {{ $product->reviews->count() }} đánh giá
+                                            </li>
                                         </ul>
                                     </div>
+
                                     <hr>
-                                    <!-- comment-area -->
+
                                     <div class="ltn__comment-area mb-30">
                                         <div class="ltn__comment-inner">
                                             @include('clients.components.include.review-list', [
@@ -153,14 +199,18 @@
                                             ])
                                         </div>
                                     </div>
-                                    <!-- comment-reply -->
+
                                     @if (Auth::check() && $hasPurchased && !$hasReviewed)
                                         <div class="ltn__comment-reply-area ltn__form-box mb-30">
                                             <form id="review-form" data-product-id="{{ $product->id }}">
-                                                <h4 class="title-2">Thêm đánh giá</h4>
+                                                <h4 class="title-2">Gửi đánh giá của bạn</h4>
+                                                <p class="text-muted mb-20">
+                                                    Chia sẻ cảm nhận của bạn để giúp người khác lựa chọn tốt hơn.
+                                                </p>
+
                                                 <div class="mb-30">
                                                     <div class="add-a-review">
-                                                        <h6>Số sao:</h6>
+                                                        <h6>Đánh giá sao:</h6>
                                                         <div class="product-ratting">
                                                             <ul>
                                                                 @for ($i = 1; $i <= 5; $i++)
@@ -175,98 +225,93 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                                 <input type="hidden" name="rating" id="rating-value" value="0">
+
                                                 <div class="input-item input-item-textarea ltn__custom-icon">
-                                                    <textarea placeholder="Nhập đánh giá của bạn...." id="review-content"></textarea>
+                                                    <textarea id="review-content" placeholder="Nhận xét của bạn về sản phẩm này..."></textarea>
                                                 </div>
+
                                                 <div class="btn-wrapper">
                                                     <button class="btn theme-btn-1 btn-effect-1 text-uppercase"
-                                                        type="submit">Submit</button>
+                                                        type="submit">
+                                                        Gửi đánh giá
+                                                    </button>
                                                 </div>
                                             </form>
                                         </div>
                                     @endif
+
                                 </div>
                             </div>
+
                         </div>
                     </div>
-                    <!-- Shop Tab End -->
+                    <!-- PRODUCT TABS END -->
+
                 </div>
             </div>
         </div>
     </div>
+
     @include('clients.components.include.include-modal')
     <!-- SHOP DETAILS AREA END -->
 
-    <!-- PRODUCT SLIDER AREA START -->
+    <!-- RELATED PRODUCTS -->
     <div class="ltn__product-slider-area ltn__product-gutter pb-70">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-title-area ltn__section-title-2">
-                        <h6 class="section-subtitle ltn__secondary-color">// cars</h6>
-                        <h1 class="section-title">Sản phẩm liên quan<span>.</span></h1>
+                        <h6 class="section-subtitle ltn__secondary-color">
+                            // Sản phẩm cùng danh mục
+                        </h6>
+                        <h1 class="section-title">
+                            Có thể bạn sẽ thích<span>.</span>
+                        </h1>
                     </div>
                 </div>
             </div>
+
             <div class="row ltn__related-product-slider-one-active slick-arrow-1">
-                <!-- ltn__product-item -->
                 @foreach ($relatedProducts as $product)
                     <div class="col-lg-12">
                         <div class="ltn__product-item ltn__product-item-3 text-center">
                             <div class="product-img">
                                 <a href="{{ route('product.detail', $product->slug) }}">
-                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}"></a>
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                                </a>
                                 <div class="product-badge">
                                     <ul>
-                                        <li class="sale-badge">New</li>
-                                    </ul>
-                                </div>
-                                <div class="product-hover-action">
-                                    <ul>
-                                        <li>
-                                            <a href="javascript:void(0)" title="Xem nhanh" data-bs-toggle="modal"
-                                                data-bs-target="#quick_view_modal-{{ $product->id }}">
-                                                <i class="far fa-eye"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" title="Thêm vào giỏ hàng" data-bs-toggle="modal"
-                                                data-bs-target="#add_to_cart_modal-{{ $product->id }}">
-                                                <i class="fas fa-shopping-cart"></i>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0)" title="Yêu thích" class="add-to-wishlist"
-                                                data-id="{{ $product->id }}">
-                                                <i class="far fa-heart"></i></a>
-                                        </li>
+                                        <li class="sale-badge">Liên quan</li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="product-info">
                                 <div class="product-ratting">
-                                    @include('clients.components.include.rating', [
-                                        'product' => $product,
-                                    ])
+                                    @include('clients.components.include.rating', ['product' => $product])
                                 </div>
-                                <h2 class="product-title"><a
-                                        href="{{ route('product.detail', $product->slug) }}">{{ $product->name }}</a>
+                                <h2 class="product-title">
+                                    <a href="{{ route('product.detail', $product->slug) }}">
+                                        {{ $product->name }}
+                                    </a>
                                 </h2>
                                 <div class="product-price">
-                                    <span>{{ number_format($product->price, 0, ',', '.') }} đ</span>
+                                    <span>
+                                        {{ number_format($product->price, 0, ',', '.') }} đ
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+
             @foreach ($relatedProducts as $product)
                 @include('clients.components.include.include-modal')
             @endforeach
         </div>
     </div>
-    <!-- PRODUCT SLIDER AREA END -->
-
+    <!-- RELATED PRODUCTS END -->
 
 @endsection

@@ -33,6 +33,7 @@
 
     <!-- Import custom css  -->
     <link rel="stylesheet" href="{{ asset('assets/clients/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/chat.css') }}">
 </head>
 
 <body>
@@ -49,6 +50,7 @@
         </main>
 
         @include('clients.partials.feature')
+        @include('clients.partials.chat_ai')
         @include('clients.partials.footer')
     </div>
     <!-- Body main wrapper end -->
@@ -68,7 +70,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- jQuery Easing Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-
+    <script src="{{ asset('assets/clients/js/chat.js') }}"></script>
 
     <!-- ⚡ Patch Fix: đảm bảo easing tồn tại trước khi các plugin khác dùng -->
     <script>
@@ -118,6 +120,18 @@
                     toastr.info("{{ session('info') }}");
                 }
             @endif
+        });
+    </script>
+    <script>
+        $(window).on('load', function() {
+            if ($('.ltn__tab-product-slider-one-active').length) {
+                $('.ltn__tab-product-slider-one-active').slick('setPosition');
+            }
+        });
+
+        /* Khi click tab */
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function() {
+            $('.ltn__tab-product-slider-one-active').slick('setPosition');
         });
     </script>
 </body>

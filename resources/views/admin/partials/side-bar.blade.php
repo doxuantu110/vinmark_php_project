@@ -34,7 +34,7 @@
                      @endif
                      
                       @if ($adminUser->role->permissions->contains('name', 'manage_categories'))
-                        <li><a href="#"><i class="fa fa-lock"></i> Quản lý danh mục<span class="fa fa-chevron-down"></span></a>
+                        <li><a href="javascript:void(0)"><i class="fa fa-lock"></i> Quản lý danh mục<span class="fa fa-chevron-down"></span></a>
                          <ul class="nav child_menu">
                              <li><a href="{{ route('admin.categories.add') }}">Thêm danh mục</a></li>
                              <li><a href="{{ route('admin.categories.index') }}">Danh sách danh mục</a></li>
@@ -43,7 +43,7 @@
                      @endif
                      
                      @if ($adminUser->role->permissions->contains('name', 'manage_products'))
-                       <li><a href="#"><i class="fa fa-table"></i> Quản lý sản phẩm <span class="fa fa-chevron-down"></span></a>
+                       <li><a href="javascript:void(0)"><i class="fa fa-table"></i> Quản lý sản phẩm <span class="fa fa-chevron-down"></span></a>
                          <ul class="nav child_menu">
                              <li><a href="{{ route('admin.product.add') }}">Thêm sản phẩm</a></li>
                              <li><a href="{{ route('admin.products.index') }}">Danh sách sản phẩm</a></li>
@@ -65,15 +65,6 @@
 
          <!-- /menu footer buttons -->
          <div class="sidebar-footer hidden-small">
-             <a data-toggle="tooltip" data-placement="top" title="Settings">
-                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-             </a>
-             <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                 <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-             </a>
-             <a data-toggle="tooltip" data-placement="top" title="Lock">
-                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-             </a>
              <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('admin.logout') }}">
                  <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
              </a>

@@ -20,59 +20,49 @@ class ProductController extends Controller
 
         return view('clients.pages.products', compact('categories', 'products'));
     }
+public function filter(Request $request)
+{
+    $query = Product::with('firstImage')->where('status', 'in_stock');
 
-    public function filter(Request $request)
-    {
-        $query = Product::query();
+    // 1. Lọc theo danh mục
+    if ($request->filled('category_id')) {
+        $query->where('category_id', $request->category_id);
+    }
 
-        // --- Filter Category nếu có ---
-        if ($request->has('category_id') && $request->category_id != '') {
-            $query->where('category_id', $request->category_id);
-        }
-
-        // --- Filter Price nếu có ---
-        if ($request->has('min_price') && $request->has('max_price')) {
-            $query->whereBetween('price', [$request->min_price, $request->max_price]);
-        }
-
-        // --- Filter SortBy nếu có ---
-        if ($request->has('sort_by')) {
-            switch ($request->sort_by) {
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
-                    break;
-                case 'latest':
-                    $query->orderBy('created_at', 'desc');
-                    break;
-                default:
-                    $query->orderBy('id', 'desc');
-                    break;
-            }
-        } else {
-            // Mặc định sắp xếp theo id giảm dần
-            $query->orderBy('id', 'desc');
-        }
-
-        // --- Phân trang ---
-        $products = $query->paginate(9)->appends($request->except('page'));
-
-
-        // load ảnh
-        foreach ($products as $product) {
-            $product->image_url = $product->firstImage?->image
-                ? asset('storage/uploads/products/' . $product->firstImage->image)
-                : asset('storage/uploads/products/default-product.png');
-        }
-
-        // --- Trả về JSON chứa HTML render ---
-        return response()->json([
-            'products' => view('clients.components.products_grid', compact('products'))->render(),
-            'pagination' => $products->links('clients.components.pagination.pagination_custom')
+    // 2. Lọc theo giá
+    if ($request->filled('min_price') && $request->filled('max_price')) {
+        $query->whereBetween('price', [
+            $request->min_price,
+            $request->max_price
         ]);
     }
+
+    // 3. Sắp xếp
+    match ($request->sort_by) {
+        'price_asc'  => $query->orderBy('price', 'asc'),
+        'price_desc' => $query->orderBy('price', 'desc'),
+        'latest'     => $query->orderBy('created_at', 'desc'),
+        default      => $query->orderBy('id', 'desc'), // Mặc định
+    };
+
+    // 🔥 FIX: Luôn luôn phân trang, không dùng get()
+    $products = $query->paginate(9);
+
+    // Xử lý ảnh (Tốt nhất nên dùng Accessor trong Model, nhưng viết ở đây cũng được)
+    foreach ($products as $product) {
+        $product->image_url = $product->firstImage
+            ? asset('storage/uploads/products/' . $product->firstImage->image)
+            : asset('storage/uploads/products/default-product.png');
+    }
+
+    // Render view trả về
+    return response()->json([
+        'products'   => view('clients.components.products_grid', compact('products'))->render(),
+        'pagination' => $products->links('clients.components.pagination.pagination_custom')->render()
+    ]);
+}
+
+
 
     public function detail($slug)
     {

@@ -32,7 +32,8 @@
 
     <!-- Toastr CSS (CDN) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
-
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/chat.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/clients/css/custom.css') }}">
 </head>
 
 <body>
@@ -42,6 +43,7 @@
         <main>
             @yield('content')
         </main>
+        @include('clients.partials.chat_ai')
         @include('clients.partials.footer_home')
     </div>
     <!-- Body main wrapper end -->
@@ -80,11 +82,11 @@
             };
         }
     </script>
-    </script>
     <!-- All JS Plugins -->
     <script src="{{ asset('assets/clients/js/plugins.js') }}"></script>
     <!-- Main JS -->
     <script src="{{ asset('assets/clients/js/main.js') }}"></script>
+    <script src="{{ asset('assets/clients/js/chat.js') }}"></script>
     <!-- Custom JS -->
     <script src="{{ asset('assets/clients/js/custom.js') }}"></script>
     <script>
@@ -111,7 +113,18 @@
             @endif
         });
     </script>
+    <script>
+        $(window).on('load', function() {
+            if ($('.ltn__tab-product-slider-one-active').length) {
+                $('.ltn__tab-product-slider-one-active').slick('setPosition');
+            }
+        });
 
+        /* Khi click tab */
+        $('a[data-bs-toggle="tab"]').on('shown.bs.tab', function() {
+            $('.ltn__tab-product-slider-one-active').slick('setPosition');
+        });
+    </script>
 </body>
 
 </html>

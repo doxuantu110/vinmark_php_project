@@ -64,7 +64,7 @@
                                     Số lượng
                                 </label>
                                 <div class="col-md-7">
-                                    <input type="number" name="quantity" id="product-quantity"
+                                    <input type="number" name="stock" id="product-quantity"
                                         class="form-control border rounded">
                                 </div>
                             </div>

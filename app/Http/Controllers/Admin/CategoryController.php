@@ -61,7 +61,7 @@ class CategoryController extends Controller
         'category_id'   => 'required|exists:categories,id',
         'category_name' => 'required|string|max:255',
         'category_description' => 'nullable|string',
-        'category_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'category_image' => 'nullable|image|mimes:jpg,jpeg,png,webp,gif|max:2048',
     ]);
 
     // Lấy danh mục dựa trên category_id

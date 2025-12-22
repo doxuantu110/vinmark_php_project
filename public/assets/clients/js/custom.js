@@ -317,75 +317,112 @@ $(document).ready(function () {
         }
     });
 
-    // Page Product
-    // **********************************************
+    // ================================
+    // PAGE PRODUCT - AJAX FILTER
+    // ================================
+    let currentPage = 1;
+    let currentCategory = ''; // '' = TẤT CẢ
 
-    let currentPage = 1; // Biến lưu trang hiện tại
-
-    // Xử lý khi click vào nút phân trang
+    // ================================
+    // PAGINATION
+    // ================================
     $(document).on('click', '.pagination-link', function (e) {
         e.preventDefault();
-        let pageUrl = $(this).attr('href');
-        let page = pageUrl.split('page=')[1];
-        currentPage = page;
+
+        let href = $(this).attr('href');
+        if (!href) return;
+
+        let url = new URL(href, window.location.origin);
+        currentPage = url.searchParams.get('page') || 1;
+
         fetchProducts();
     });
 
+    // ================================
+    // FETCH PRODUCTS
+    // ================================
+    // ================================
+    // FETCH PRODUCTS
+    // ================================
     function fetchProducts() {
-        let category_id = $(".category-filter.active").data('id') || '';
-        let minPrice = $(".slider-range").slider('values', 0);
-        let maxPrice = $(".slider-range").slider('values', 1);
-        let sort_by = $("#sort-by").val() || '';
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+        let sort_by = $('#sort-by').val() || '';
+        let minPrice = 0;
+        let maxPrice = 300000;
+
+        if ($('.slider-range').hasClass('ui-slider')) {
+            minPrice = $(".slider-range").slider('values', 0);
+            maxPrice = $(".slider-range").slider('values', 1);
+        }
 
         $.ajax({
-            url: '/products/filter?page=' + currentPage,
-            type: "GET",
+            url: '/products/filter',
+            type: 'GET',
             data: {
+                // 🔥 FIX: Luôn lấy currentPage hiện tại
+                // Khi đổi category, code click event bên dưới đã set currentPage = 1 rồi
                 page: currentPage,
-                category_id: category_id,
+                category_id: currentCategory,
                 min_price: minPrice,
                 max_price: maxPrice,
                 sort_by: sort_by
             },
             beforeSend: function () {
                 $("#loading-spinner").show();
-                $("#liton_product_grid").hide(); // <- sử dụng id đúng
+                // Có thể làm mờ danh sách sản phẩm cũ
+                $("#ajax-product-container").css("opacity", "0.5");
             },
-            success: function (response) {
-                $("#liton_product_grid").html(response.products);
-                $(".ltn__pagination").html(response.pagination);
+            success: function (res) {
+                // 🔥 FIX: ID selector cho đúng với file Blade
+                $("#ajax-product-container").html(res.products);
+
+                // Selector này ok nếu blade pagination của bạn có class .ltn__pagination bọc ngoài
+                // Nhưng an toàn nhất là target vào ID container
+                $("#ajax-pagination").html(res.pagination);
+
+                // Scroll nhẹ lên đầu danh sách sản phẩm để user thấy thay đổi
+                $('html, body').animate({
+                    scrollTop: $(".ltn__product-area").offset().top - 100
+                }, 500);
             },
             complete: function () {
-                $("#loading-spinner").hide(); // <- id đúng
-                $("#liton_product_grid").show();
+                $("#loading-spinner").hide();
+                $("#ajax-product-container").css("opacity", "1");
             },
-            error: function (xhr, status, error) {
-                console.error("Lỗi AJAX fetchProducts:", error);
-                alert("Đã xảy ra lỗi khi tải sản phẩm. Vui lòng thử lại sau!");
+            error: function (xhr) {
+                console.error(xhr.responseText);
+                // alert("Có lỗi xảy ra, vui lòng thử lại!"); // Nên dùng Toast notification đẹp hơn
             }
         });
     }
 
-    // delegation để chắc chắn event luôn bắt được
-    $(".category-filter").click(function () {
-        $(".category-filter").removeClass("active");
+    // ================================
+    // CATEGORY FILTER
+    // ================================
+    $(document).on('click', '.category-filter', function () {
+
+        $('.category-filter').removeClass('active');
         $(this).addClass('active');
+
+        currentCategory = $(this).data('id') ?? '';
+
+        // 🔥 CỰC KỲ QUAN TRỌNG
+        currentPage = 1;
+
+        fetchProducts();
+    });
+
+    // ================================
+    // SORT
+    // ================================
+    $('#sort-by').change(function () {
         currentPage = 1;
         fetchProducts();
     });
 
-    $("#sort-by").change(function () {
-        currentPage = 1;
-        fetchProducts();
-    });
-
-    // Slider: chỉ khởi tạo 1 lần
+    // ================================
+    // PRICE SLIDER
+    // ================================
     $(".slider-range").slider({
         range: true,
         min: 0,
@@ -393,16 +430,16 @@ $(document).ready(function () {
         values: [0, 300000],
         slide: function (event, ui) {
             $(".amount").val(
-                ui.values[0].toLocaleString() + " ₫ - " + ui.values[1].toLocaleString() + " ₫"
+                ui.values[0].toLocaleString() + " ₫ - " +
+                ui.values[1].toLocaleString() + " ₫"
             );
         },
-        change: function (event, ui) {
+        change: function () {
             currentPage = 1;
             fetchProducts();
         }
     });
 
-    // hiển thị giá ban đầu
     $(".amount").val(
         $(".slider-range").slider("values", 0).toLocaleString() + " ₫ - " +
         $(".slider-range").slider("values", 1).toLocaleString() + " ₫"
@@ -641,7 +678,7 @@ $(document).ready(function () {
     });
 
 
-    // **********************************************
+     // **********************************************
     // Checkout Page
     // **********************************************
 
@@ -771,6 +808,7 @@ $(document).ready(function () {
                 });
         }
     });
+
 
     /**********************************************
      * HANDLE RATING PRODUCT
@@ -953,7 +991,7 @@ $(document).ready(function () {
                     toastr.success("Đã xóa sản phẩm khỏi danh sách yêu thích!");
                 }
             },
-            error: function (xhr){
+            error: function (xhr) {
                 toastr.error("Có lỗi xảy ra với ajax removeProductWishList.");
             }
         });

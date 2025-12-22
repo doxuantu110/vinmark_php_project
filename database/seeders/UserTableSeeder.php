@@ -17,7 +17,7 @@ class UserTableSeeder extends Seeder
             'email' => 'nguyenvana@gmail.com',
             'password' => bcrypt('123456'),
             'phone_number' => '0123456789',
-            'status' => 'pending',
+            'status' => 'active',
             'avatar' => '',
             'address' => 'Hanoi, Vietnam',
             'role_id' => 3, // Assuming role_id 1 is for admin

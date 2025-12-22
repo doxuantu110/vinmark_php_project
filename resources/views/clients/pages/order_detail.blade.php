@@ -36,8 +36,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Ảnh</th>
                         <th>Tên sản phẩm</th>
+                        <th>Ảnh</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
                         <th>Thành tiền</th>
@@ -45,33 +45,35 @@
                 </thead>
                 <tbody>
                     @foreach ($order->orderItems as $item)
-                <tr>
-                    <td>
-                        <img src="{{ asset('storage/'. $item->product->image) }}" alt="Product Image" width="50">
-                    </td>
-                    <td>{{ $item->product->name }}</td>
-                    <td>{{ number_format($item->price, 0, ',', '.') }} đ</td>
-                    <td>{{ $item->quantity }}</td>
-                    <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }} đ</td></td>
-                </tr>
-                <!-- End loop -->
-                @endforeach
+                        <tr>
+                            <td>{{ $item->product->name }}</td>
+                            <td>
+                                <img src="{{ asset($item->product->image_url) }}" alt="Product Image" width="50">
+                            </td>
+                            <td>{{ number_format($item->price, 0, ',', '.') }} đ</td>
+                            <td>{{ $item->quantity }}</td>
+                            <td>{{ number_format($item->price * $item->quantity, 0, ',', '.') }} đ</td>
+                            </td>
+                        </tr>
+                        <!-- End loop -->
+                    @endforeach
             </table>
             <h4 class="mt-4">Thông tin giao hàng</h4>
-            <p>Người nhận: {{$order->shippingAddress->full_name}}</p>
-            <p>Địa chỉ: {{$order->shippingAddress->address}}</p>
-            <p>Thành phố: {{$order->shippingAddress->city}}</p>
-            <p>Số điện thoại: {{$order->shippingAddress->phone}}</p>
+            <p>Người nhận: {{ $order->shippingAddress->full_name }}</p>
+            <p>Địa chỉ: {{ $order->shippingAddress->address }}</p>
+            <p>Thành phố: {{ $order->shippingAddress->city }}</p>
+            <p>Số điện thoại: {{ $order->shippingAddress->phone }}</p>
 
-            @if($order->status == 'pending')
-                <form action="{{ route('order.cancel', $order->id) }}" method="POST" onsubmit="return confirm('Bạn có chắc muốn hủy đơn hàng này không?');">
+            @if ($order->status == 'pending')
+                <form action="{{ route('order.cancel', $order->id) }}" method="POST"
+                    onsubmit="return confirm('Bạn có chắc muốn hủy đơn hàng này không?');">
                     @csrf
                     <button type="submit" class="btn btn-danger mt-3">Hủy đơn hàng</button>
                 </form>
             @endif
-            @if($order->status == 'completed')
-            <h4 class="mt-4">Đánh giá sản phẩm</h4>
-               <table class="table">
+            @if ($order->status == 'completed')
+                <h4 class="mt-4">Đánh giá sản phẩm</h4>
+                <table class="table">
                     <thead>
                         <th>Sản phẩm</th>
                         <th>Đánh giá</th>
@@ -81,12 +83,13 @@
                             <tr>
                                 <td>{{ $item->product->name }}</td>
                                 <td>
-                                    <a href="{{ route('product.detail', $item->product->slug)}}" class="btn btn-primary">Đánh giá</a>
+                                    <a href="{{ route('product.detail', $item->product->slug) }}"
+                                        class="btn btn-primary">Đánh giá</a>
                                 </td>
                             </tr>
                         @endforeach
                     </tbody>
-               </table>
+                </table>
             @endif
         </div>
     </div>

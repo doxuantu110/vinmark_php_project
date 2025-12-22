@@ -242,7 +242,7 @@ $(document).ready(function () {
         /* ===============================
          *  PREVIEW ẢNH KHI THÊM SẢN PHẨM
          =============================== */
-        $("#product-image").on("change", function () {
+        $(document).on("change", "#product-image", function () {
 
             $("#multiplePreview").html("");
 

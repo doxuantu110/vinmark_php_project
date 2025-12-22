@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="ltn__form-box contact-form-box box-shadow white-bg">
-                        <h4 class="title-2">Nhận Báo Giá</h4>
+                        <h4 class="title-2">Nhận Liên hệ / Phản hồi</h4>
                         <form id="contact-form" action="{{ route('contact') }}" method="post">
                             @csrf
                             <div class="row">
@@ -87,10 +87,11 @@
         <!-- GOOGLE MAP AREA START -->
         <div class="google-map mb-120">
 
-            <iframe
+            {{-- <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d9334.271551495209!2d-73.97198251485975!3d40.668170674982946!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25b0456b5a2e7%3A0x68bdf865dda0b669!2sBrooklyn%20Botanic%20Garden%20Shop!5e0!3m2!1sen!2sbd!4v1590597267201!5m2!1sen!2sbd"
-                width="100%" height="100%" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+                width="100%" height="100%" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe> --}}
 
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15672.722704124455!2d106.74996878715817!3d10.873858699999996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3174d9003dbf2835%3A0xb2ab16e004c79c3d!2sVinmart%2B!5e0!3m2!1svi!2s!4v1766201187412!5m2!1svi!2s" width="100%" height="100%" frameborder="0" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
         </div>
         <!-- GOOGLE MAP AREA END -->
 

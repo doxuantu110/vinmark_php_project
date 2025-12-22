@@ -19,8 +19,8 @@
             <div class="mini-cart-item clearfix">
                 <div class="mini-cart-img">
                     <a href="#">
-                        <img src="{{ asset($product->images->first()->image_path ?? 'storage/uploads/products/default-product.png') }}"
-                            alt="Image">
+                        <img src="{{ asset(($item->product->image_url ?? 'storage/' . 'uploads/products/default-product.png')) }}"
+                                                        alt="Sản phẩm"></a>
                     </a>
                     <span class="mini-cart-item-delete" data-id="{{ $product->id }}">
                         <i class="icon-cancel"></i>

@@ -42,7 +42,7 @@
                         
                         <label class="checkbox-inline">
                             <input type="checkbox" name="checkbox1" value="">
-                            Tôi đồng ý cho Herboil xử lý dữ liệu cá nhân của tôi để gửi tài liệu tiếp thị cá nhân hóa
+                            Tôi đồng ý cho VinMark xử lý dữ liệu cá nhân của tôi để gửi tài liệu tiếp thị cá nhân hóa
                             theo mẫu chấp thuận và chính sách bảo mật.
                             @error("checkbox1")
                             <div class="text-danger">{{ $message }}</div>

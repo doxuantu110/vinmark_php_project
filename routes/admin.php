@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\AccountController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Middleware\DefaultAdminData;
 
@@ -21,9 +22,7 @@ Route::prefix('admin')->group(function () {
     });
 
     Route::middleware(['auth.custom', DefaultAdminData::class])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('admin.pages.dashboard');
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
         Route::get('/profile', [AccountController::class, 'index'])->name('admin.profile');
         Route::post('/profile/update', [AccountController::class, 'update'])->name('profile.update');
         Route::get('/notifications',[NotificationController::class, 'index'])->name('admin.notifications.index');

@@ -12,6 +12,8 @@ use App\Http\Controllers\Clients\WishlistController;
 use App\Http\Controllers\Clients\SearchController;
 use App\Http\Controllers\Clients\CartController;
 use \App\Http\Controllers\Clients\CheckoutController;
+use \App\Http\Controllers\Clients\ChatController;
+use Illuminate\Support\Facades\Http;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
@@ -95,9 +97,9 @@ Route::middleware(['auth.custom'])->group(function () {
     Route::get('/review/{product}', [ReviewController::class, 'index']);
 
     //Wishlist Route
-    Route::get('/wishlist',[WishListController::class,'index'])->name('wishlist.index');
-    Route::post('/wishlist/add', [WishListController::class,'addToWishList']);
-    Route::post('/wishlist/remove', [WishListController::class,'removeWishListItem']);
+    Route::get('/wishlist', [WishListController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/add', [WishListController::class, 'addToWishList']);
+    Route::post('/wishlist/remove', [WishListController::class, 'removeWishListItem']);
 });
 
 // Product
@@ -122,11 +124,43 @@ Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.index');
 Route::post('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
 Route::post('/cart/remove', [CartController::class, 'removeCart'])->name('cart.remove');
 
- // Contact page
+// Contact page
 Route::get('/contact', [ContactController::class, 'index'])->name('contact.index');
 Route::post('/contact', [ContactController::class, 'sendContact'])->name('contact');
 
 // Search
 Route::get('/search', [SearchController::class, 'index'])->name('search');
 
-require __DIR__ .'/admin.php';
+// Chat AI Routes
+Route::get('/chat/messages', [ChatController::class, 'fetchMessages'])->name('fetchMessages');
+Route::post('/chat/send', [ChatController::class, 'sendMessage'])->name('sendMessage');
+
+
+Route::get('/check-models', function () {
+    $key = env('GOOGLE_GEMINI_API_KEY');
+    
+    // Gọi API liệt kê các model khả dụng
+    $response = Http::withOptions(['verify' => false])
+        ->get('https://generativelanguage.googleapis.com/v1beta/models?key=' . $key);
+
+    if ($response->successful()) {
+        $models = $response->json()['models'] ?? [];
+        // Chỉ lọc lấy các model có hỗ trợ generateContent (để chat)
+        $chatModels = array_filter($models, function($m) {
+            return in_array('generateContent', $m['supportedGenerationMethods']);
+        });
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Danh sách model bạn được phép dùng:',
+            'available_models' => array_column($chatModels, 'name') // Lấy tên model (ví dụ: models/gemini-pro)
+        ]);
+    } else {
+        return response()->json([
+            'status' => 'error',
+            'code' => $response->status(),
+            'message' => $response->json()
+        ]);
+    }
+});
+require __DIR__ . '/admin.php';

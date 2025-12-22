@@ -40,7 +40,7 @@
                 <div class="col">
                     <div class="site-logo-wrap">
                         <div class="site-logo">
-                            <a href="/"><img src="{{ asset('assets/clients/img/logo-2.png') }}"
+                            <a href="/"><img src="{{ asset('assets/clients/img/logo4.png') }}"
                                     alt="Logo"></a>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                                     <li class="menu-icon"><a href="{{ route('products.index') }}">Cửa hàng</a>
                                     </li>
                                     <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-                                    <li class="special-link"><a href="{{ route('contact.index') }}">Nhận báo giá</a>
+                                    <li class="special-link"><a href="{{ route('contact.index') }}">Nhận phản hồi</a>
                                     </li>
                                 </ul>
                             </div>

@@ -1,9 +1,9 @@
-.profile-pic-container{
+.profile-pic-container {
     position: relative;
     display: inline-block;
 }
 
-.profile-pic{
+.profile-pic {
     width: 150px;
     height: 150px;
     border-radius: 50%;
@@ -12,42 +12,45 @@
     cursor: pointer;
 }
 
-.catetory-filter.active{
+.catetory-filter.active {
     color: var(--ltn__secondary-color-2);
     font-weight: bold;
 }
 
 /* loading spinner css */
 /* Custom Loading Spinner */
-#loading-spinner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    display: none;
+/* 1. Thiết lập vùng chứa để làm mốc toạ độ */
+.col-lg-8 {
+    position: relative; /* Quan trọng: Giữ spinner nằm trong khung này */
+    min-height: 500px;  /* Quan trọng: Giữ chiều cao khung không bị xẹp khi đang load */
 }
 
-/* Spinner style */
+/* 2. Custom Loading Spinner - Dùng Absolute để căn giữa tâm */
+#loading-spinner {
+    position: absolute; /* Tách khỏi dòng chảy văn bản để bay lên trên */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Kỹ thuật căn giữa tuyệt đối */
+    z-index: 99; /* Đảm bảo luôn nằm trên sản phẩm cũ */
+    display: none; /* Mặc định ẩn */
+}
+
+/* 3. Spinner style (Giữ nguyên hoặc chỉnh màu) */
 .loader {
-    width: 128px;
-    height: 128px;
-    border: 5px solid;
-    border-color: var(--ltn__secondary-color) transparent;
+    width: 80px;  /* Nên giảm size chút cho cân đối, 128px hơi to */
+    height: 80px;
+    border: 5px solid #f3f3f3; /* Màu nền nhẹ cho vòng tròn */
+    border-top-color: var(--ltn__secondary-color); /* Màu chính xoay */
     border-radius: 50%;
     display: inline-block;
     box-sizing: border-box;
     animation: rotation 1s linear infinite;
 }
 
-/* Rotation animation */
 @keyframes rotation {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
-
 /* Checkout */
 .select-address {
     display: flex;
@@ -55,4 +58,278 @@
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+}
+
+/* ===== CATEGORY ===== */
+/* ===== CATEGORY CARD ===== */
+/* ===== CATEGORY CARD ===== */
+.bhx-category-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    width: 100%; /* Sửa lỗi fix cứng width */
+    height: 100%; /* Để các thẻ bằng nhau */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: 2px solid transparent; /* Chuẩn bị sẵn viền để không bị giật khi active */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    cursor: pointer;
+    position: relative;
+}
+
+/* Hiệu ứng bay lên nhẹ nhàng */
+.bhx-category-item:hover .bhx-category-card {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.12);
+    border-color: #81c784; /* Viền xanh nhạt khi hover */
+}
+
+/* ===== CATEGORY IMAGE ===== */
+.bhx-category-img {
+    position: relative;
+    width: 100%;
+    height: 80px; /* Chiều cao vừa phải cho icon */
+    padding: 10px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bhx-category-img img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; /* Dùng contain để icon không bị cắt mất đầu đuôi */
+    transition: transform 0.4s ease;
+}
+
+/* ZOOM HOVER */
+.bhx-category-item:hover .bhx-category-img img {
+    transform: scale(1.15); /* Phóng to rõ hơn chút */
+}
+
+/* ===== BADGE "DANH MỤC" ===== */
+.bhx-badge {
+    position: absolute;
+    top: 6px;
+    right: 6px; /* Đổi sang phải nhìn thoáng hơn */
+    background: #e8f5e9;
+    color: #2E7D32;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+}
+
+/* ===== TEXT ===== */
+.bhx-category-card h6 {
+    padding: 0 10px 15px 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    text-align: center; /* Căn giữa đẹp hơn cho dạng lưới */
+    margin: 0;
+    line-height: 1.4;
+    transition: color 0.3s;
+}
+
+/* ===== ACTIVE TAB (TRẠNG THÁI ĐANG CHỌN) ===== */
+.bhx-category-item.active .bhx-category-card {
+    border: 2px solid #2E7D32;
+    background-color: #f1f8e9; /* Nền xanh cực nhạt khi chọn */
+}
+
+.bhx-category-item.active .bhx-category-card h6 {
+    color: #2E7D32;
+}
+
+/* =====================================================
+   BHX PRODUCT SECTION
+   ===================================================== */
+
+/* ===== PRODUCT WRAPPER ===== */
+.bhx-product-wrapper {
+    background: #fff;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+
+/* ===== PRODUCT CARD ===== */
+.bhx-product-card{
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    height: 100%;
+    border: 1px solid #eee;
+    transition: box-shadow 0.3s ease;
+}
+
+.bhx-product-card:hover {
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+/* =====================================================
+   DISABLE ALL LTN HOVER EFFECTS
+   ===================================================== */
+
+/* Luôn hiển thị ảnh */
+.ltn__product-item-3 .product-img img {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    transform: none !important;
+}
+
+/* Không ẩn ảnh khi hover */
+.ltn__product-item-3:hover .product-img img {
+    opacity: 1 !important;
+}
+
+/* Tắt toàn bộ layer hover của theme */
+.ltn__product-item-3 .product-hover-action,
+.ltn__product-item-3 .product-action,
+.ltn__product-item-3 .product-action-2,
+.ltn__product-item-3 .product-img::before,
+.ltn__product-item-3 .product-img::after {
+    display: none !important;
+}
+
+/* Tắt hiệu ứng hover của card theme */
+.ltn__product-item-3:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* Fix slick slider */
+.slick-slide img {
+    opacity: 1 !important;
+}
+
+/* =====================================================
+   IMAGE
+   ===================================================== */
+.bhx-product-card .product-img {
+    height: 180px;
+    margin-bottom: 12px;
+    overflow: hidden;
+}
+
+.bhx-product-card .product-img a {
+    display: block !important; /* Quan trọng */
+    height: 100% !important;   /* Quan trọng */
+    width: 100% !important;
+}
+
+.bhx-product-card .product-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* =====================================================
+   PRODUCT INFO
+   ===================================================== */
+.bhx-product-card .product-info {
+    text-align: center;
+}
+
+/* Rating */
+.bhx-product-card .product-ratting {
+    font-size: 13px;
+    color: #ffb400;
+    margin-bottom: 6px;
+}
+
+.bhx-product-card .product-ratting span,
+.bhx-product-card .product-ratting a {
+    color: #888;
+    font-weight: 400;
+    margin-left: 4px;
+}
+
+/* Product name */
+.bhx-product-card .product-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.4;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.bhx-product-card .product-title a {
+    color: #333;
+    text-decoration: none;
+}
+
+.bhx-product-card .product-title a:hover {
+    color: #2e7d32;
+}
+
+/* Price */
+.bhx-price {
+    color: #2e7d32;
+    font-weight: 800;
+    font-size: 18px;
+    display: block;
+    margin-top: 4px;
+}
+/* Ép ảnh hiện nguyên hình, bất chấp hiệu ứng theme */
+.ltn__product-item-3 .product-img img,
+.bhx-product-card .product-img img {
+    opacity: 1 !important;        /* Chống mờ */
+    visibility: visible !important; /* Chống ẩn */
+    display: block !important;    /* Chống display: none */
+    position: relative !important; /* Để set z-index */
+    z-index: 10 !important;       /* Nổi lên trên các lớp màu nền */
+    transform: none !important;   /* Tắt các hiệu ứng xoay/scale nếu có */
+}
+
+/* Đảm bảo thẻ a bao quanh cũng nổi lên */
+.bhx-product-card .product-img a {
+    display: block !important;
+    opacity: 1 !important;
+    z-index: 10 !important;
+}
+
+/* Product Detail  */
+/* Ảnh lớn */
+.ltn__shop-details-large-img img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* Thumbnail */
+/* Ảnh lớn */
+.ltn__shop-details-large-img img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* Thumbnail */
+.ltn__shop-details-small-img img {
+    width: 100%;
+    height: 90px;
+    object-fit: cover;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.ltn__pagination {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding-left: 0;
+}
+
+.ltn__pagination li {
+    margin: 0 5px;
 }

@@ -8,7 +8,7 @@
                  <div class="col">
                      <div class="site-logo-wrap">
                          <div class="site-logo">
-                             <a href="\"><img src="{{ asset('assets/clients/img/logo.png') }}" alt="Logo"></a>
+                             <a href="\"><img src="{{ asset('assets/clients/img/logo3.png') }}" alt="Logo"></a>
                          </div>
                      </div>
                  </div>
@@ -25,13 +25,13 @@
                                                  <li><a href="{{ route('about') }}">Về chúng tôi</a></li>
                                                  <li><a href="{{ route('service') }}">Dịch vụ</a></li>
                                                  <li><a href="{{ route('team') }}">Team</a></li>
-                                                 <li><a href="{{ route('faq') }}">FAQ</a></li>
+                                                 <li><a href="{{ route('about') }}">FAQ</a></li>
                                              </ul>
                                      </li>
                                      <li class="menu-icon"><a href="{{ route('products.index') }}">Cửa hàng</a>
                                      </li>
                                      <li><a href="{{ route('contact.index') }}">Liên hệ</a></li>
-                                     <li class="special-link"><a href="{{ route('contact.index') }}">Nhận báo giá</a>
+                                     <li class="special-link"><a href="{{ route('contact.index') }}">Nhận phản hồi</a>
                                      </li>
                                  </ul>
                              </div>
